@@ -1,31 +1,27 @@
 {# src/_includes/components/sidebar-nav.njk #}
-
 {% from "components/sidebar-link.njk" import linkItem %}
 
-<aside class="w-20 bg-white border-r border-gray-200 h-screen flex flex-col items-center py-4">
-
-  <!-- Navigation -->
+<aside 
+  x-show="sidebarOpen"
+  x-transition:enter="transition ease-out duration-200"
+  x-transition:enter-start="opacity-0 transform -translate-x-4"
+  x-transition:enter-end="opacity-100 transform translate-x-0"
+  x-transition:leave="transition ease-in duration-150"
+  x-transition:leave-start="opacity-100 transform translate-x-0"
+  x-transition:leave-end="opacity-0 transform -translate-x-4"
+  @click.away="sidebarOpen = false"
+  class="w-20 bg-white border-r border-gray-200 h-screen flex flex-col items-center py-4">
   <nav class="flex-1">
     <ul class="flex flex-col items-center space-y-6">
 
-      {# ─── Personal ────────────────────────────────────────────────────── #}
-      {{ linkItem("/EmpFindTableLTE.asp?tp=lnav", "fa-user", "Personal") }}
-
-      {# ─── Family ──────────────────────────────────────────────────────── #}
-      {{ linkItem("/DepReportLTE.asp",       "fa-home",           "Family") }}
-
-      {# ─── Benefits ───────────────────────────────────────────────────── #}
-      {{ linkItem("/BenListLTE.asp",         "fa-notes-medical",  "Benefits") }}
-
-      {# ─── Beneficiaries ───────────────────────────────────────────────── #}
-      {{ linkItem("/HrBeneficRptLTE.asp",    "fa-hand-holding-usd", "Beneficiaries") }}
-
-      {# ─── Summary ─────────────────────────────────────────────────────── #}
-      {{ linkItem("/ConfirmUnivLTE.asp",     "fa-table",          "Summary") }}
-
-      {# ─── Upload ──────────────────────────────────────────────────────── #}
-      {{ linkItem("/UploadLTE.asp",          "fa-upload",         "Upload") }}
+      {{ linkItem("/personal/",      "fa-user",           "Personal") }}
+      {{ linkItem("/family/",        "fa-home",           "Family") }}
+      {{ linkItem("/benefits/",      "fa-notes-medical",  "Benefits") }}
+      {{ linkItem("/beneficiaries/", "fa-hand-holding-usd","Beneficiaries") }}
+      {{ linkItem("/summary/",       "fa-table",          "Summary") }}
+      {{ linkItem("/upload/",        "fa-upload",         "Upload") }}
 
     </ul>
   </nav>
 </aside>
+

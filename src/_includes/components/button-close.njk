@@ -1,0 +1,25 @@
+{# src/_includes/components/button-close.njk #}
+<div class="flex items-center justify-between px-4 py-3 border-b dark:border-gray-700">
+    <span class="text-lg font-semibold text-gray-800 dark:text-gray-200">Menu</span>
+    <button
+    @click="sidebarOpen = false"
+    class="p-1 rounded-md hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+    aria-label="Close sidebar"
+    >
+    <!-- “X” Icon -->
+    <svg
+        xmlns="http://www.w3.org/2000/svg"
+        class="h-6 w-6 text-gray-800 dark:text-gray-200"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor"
+    >
+        <path
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        stroke-width="2"
+        d="M6 18L18 6M6 6l12 12"
+        />
+    </svg>
+    </button>
+</div>

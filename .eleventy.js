@@ -4,6 +4,7 @@ module.exports = function(eleventyConfig) {
   });
   eleventyConfig.addWatchTarget("src/style.css");
   eleventyConfig.addPassthroughCopy("src/js");
+   eleventyConfig.addPassthroughCopy("src/img");
 
   eleventyConfig.addWatchTarget("dist/style.css");
   eleventyConfig.setBrowserSyncConfig({

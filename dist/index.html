@@ -13,15 +13,68 @@
   />
 </head>
 
-<body class="min-h-screen flex flex-col">
-  <header class="p-4 bg-primary text-white">
-  <nav class="max-w-5xl mx-auto flex justify-between">
-    <a href="/" class="font-bold text-xl">TriStar</a>
-    <div class="space-x-4">
-      <a href="/" class="hover:underline">Home</a>
-      <a href="/about/" class="hover:underline">About</a>
+<div
+  x-data="{
+    // start closed on screens smaller than 768px
+    sidebarOpen: window.innerWidth >= 768
+  }"
+  x-init="
+    // whenever the window is resized, re‐evaluate
+    window.addEventListener('resize', () => {
+      sidebarOpen = (window.innerWidth >= 768)
+    })
+  "
+  …
+>
+  <header class="z-40 bg-white text-textDark text-shadow-md border-b">
+  <div class="flex items-center justify-between px-4 py-3 md:px-6 md:py-4">
+    <!-- ────── 2.1. Hamburger (mobile) ────── -->
+    <button
+      @click="sidebarOpen = true"
+      class="md:hidden p-2 rounded-md hover:bg-white/20 focus:outline-none focus:ring-2 focus:ring-white"
+      aria-label="Open sidebar"
+    >
+      <!-- Heroicon “Menu” -->
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        class="h-6 w-6"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor"
+      >
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+      </svg>
+    </button>
+
+    <!-- ────── 2.2. Logo ────── -->
+    <div class="flex-1">
+      <img
+        src="/img/tri-star-logo-orange.png"
+        alt="Tri Star Logo"
+        class="h-8 w-auto mb-0"
+      />
     </div>
-  </nav>
+
+    <!-- ────── 2.3. Page Title (always visible) ────── -->
+    <div class="flex-1 text-center md:text-left">
+      <span class="text-lg font-semibold">Home</span>
+    </div>
+
+    <!-- ────── 2.4. Avatar or Other Controls (always visible) ────── -->
+    <div class="flex items-center space-x-4">
+      <!-- Notification Bell (hidden on very small if you wish) -->
+      <button class="hidden sm:inline-flex p-1 rounded-full hover:bg-white/20 focus:outline-none focus:ring-2 focus:ring-white" aria-label="Notifications">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11c0-3.07-1.64-5.64-4.5-6.32V4a1.5 1.5 0 10-3 0v.68C7.64 5.36 6 7.929 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
+        </svg>
+      </button>
+      <!-- Avatar -->
+      <div class="h-10 w-10 rounded-full bg-gray-200 flex items-center justify-center overflow-hidden">
+        <i class="fas fa-user text-gray-400"></i>
+      </div>
+    </div>
+  </div>
 </header>
 
 
@@ -32,18 +85,23 @@
     
 
 
-
-<aside class="w-20 bg-white border-r border-gray-200 h-screen flex flex-col items-center py-4">
-
-  <!-- Navigation -->
+<aside 
+  x-show="sidebarOpen"
+  x-transition:enter="transition ease-out duration-200"
+  x-transition:enter-start="opacity-0 transform -translate-x-4"
+  x-transition:enter-end="opacity-100 transform translate-x-0"
+  x-transition:leave="transition ease-in duration-150"
+  x-transition:leave-start="opacity-100 transform translate-x-0"
+  x-transition:leave-end="opacity-0 transform -translate-x-4"
+  @click.away="sidebarOpen = false"
+  class="w-20 bg-white border-r border-gray-200 h-screen flex flex-col items-center py-4">
   <nav class="flex-1">
     <ul class="flex flex-col items-center space-y-6">
 
       
-      
   <li>
     <a
-      href="/EmpFindTableLTE.asp?tp=lnav"
+      href="/personal/"
       class="flex flex-col items-center text-gray-500 hover:text-gray-800"
     >
       <i class="fas fa-user text-xl"></i>
@@ -51,12 +109,10 @@
     </a>
   </li>
 
-
-      
       
   <li>
     <a
-      href="/DepReportLTE.asp"
+      href="/family/"
       class="flex flex-col items-center text-gray-500 hover:text-gray-800"
     >
       <i class="fas fa-home text-xl"></i>
@@ -64,12 +120,10 @@
     </a>
   </li>
 
-
-      
       
   <li>
     <a
-      href="/BenListLTE.asp"
+      href="/benefits/"
       class="flex flex-col items-center text-gray-500 hover:text-gray-800"
     >
       <i class="fas fa-notes-medical text-xl"></i>
@@ -77,12 +131,10 @@
     </a>
   </li>
 
-
-      
       
   <li>
     <a
-      href="/HrBeneficRptLTE.asp"
+      href="/beneficiaries/"
       class="flex flex-col items-center text-gray-500 hover:text-gray-800"
     >
       <i class="fas fa-hand-holding-usd text-xl"></i>
@@ -90,12 +142,10 @@
     </a>
   </li>
 
-
-      
       
   <li>
     <a
-      href="/ConfirmUnivLTE.asp"
+      href="/summary/"
       class="flex flex-col items-center text-gray-500 hover:text-gray-800"
     >
       <i class="fas fa-table text-xl"></i>
@@ -103,12 +153,10 @@
     </a>
   </li>
 
-
-      
       
   <li>
     <a
-      href="/UploadLTE.asp"
+      href="/upload/"
       class="flex flex-col items-center text-gray-500 hover:text-gray-800"
     >
       <i class="fas fa-upload text-xl"></i>
@@ -120,6 +168,7 @@
     </ul>
   </nav>
 </aside>
+
 
 
     

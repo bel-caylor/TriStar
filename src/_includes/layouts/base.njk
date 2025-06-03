@@ -13,7 +13,19 @@
   />
 </head>
 
-<body class="min-h-screen flex flex-col">
+<div
+  x-data="{
+    // start closed on screens smaller than 768px
+    sidebarOpen: window.innerWidth >= 768
+  }"
+  x-init="
+    // whenever the window is resized, re‐evaluate
+    window.addEventListener('resize', () => {
+      sidebarOpen = (window.innerWidth >= 768)
+    })
+  "
+  …
+>
   {% include "components/header.njk" %}
 
   <!-- Wrap sidebar + content in a horizontal flex -->
