@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en" class="bg-white text-zinc-900 dark:bg-zinc-900 dark:text-white">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{ title }}</title>
+  <link href="/style.css" rel="stylesheet">
+  <link rel="stylesheet"
+    href="https://use.fontawesome.com/releases/v5.15.4/css/all.css"
+    integrity="sha384-jLKHWMZx0XCL1F8ePS+L3zp2w2vMKjzIlecFZx8JP9OpHtl+VVF0ZXLyYfGFMN4E"
+    crossorigin="anonymous"
+  />
+</head>
+
+<body class="min-h-screen flex flex-col">
+  {% include "components/header.njk" %}
+
+  <!-- Wrap sidebar + content in a horizontal flex -->
+  <div class="flex flex-1">
+
+    {# ─── Sidebar (fixed width) ───────────────────────────────────────── #}
+    {% include "components/sidebar-nav.njk" %}
+
+    {# ─── Main content (fills remaining space) ────────────────────────── #}
+    <main class="flex-grow">
+      {{ content | safe }}
+    </main>
+
+  </div>
+  
+  {% include "components/footer.njk" %}
+
+  <script src="/js/main.js"></script>
+  <script src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
+
+</body>
+
+</html>
