@@ -1,31 +1,30 @@
-{# _includes/components/sidebar-nav.njk #}
+{# src/_includes/components/sidebar-nav.njk #}
+
+{% from "components/sidebar-link.njk" import linkItem %}
+
 <aside class="w-20 bg-white border-r border-gray-200 h-screen flex flex-col items-center py-4">
-  <!-- Logo -->
-  <a href="/" class="mb-8">
-    <img src="/assets/images/tri-star-logo.png" alt="Tri-Star Logo" class="h-8 w-auto" />
-  </a>
 
   <!-- Navigation -->
   <nav class="flex-1">
     <ul class="flex flex-col items-center space-y-6">
 
-      {# Personal #}
-      {% include "components/sidebar-link.njk" with { "href": "/EmpFindTableLTE.asp?tp=lnav", "iconClass": "fa-user", "label": "Personal" } %}
+      {# ─── Personal ────────────────────────────────────────────────────── #}
+      {{ linkItem("/EmpFindTableLTE.asp?tp=lnav", "fa-user", "Personal") }}
 
-      {# Family #}
-      {% include "components/sidebar-link.njk" with { "href": "/DepReportLTE.asp",        "iconClass": "fa-home",         "label": "Family" } %}
+      {# ─── Family ──────────────────────────────────────────────────────── #}
+      {{ linkItem("/DepReportLTE.asp",       "fa-home",           "Family") }}
 
-      {# Benefits #}
-      {% include "components/sidebar-link.njk" with { "href": "/BenListLTE.asp",         "iconClass": "fa-notes-medical", "label": "Benefits" } %}
+      {# ─── Benefits ───────────────────────────────────────────────────── #}
+      {{ linkItem("/BenListLTE.asp",         "fa-notes-medical",  "Benefits") }}
 
-      {# Beneficiaries #}
-      {% include "components/sidebar-link.njk" with { "href": "/HrBeneficRptLTE.asp",    "iconClass": "fa-hand-holding-usd", "label": "Beneficiaries" } %}
+      {# ─── Beneficiaries ───────────────────────────────────────────────── #}
+      {{ linkItem("/HrBeneficRptLTE.asp",    "fa-hand-holding-usd", "Beneficiaries") }}
 
-      {# Summary #}
-      {% include "components/sidebar-link.njk" with { "href": "/ConfirmUnivLTE.asp",     "iconClass": "fa-table",         "label": "Summary" } %}
+      {# ─── Summary ─────────────────────────────────────────────────────── #}
+      {{ linkItem("/ConfirmUnivLTE.asp",     "fa-table",          "Summary") }}
 
-      {# Upload #}
-      {% include "components/sidebar-link.njk" with { "href": "/UploadLTE.asp",          "iconClass": "fa-upload",        "label": "Upload" } %}
+      {# ─── Upload ──────────────────────────────────────────────────────── #}
+      {{ linkItem("/UploadLTE.asp",          "fa-upload",         "Upload") }}
 
     </ul>
   </nav>
