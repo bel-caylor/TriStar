@@ -1,3 +1,5 @@
+{% from "components/banner-notice.njk" import bannerNotice %}
+
 <div
   x-show="showModal"
   x-cloak
@@ -18,16 +20,15 @@
 
     <!-- Body / Form -->
     <div class="px-6 py-6 space-y-6">
-      <!-- Notice Banner -->
-      <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4">
+      {{ bannerNotice("  
         <p class="text-yellow-700 text-sm">
           You know the drill, <span class="text-red-500">*</span> means Required.
         </p>
         <p class="mt-1 text-yellow-800 text-sm">
           Please review the information below. Please ask your HR to make any
           changes in the Chick-fil-A Payroll System.
-        </p>
-      </div>
+        </p>") 
+      }}
 
       <form @submit.prevent="updateEmployee()" class="space-y-6">
         <!-- Row 1: First Name, MI, Last Name, Suffix -->
