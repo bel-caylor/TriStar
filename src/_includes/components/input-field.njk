@@ -1,0 +1,78 @@
+{# src/_includes/components/input-field.njk #}
+
+{% macro textInputField(label, id, model, placeholder = "", type = "text", required = false) %}
+  <div>
+    <label for="{{ id }}" class="form-label">
+      {{ label | safe }}{% if required %} <span class="field-required">*</span>{% endif %}
+    </label>
+    <input
+      type="{{ type }}"
+      id="{{ id }}"
+      {% if model %}x-model="{{ model }}"{% endif %}
+      class="form-input"
+      placeholder="{{ placeholder }}"
+      {% if required %}required{% endif %}
+    />
+  </div>
+{% endmacro %}
+
+
+{% macro dateInputField(label, id, model, required = false) %}
+  <div>
+    <label for="{{ id }}" class="form-label">
+      {{ label }}{% if required %} <span class="field-required">*</span>{% endif %}
+    </label>
+    <div class="form-date-wrapper">
+      <input
+        type="date"
+        id="{{ id }}"
+        x-model="{{ model }}"
+        class="form-input"
+        {% if required %}required{% endif %}
+      />
+      <div class="form-date-icon">
+        <i class="fas fa-calendar-alt"></i>
+      </div>
+    </div>
+  </div>
+{% endmacro %}
+
+
+{% macro selectField(label, id, model, options = [], required = false) %}
+  <div>
+    <label for="{{ id }}" class="form-label">
+      {{ label }}{% if required %} <span class="field-required">*</span>{% endif %}
+    </label>
+    <select
+      id="{{ id }}"
+      x-model="{{ model }}"
+      class="form-select"
+      {% if required %}required{% endif %}
+    >
+      {% for opt in options %}
+        <option value="{{ opt.value }}">{{ opt.label }}</option>
+      {% endfor %}
+    </select>
+  </div>
+{% endmacro %}
+
+
+{% macro radioGroup(label, name, model, choices = []) %}
+  <div>
+    <span class="form-label">{{ label }}</span>
+    <div class="form-radio-group">
+      {% for choice in choices %}
+        <label class="inline-flex items-center">
+          <input
+            type="radio"
+            name="{{ name }}"
+            value="{{ choice.value }}"
+            x-model="{{ model }}"
+            class="text-indigo-600 focus:ring-indigo-500 border-gray-300"
+          />
+          <span class="ml-2 text-sm text-gray-700">{{ choice.label }}</span>
+        </label>
+      {% endfor %}
+    </div>
+  </div>
+{% endmacro %}

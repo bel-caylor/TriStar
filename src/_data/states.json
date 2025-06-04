@@ -1,0 +1,6 @@
+[
+  { "value": "",   "label": "Select state" },
+  { "value": "MD", "label": "MD Maryland" },
+  { "value": "VA", "label": "VA Virginia" },
+  { "value": "DC", "label": "DC District of Columbia" }
+]

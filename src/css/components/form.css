@@ -1,0 +1,43 @@
+@layer components {
+  /* 1. Label (all form labels) */
+  .form-label {
+    @apply block text-sm font-medium text-gray-700;
+  }
+
+  /* 2. Textual <input> fields:  (text, email, number, etc.) */
+  .form-input {
+    @apply
+      mt-1 block w-full
+      border border-gray-300 rounded-md shadow-sm
+      py-2 px-3
+      focus:outline-none focus:ring-indigo-500 focus:border-indigo-500;
+  }
+
+  /* 3. <select> dropdowns */
+  .form-select {
+    @apply
+      mt-1 block w-full
+      border border-gray-300 rounded-md shadow-sm
+      py-2 px-3 bg-white
+      focus:outline-none focus:ring-indigo-500 focus:border-indigo-500;
+  }
+
+  /* 4. Radio-group container (wraps all radio buttons for a single label) */
+  .form-radio-group {
+    @apply mt-1 flex items-center space-x-6;
+  }
+
+  /* 5. Date-input wrapper (for the calendar icon positioning) */
+  .form-date-wrapper {
+    @apply mt-1 relative;
+  }
+
+  /* 6. Calendar icon styling (if you want a reusable class) */
+  .form-date-icon {
+    @apply absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none text-gray-400;
+  }
+
+  .field-required {
+    @apply text-red-600 font-bold
+  }
+}
