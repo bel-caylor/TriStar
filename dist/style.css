@@ -584,7 +584,12 @@ img {
   max-width: 100%;
   border-radius: 0.25rem;
 }
-/* ===== Search Styles ===== */
+h1 {
+  font-size: 2.25rem;
+  line-height: 2.5rem;
+  --tw-text-opacity: 1;
+  color: rgb(220 38 38 / var(--tw-text-opacity, 1));
+}
 .search-wrapper {
   position: relative;
   width: 100%;
@@ -641,7 +646,6 @@ img {
   --tw-ring-opacity: 1;
   --tw-ring-color: rgb(99 102 241 / var(--tw-ring-opacity, 1));
 }
-/* ===== Table Styles ===== */
 /* Base table components: */
 .table-container {
   overflow-x: auto;
@@ -666,7 +670,6 @@ img {
   --tw-bg-opacity: 1;
   background-color: rgb(255 255 255 / var(--tw-bg-opacity, 1));
 }
-/* Responsive <th>: */
 .th-cell {
   padding-left: 1rem;
   padding-right: 1rem;
@@ -700,12 +703,10 @@ img {
   --tw-bg-opacity: 1;
   background-color: rgb(255 255 255 / var(--tw-bg-opacity, 1));
 }
-/* Rows hover: */
 .tr-hover:hover {
   --tw-bg-opacity: 1;
   background-color: rgb(249 250 251 / var(--tw-bg-opacity, 1));
 }
-/* Responsive <td>: */
 .td-cell {
   white-space: nowrap;
   padding-left: 1rem;
@@ -725,7 +726,14 @@ img {
     padding-bottom: 1rem;
   }
 }
-/* “No data” row: */
+.td-cell a {
+  --tw-text-opacity: 1;
+  color: rgb(79 70 229 / var(--tw-text-opacity, 1));
+}
+.td-cell a:hover {
+  --tw-text-opacity: 1;
+  color: rgb(55 48 163 / var(--tw-text-opacity, 1));
+}
 .tr-empty {
   --tw-bg-opacity: 1;
   background-color: rgb(243 244 246 / var(--tw-bg-opacity, 1));
@@ -741,18 +749,13 @@ img {
   --tw-text-opacity: 1;
   color: rgb(107 114 128 / var(--tw-text-opacity, 1));
 }
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-/*────────────────────────────────────────────────────────────
-  ↓↓↓ 1) MOBILE FIRST: stacked‐card (block) style for <table> ↓↓↓
-────────────────────────────────────────────────────────────*/
+/* Responsive table */
 .responsive-table {
   display: block;
-  width: 100%; /* display: block; width: 100%; */
+  width: 100%;
 }
 .responsive-table thead {
-  display: none;      /* hide header row on mobile */
+  display: none;
 }
 .responsive-table tbody {
   display: block;
@@ -806,63 +809,65 @@ img {
     justify-content: space-between;
   }
 }
-.responsive-table td.employer > br {
+.responsive-table td[data-label="Employer"] > br {
   display: none;
 }
 @media (min-width: 768px) {
-  .responsive-table td.employer > br {
+  .responsive-table td[data-label="Employer"] > br {
     display: inline-block;
   }
 }
 @media (max-width: 767px) {
-  .responsive-table td.employer,
-  .responsive-table td.birth,
-  .responsive-table td.term,
-  .responsive-table td.address {
+        .responsive-table td[data-label="Name"] {
+    font-size: 1.5rem;
+    line-height: 2rem;
+  }
+
+        .responsive-table td[data-label="Employer"],
+        .responsive-table td[data-label="Birth Date"],
+        .responsive-table td[data-label="Term Date"],
+        .responsive-table td[data-label="Address"] {
     display: block;
   }
-  .responsive-table td.colon-label > span:before {
-    content: ': ';
-  }
-}
+        .responsive-table td.colon-label > span:before {
+            content: ': ';
+        }
+    }
 .responsive-table td::before {
-  content: attr(data-label);
-  font-weight: 500;
-  --tw-text-opacity: 1;
-  color: rgb(156 163 175 / var(--tw-text-opacity, 1));
-}
+    content: attr(data-label);
+    font-weight: 500;
+    --tw-text-opacity: 1;
+    color: rgb(156 163 175 / var(--tw-text-opacity, 1));
+    }
 .responsive-table td:not(.colon-label)::before {
   display: block;
 }
 .responsive-table td.no-label::before {
-  content: none; 
-}
-/*────────────────────────────────────────────────────────────
-  ↓↓↓ 2) TABLE MODE ON MD+ (≥768px): revert all to normal table ↓↓↓
-────────────────────────────────────────────────────────────*/
+    content: none; 
+    }
 @media (min-width: 768px) {
-  .responsive-table {
+        .responsive-table {
     display: table;
     min-width: 100%;
   }
-  .responsive-table > :not([hidden]) ~ :not([hidden]) {
+        .responsive-table > :not([hidden]) ~ :not([hidden]) {
     --tw-divide-y-reverse: 0;
     border-top-width: calc(1px * calc(1 - var(--tw-divide-y-reverse)));
     border-bottom-width: calc(1px * var(--tw-divide-y-reverse));
     --tw-divide-opacity: 1;
     border-color: rgb(229 231 235 / var(--tw-divide-opacity, 1));
   }
-  .responsive-table {
-    /* display: table; width: 100%; 
-       divide-y divide-gray-200: horizontal row separators */
-  }
-  .responsive-table thead {
+        .responsive-table {
+            /* display: table; width: 100%; 
+            divide-y divide-gray-200: horizontal row separators */
+        }
+        .responsive-table thead {
     display: table-header-group; /* show header row */
   }
-  .responsive-table tbody {
+        .responsive-table tbody {
     display: table-row-group;    /* normal table body group */
   }
-  .responsive-table tr {
+        .responsive-table tr {
     margin-bottom: 0px;
     display: table-row;
     overflow: visible;
@@ -871,10 +876,10 @@ img {
     --tw-shadow: 0 0 #0000;
     --tw-shadow-colored: 0 0 #0000;
     box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
-    /* revert row to display: table-row; 
-       remove margins/shadows/borders from “card” mode */
+            /* revert row to display: table-row; 
+            remove margins/shadows/borders from “card” mode */
   }
-  .responsive-table td {
+        .responsive-table td {
     display: table-cell;
     flex: none;
     justify-content: flex-start;
@@ -890,18 +895,17 @@ img {
     line-height: 1.25rem;
     --tw-text-opacity: 1;
     color: rgb(17 24 39 / var(--tw-text-opacity, 1));
-    /* display: table-cell; 
-       border-b: thin gray line; 
-       px-6 py-4: 1.5rem left/right, 1rem top/bottom; 
-       whitespace-nowrap: no wrapping; 
-       text-sm text-gray-900: same font; 
-       flex-none justify-start: override flex properties from mobile */
+            /* display: table-cell; 
+            border-b: thin gray line; 
+            px-6 py-4: 1.5rem left/right, 1rem top/bottom; 
+            whitespace-nowrap: no wrapping; 
+            text-sm text-gray-900: same font; 
+            flex-none justify-start: override flex properties from mobile */
   }
-  .responsive-table td::before {
-    content: none; /* remove the data-label prefix at desktop */
-  }
-}
-/* ===== Modal Styles (if you want to pull them out) ===== */
+        .responsive-table td::before {
+            content: none; /* remove the data-label prefix at desktop */
+        }
+    }
 .pointer-events-none {
   pointer-events: none;
 }
@@ -962,9 +966,6 @@ img {
 .ml-2 {
   margin-left: 0.5rem;
 }
-.ml-auto {
-  margin-left: auto;
-}
 .mr-3 {
   margin-right: 0.75rem;
 }
@@ -992,9 +993,6 @@ img {
 .h-10 {
   height: 2.5rem;
 }
-.h-5 {
-  height: 1.25rem;
-}
 .h-6 {
   height: 1.5rem;
 }
@@ -1015,9 +1013,6 @@ img {
 }
 .w-32 {
   width: 8rem;
-}
-.w-5 {
-  width: 1.25rem;
 }
 .w-6 {
   width: 1.5rem;
@@ -1083,6 +1078,13 @@ img {
 }
 .gap-4 {
   gap: 1rem;
+}
+.gap-x-4 {
+  -moz-column-gap: 1rem;
+       column-gap: 1rem;
+}
+.gap-y-1 {
+  row-gap: 0.25rem;
 }
 .space-x-2 > :not([hidden]) ~ :not([hidden]) {
   --tw-space-x-reverse: 0;
@@ -1353,11 +1355,6 @@ img {
   --tw-shadow-colored: 0 10px 15px -3px var(--tw-shadow-color), 0 4px 6px -4px var(--tw-shadow-color);
   box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
 }
-.shadow-md {
-  --tw-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
-  --tw-shadow-colored: 0 4px 6px -1px var(--tw-shadow-color), 0 2px 4px -2px var(--tw-shadow-color);
-  box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
-}
 .shadow-sm {
   --tw-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
   --tw-shadow-colored: 0 1px 2px 0 var(--tw-shadow-color);
@@ -1430,10 +1427,6 @@ img {
 .hover\:bg-white\/20:hover {
   background-color: rgb(255 255 255 / 0.2);
 }
-.hover\:text-gray-600:hover {
-  --tw-text-opacity: 1;
-  color: rgb(75 85 99 / var(--tw-text-opacity, 1));
-}
 .hover\:text-gray-800:hover {
   --tw-text-opacity: 1;
   color: rgb(31 41 55 / var(--tw-text-opacity, 1));
@@ -1470,6 +1463,9 @@ img {
 @media (min-width: 640px) {
   .sm\:inline-flex {
     display: inline-flex;
+  }
+  .sm\:table-cell {
+    display: table-cell;
   }
 }
 @media (min-width: 768px) {
@@ -1515,10 +1511,6 @@ img {
   .md\:text-left {
     text-align: left;
   }
-  .md\:text-lg {
-    font-size: 1.125rem;
-    line-height: 1.75rem;
-  }
   .md\:shadow-md {
     --tw-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
     --tw-shadow-colored: 0 4px 6px -1px var(--tw-shadow-color), 0 2px 4px -2px var(--tw-shadow-color);
@@ -1526,10 +1518,6 @@ img {
   }
 }
 @media (prefers-color-scheme: dark) {
-  .dark\:border-gray-700 {
-    --tw-border-opacity: 1;
-    border-color: rgb(55 65 81 / var(--tw-border-opacity, 1));
-  }
   .dark\:bg-zinc-900 {
     --tw-bg-opacity: 1;
     background-color: rgb(24 24 27 / var(--tw-bg-opacity, 1));

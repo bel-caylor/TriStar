@@ -1,0 +1,21 @@
+@layer components {
+  .modal-backdrop {
+    @apply fixed inset-0 z-50 flex items-start justify-center pt-10 bg-black bg-opacity-50 overflow-y-auto;
+  }
+  .modal-card {
+    @apply bg-white rounded-lg shadow-lg w-full max-w-2xl mx-4;
+  }
+  .modal-header {
+    @apply flex items-center px-6 py-4 border-b border-gray-200;
+  }
+  .modal-body {
+    @apply px-6 py-6 space-y-6;
+  }
+  .modal-button-cancel {
+    @apply px-4 py-2 bg-red-500 text-white text-sm font-medium rounded-md hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-400;
+  }
+  .modal-button-update {
+    @apply px-4 py-2 bg-indigo-600 text-white text-sm font-medium rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500;
+  }
+
+}

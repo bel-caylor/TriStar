@@ -205,12 +205,15 @@
   <table class="table-base">
     <thead class="table-head">
       <tr>
+        <!-- Always visible on all breakpoints -->
         <th class="th-cell">SSN</th>
         <th class="th-cell">Name</th>
         <th class="th-cell">Address</th>
-        <th class="th-cell">Birth Date</th>
-        <th class="th-cell">Employer</th>
-        <th class="th-cell">Term Date</th>
+
+        <!-- Hide on small screens (below md) -->
+        <th class="th-cell hidden sm:table-cell">Birth Date</th>
+        <th class="th-cell hidden sm:table-cell">Employer</th>
+        <th class="th-cell hidden sm:table-cell">Term Date</th>
       </tr>
     </thead>
     <tbody class="tbody-base">
@@ -221,44 +224,37 @@
             <span x-text="emp.ssn"></span>
           </td>
 
-          <!-- Name (opens the modal) -->
+          <!-- Name -->
           <td class="td-cell">
-            <a
-              href="#"
-              @click.prevent="openEmployee(emp)"
-            >
-              <span x-text="emp.name"></span>
+            <a href="#" @click.prevent="openEmployee(emp)" class="">
+              <span x-text="emp.lastName + ', ' + emp.firstName"></span>
             </a>
           </td>
 
           <!-- Address -->
           <td class="td-cell">
-            <span x-text="emp.address.split(', ')[0]"></span><br>
-            <span x-text="emp.address.split(', ').slice(1).join(', ')"></span>
+            <span x-text="emp.city + ', ' + emp.state + '  ' + emp.zipCode"></span>
           </td>
 
-          <!-- Birth Date -->
-          <td class="td-cell">
+          <!-- Birth Date: hidden on <640px -->
+          <td class="td-cell hidden sm:table-cell">
             <span x-text="formatDate(emp.birthDate)"></span>
           </td>
 
-          <!-- Employer -->
-          <td class="td-cell">
-            <span x-text="emp.employer.split(' - ')[0]"></span><br>
-            <span x-text="emp.employer.split(' - ').slice(1).join(', ')"></span>
+          <!-- Employer: hidden on <640px -->
+          <td class="td-cell hidden sm:table-cell">
+            <span x-text="emp.employer"></span>
           </td>
 
-          <!-- Term Date -->
-          <td class="td-cell">
+          <!-- Term Date: hidden on <640px -->
+          <td class="td-cell hidden sm:table-cell">
             <span x-text="emp.terminationDate ? formatDate(emp.terminationDate) : '—'"></span>
           </td>
         </tr>
       </template>
 
       <tr x-show="filteredEmployees.length === 0" class="tr-empty">
-        <td colspan="6" class="td-empty">
-          No employees to display.
-        </td>
+        <td colspan="6" class="td-empty">No employees to display.</td>
       </tr>
     </tbody>
   </table>
@@ -281,33 +277,33 @@
     </thead>
     <tbody>
       <template x-for="emp in filteredEmployees" :key="emp.ssn">
-        <tr class="tr-hover grid grid-cols-2 grid-rows-3 gap-4 md:table-cell">
+        <tr class="tr-hover grid grid-cols-2 grid-rows-3 gap-y-1 gap-x-4 md:table-cell">
           <!-- SSN -->
           <td class="td-cell col-start-2 md:col-start-1 row-start-1 colon-label" data-label="SSN">
             <span x-text="emp.ssn"></span>
           </td>
           <!-- Name -->
           <td class="td-cell no-label col-start-1 row-start-1 md:col-start-2" data-label="Name">
-            <a href="#" @click.prevent="openEmployee(emp)" class="text-indigo-600 hover:text-indigo-800">
-              <span x-text="emp.name" class="text-2xl md:text-lg"></span>
+            <a href="#" @click.prevent="openEmployee(emp)">
+              <span x-text="emp.lastName + ', ' + emp.firstName"></span>
             </a>
           </td>
           <!-- Address -->
-          <td class="td-cell no-label address" data-label="Address">
-            <span x-text="emp.address.split(', ')[0]"></span><br>
-            <span x-text="emp.address.split(', ').slice(1).join(', ')"></span>
+          <td class="td-cell no-label" data-label="Address">
+            <span x-text="emp.address1"></span><br>
+            <span x-text="emp.city + ', ' + emp.state + '  ' + emp.zipCode"></span>
           </td>
           <!-- Birth Date -->
-          <td class="td-cell birth text-right md:text-left" data-label="Birth Date">
+          <td class="td-cell text-right md:text-left" data-label="Birth Date">
             <span x-text="formatDate(emp.birthDate)"></span>
           </td>
           <!-- Employer -->
-          <td class="td-cell employer" data-label="Employer">
+          <td class="td-cell" data-label="Employer">
             <span x-text="emp.employer.split(' - ')[0]"></span><br>
             <span x-text="emp.employer.split(' - ').slice(1).join(', ')"></span>
           </td>
           <!-- Term Date -->
-          <td class="td-cell term text-right md:text-left" data-label="Term Date">
+          <td class="td-cell text-right md:text-left" data-label="Term Date">
             <span x-text="emp.terminationDate ? formatDate(emp.terminationDate) : '—'"></span>
           </td>
         </tr>
@@ -332,28 +328,35 @@
   <!-- Modal Card -->
   <div class="bg-white rounded-lg shadow-lg w-full max-w-2xl mx-4" @click.stop>
     <!-- Header -->
-    <div class="flex items-center px-6 py-4 border-b border-gray-200">
-      <i class="fas fa-user text-2xl text-gray-700 mr-3"></i>
-      <h2 class="text-xl font-semibold text-gray-800">Edit Personal Information</h2>
-      <button
-        type="button"
-        class="ml-auto text-gray-400 hover:text-gray-600"
-        @click="closeModal()"
-        aria-label="Close"
-      >
-        <svg
-          class="h-5 w-5"
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 20 20"
-          fill="currentColor"
-        >
-          <path
-            fill-rule="evenodd"
-            d="M10 9l4.95-4.95a1 1 0 111.414 1.414L11.414 10l4.95 4.95a1 1 0 01-1.414 1.414L10 11.414l-4.95 4.95a1 1 0 01-1.414-1.414L8.586 10 3.636 5.05a1 1 0 011.414-1.414L10 8z"
-            clip-rule="evenodd"
-          />
-        </svg>
-      </button>
+    <div class="flex justify-between items-center px-6 py-4 border-b border-gray-200">
+      <div class="flex items-center">
+        <i class="fas fa-user text-2xl text-gray-700 mr-3"></i>
+        <h2 class="text-xl font-semibold text-gray-800 mb-0">Edit Personal Information</h2>
+      </div>
+      
+<div class="flex items-center justify-end py-3">
+    <button
+    @click="sidebarOpen = false, showModal = false"
+    class="p-1 rounded-md hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+    aria-label="Close sidebar"
+    >
+    <!-- “X” Icon -->
+    <svg
+        xmlns="http://www.w3.org/2000/svg"
+        class="h-6 w-6 text-gray-800 dark:text-gray-200"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor"
+    >
+        <path
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        stroke-width="2"
+        d="M6 18L18 6M6 6l12 12"
+        />
+    </svg>
+    </button>
+</div>
     </div>
 
     <!-- Body / Form -->
@@ -380,7 +383,7 @@
             <input
               type="text"
               id="firstName"
-              x-model="selectedEmployee.name.split(',')[1]?.trim() || ''"
+              x-model="selectedEmployee.firstName"
               class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm
                      py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
               placeholder="First name"
@@ -395,7 +398,7 @@
             <input
               type="text"
               id="middleInitial"
-              x-model="selectedEmployee.mi"
+              x-model="selectedEmployee.middleInitial"
               class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm
                      py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
               placeholder="Middle N."
@@ -410,7 +413,7 @@
             <input
               type="text"
               id="lastName"
-              x-model="selectedEmployee.name.split(',')[0]?.trim() || ''"
+              x-model="selectedEmployee.lastName"
               class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm
                      py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
               placeholder="Last name"
@@ -501,7 +504,7 @@
             <input
               type="text"
               id="address1"
-              x-model="selectedEmployee.address"
+              x-model="selectedEmployee.address1"
               class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm
                      py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
             />
@@ -558,7 +561,7 @@
             <input
               type="text"
               id="zip"
-              x-model="selectedEmployee.zip"
+              x-model="selectedEmployee.zipCode"
               class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm
                      py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
             />

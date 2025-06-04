@@ -12,33 +12,33 @@
     </thead>
     <tbody>
       <template x-for="emp in filteredEmployees" :key="emp.ssn">
-        <tr class="tr-hover grid grid-cols-2 grid-rows-3 gap-4 md:table-cell">
+        <tr class="tr-hover grid grid-cols-2 grid-rows-3 gap-y-1 gap-x-4 md:table-cell">
           <!-- SSN -->
           <td class="td-cell col-start-2 md:col-start-1 row-start-1 colon-label" data-label="SSN">
             <span x-text="emp.ssn"></span>
           </td>
           <!-- Name -->
           <td class="td-cell no-label col-start-1 row-start-1 md:col-start-2" data-label="Name">
-            <a href="#" @click.prevent="openEmployee(emp)" class="text-indigo-600 hover:text-indigo-800">
-              <span x-text="emp.name" class="text-2xl md:text-lg"></span>
+            <a href="#" @click.prevent="openEmployee(emp)">
+              <span x-text="emp.lastName + ', ' + emp.firstName"></span>
             </a>
           </td>
           <!-- Address -->
-          <td class="td-cell no-label address" data-label="Address">
-            <span x-text="emp.address.split(', ')[0]"></span><br>
-            <span x-text="emp.address.split(', ').slice(1).join(', ')"></span>
+          <td class="td-cell no-label" data-label="Address">
+            <span x-text="emp.address1"></span><br>
+            <span x-text="emp.city + ', ' + emp.state + '  ' + emp.zipCode"></span>
           </td>
           <!-- Birth Date -->
-          <td class="td-cell birth text-right md:text-left" data-label="Birth Date">
+          <td class="td-cell text-right md:text-left" data-label="Birth Date">
             <span x-text="formatDate(emp.birthDate)"></span>
           </td>
           <!-- Employer -->
-          <td class="td-cell employer" data-label="Employer">
+          <td class="td-cell" data-label="Employer">
             <span x-text="emp.employer.split(' - ')[0]"></span><br>
             <span x-text="emp.employer.split(' - ').slice(1).join(', ')"></span>
           </td>
           <!-- Term Date -->
-          <td class="td-cell term text-right md:text-left" data-label="Term Date">
+          <td class="td-cell text-right md:text-left" data-label="Term Date">
             <span x-text="emp.terminationDate ? formatDate(emp.terminationDate) : '—'"></span>
           </td>
         </tr>

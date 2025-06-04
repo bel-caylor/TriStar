@@ -2,12 +2,15 @@
   <table class="table-base">
     <thead class="table-head">
       <tr>
+        <!-- Always visible on all breakpoints -->
         <th class="th-cell">SSN</th>
         <th class="th-cell">Name</th>
         <th class="th-cell">Address</th>
-        <th class="th-cell">Birth Date</th>
-        <th class="th-cell">Employer</th>
-        <th class="th-cell">Term Date</th>
+
+        <!-- Hide on small screens (below md) -->
+        <th class="th-cell hidden sm:table-cell">Birth Date</th>
+        <th class="th-cell hidden sm:table-cell">Employer</th>
+        <th class="th-cell hidden sm:table-cell">Term Date</th>
       </tr>
     </thead>
     <tbody class="tbody-base">
@@ -18,44 +21,37 @@
             <span x-text="emp.ssn"></span>
           </td>
 
-          <!-- Name (opens the modal) -->
+          <!-- Name -->
           <td class="td-cell">
-            <a
-              href="#"
-              @click.prevent="openEmployee(emp)"
-            >
-              <span x-text="emp.name"></span>
+            <a href="#" @click.prevent="openEmployee(emp)" class="">
+              <span x-text="emp.lastName + ', ' + emp.firstName"></span>
             </a>
           </td>
 
           <!-- Address -->
           <td class="td-cell">
-            <span x-text="emp.address.split(', ')[0]"></span><br>
-            <span x-text="emp.address.split(', ').slice(1).join(', ')"></span>
+            <span x-text="emp.city + ', ' + emp.state + '  ' + emp.zipCode"></span>
           </td>
 
-          <!-- Birth Date -->
-          <td class="td-cell">
+          <!-- Birth Date: hidden on <640px -->
+          <td class="td-cell hidden sm:table-cell">
             <span x-text="formatDate(emp.birthDate)"></span>
           </td>
 
-          <!-- Employer -->
-          <td class="td-cell">
-            <span x-text="emp.employer.split(' - ')[0]"></span><br>
-            <span x-text="emp.employer.split(' - ').slice(1).join(', ')"></span>
+          <!-- Employer: hidden on <640px -->
+          <td class="td-cell hidden sm:table-cell">
+            <span x-text="emp.employer"></span>
           </td>
 
-          <!-- Term Date -->
-          <td class="td-cell">
+          <!-- Term Date: hidden on <640px -->
+          <td class="td-cell hidden sm:table-cell">
             <span x-text="emp.terminationDate ? formatDate(emp.terminationDate) : '—'"></span>
           </td>
         </tr>
       </template>
 
       <tr x-show="filteredEmployees.length === 0" class="tr-empty">
-        <td colspan="6" class="td-empty">
-          No employees to display.
-        </td>
+        <td colspan="6" class="td-empty">No employees to display.</td>
       </tr>
     </tbody>
   </table>
