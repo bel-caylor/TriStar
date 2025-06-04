@@ -1,37 +1,168 @@
 @layer components {
-    .select-wrapper {
-      @apply bg-white pr-3 border rounded focus-within:ring-2 focus-within:ring-blue-500;
-    }
-  
-    .select {
-      @apply px-3 py-2 text-sm w-full focus:outline-none;
-    }
 
-    .tab {
-        @apply text-sm px-4 py-2 border-b-2 md:border-l-2 border-transparent hover:text-accent focus:outline-none;
-      }
-    
-    .tab-headers {
-    @apply flex flex-wrap border-b md:flex-col md:border-b-0 
-            overflow-x-auto md:overflow-visible w-full md:w-1/4;
-    }
+  /* ===== Search Styles ===== */
+  .search-wrapper {
+    @apply relative w-full md:w-64;
+  }
+  .search-icon {
+    @apply absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none;
+  }
+  .search-icon i {
+    @apply text-gray-400 text-xl;
+  }
+  .search-input {
+    @apply block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg
+          text-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500;
+  }
 
-    .tab-button {
-    @apply px-4 py-4 m-2 md:min-h-[100px] bg-white 
-            border-b-4 md:border-b-0 md:border-r-4 
-            hover:text-primary-medium focus:outline-none;
-    }
+  /* ===== Table Styles ===== */
+  /* Base table components: */
+  .table-container {
+    @apply overflow-x-auto bg-white shadow rounded-lg;
+  }
 
-    .tab-button-active {
-    @apply border-accent;
-    }
+  .table-base {
+    @apply min-w-full divide-y divide-gray-200;
+  }
 
-    .tab-button-inactive {
-    @apply border-transparent;
-    }
+  .table-head {
+    @apply bg-white;
+  }
 
-    .tab-logo {
-    @apply mr-2 inline object-cover;
-    }
+  /* Responsive <th>: */
+  .th-cell {
+    @apply px-4 py-2 sm:px-6 sm:py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider;
+  }
+
+  .tbody-base {
+    @apply bg-white divide-y divide-gray-200;
+  }
+
+  /* Rows hover: */
+  .tr-hover {
+    @apply hover:bg-gray-50;
+  }
+
+  /* Responsive <td>: */
+  .td-cell {
+    @apply px-4 py-2 sm:px-6 sm:py-4 text-sm text-gray-900 whitespace-nowrap;
+  }
+
+  /* “No data” row: */
+  .tr-empty {
+    @apply bg-gray-100;
+  }
+  .td-empty {
+    @apply px-6 py-4 text-center text-sm text-gray-500;
+  }
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/*────────────────────────────────────────────────────────────
+  ↓↓↓ 1) MOBILE FIRST: stacked‐card (block) style for <table> ↓↓↓
+────────────────────────────────────────────────────────────*/
+.responsive-table {
+  @apply block w-full; /* display: block; width: 100%; */
+}
+.responsive-table thead {
+  @apply hidden;      /* hide header row on mobile */
+}
+.responsive-table tbody {
+  @apply block;
+}
+.responsive-table tr {
+  @apply mb-4 bg-white shadow rounded-lg overflow-hidden; 
+}
+.responsive-table td {
+  @apply flex justify-between items-center px-4 pt-0 pb-3 md:py-2 ;
+  @apply md:border-b border-gray-200 text-sm text-gray-900;
+}
+.responsive-table tr:last-of-type td {
+  @apply md:border-b-0;
+}
+.responsive-table td.colon-label {
+  @apply justify-end md:justify-between;
+}
+.responsive-table td.employer > br {
+  @apply hidden md:inline-block;
+}
+@media (max-width: 767px) {
+  .responsive-table td.employer,
+  .responsive-table td.birth,
+  .responsive-table td.term,
+  .responsive-table td.address {
+    @apply block;
+  }
+  .responsive-table td.colon-label > span:before {
+    content: ': ';
+  }
+}
+.responsive-table td::before {
+  content: attr(data-label);
+  @apply font-medium text-gray-400;
+}
+.responsive-table td:not(.colon-label)::before {
+  @apply block;
+}
+.responsive-table td.no-label::before {
+  content: none; 
+}
+
+/*────────────────────────────────────────────────────────────
+  ↓↓↓ 2) TABLE MODE ON MD+ (≥768px): revert all to normal table ↓↓↓
+────────────────────────────────────────────────────────────*/
+@media (min-width: 768px) {
+  .responsive-table {
+    @apply table min-w-full divide-y divide-gray-200;
+    /* display: table; width: 100%; 
+       divide-y divide-gray-200: horizontal row separators */
+  }
+  .responsive-table thead {
+    @apply table-header-group; /* show header row */
+  }
+  .responsive-table tbody {
+    @apply table-row-group;    /* normal table body group */
+  }
+  .responsive-table tr {
+    @apply table-row mb-0 bg-transparent shadow-none rounded-none overflow-visible;
+    /* revert row to display: table-row; 
+       remove margins/shadows/borders from “card” mode */
+  }
+  .responsive-table td {
+    @apply table-cell border-b border-gray-200 px-6 py-4 whitespace-nowrap text-sm text-gray-900 flex-none justify-start;
+    /* display: table-cell; 
+       border-b: thin gray line; 
+       px-6 py-4: 1.5rem left/right, 1rem top/bottom; 
+       whitespace-nowrap: no wrapping; 
+       text-sm text-gray-900: same font; 
+       flex-none justify-start: override flex properties from mobile */
+  }
+  .responsive-table td::before {
+    content: none; /* remove the data-label prefix at desktop */
+  }
+}
+
+
+  /* ===== Modal Styles (if you want to pull them out) ===== */
+  .modal-backdrop {
+    @apply fixed inset-0 z-50 flex items-start justify-center pt-10 bg-black bg-opacity-50 overflow-y-auto;
+  }
+  .modal-card {
+    @apply bg-white rounded-lg shadow-lg w-full max-w-2xl mx-4;
+  }
+  .modal-header {
+    @apply flex items-center px-6 py-4 border-b border-gray-200;
+  }
+  .modal-body {
+    @apply px-6 py-6 space-y-6;
+  }
+  .modal-button-cancel {
+    @apply px-4 py-2 bg-red-500 text-white text-sm font-medium rounded-md hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-400;
+  }
+  .modal-button-update {
+    @apply px-4 py-2 bg-indigo-600 text-white text-sm font-medium rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500;
+  }
+
 }
   

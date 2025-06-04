@@ -1,7 +1,97 @@
 ---
+title: "Personal Information"
 layout: layouts/base.njk
-title: Personal
 ---
-<section class="text-center py-20">
-  <h1 class="text-4xl font-bold mb-4">Personal</h1>
-</section>
+
+<div x-data="employeeTableComponent()" x-init="loadData()">
+
+  <div class="mb-6">
+    <h1 class="text-3xl font-bold text-gray-800">Edit Personal Information</h1>
+    <p class="mt-1 text-gray-600">
+      Edit as needed, or leave it alone if all looks in order.
+    </p>
+  </div>
+
+  <div class="mb-4 flex items-center justify-between">
+
+    {% include "components/search-input.njk" %}
+
+  </div>
+
+  {% include "components/employees-table.njk" %}
+
+  <hr class="">
+
+  {% include "components/employees-table-responsive.njk" %}
+
+  {% include "components/employee-edit-modal.njk" %}
+
+</div>
+
+<script>
+  function employeeTableComponent() {
+    return {
+      employees: [],
+      searchQuery: "",
+      selectedEmployee: null,
+      showModal: false,
+
+      // Fetch employees.json (which Eleventy will copy into dist automatically if in _data/)
+      async loadData() {
+        try {
+          // If you want Eleventy to inject employees via Nunjucks, you could do:
+          // this.employees = {{ collections.employees | safe }};
+          const res = await fetch("/employees.json");
+          if (!res.ok) throw new Error("Could not load employees.json");
+          this.employees = await res.json();
+        } catch (err) {
+          console.error(err);
+        }
+      },
+
+      // Filter by name
+      get filteredEmployees() {
+        if (!this.searchQuery) return this.employees;
+        let q = this.searchQuery.toLowerCase().trim();
+        return this.employees.filter(emp =>
+          emp.name.toLowerCase().includes(q)
+        );
+      },
+
+      // Convert YYYY-MM-DD → MM/DD/YYYY
+      formatDate(iso) {
+        if (!iso) return "";
+        let [y, m, d] = iso.split("-");
+        return `${m}/${d}/${y}`;
+      },
+
+      // Called when user clicks a Name link
+      openEmployee(emp) {
+        // Deep clone so editing fields doesn’t immediately change the underlying array
+        this.selectedEmployee = JSON.parse(JSON.stringify(emp));
+        this.showModal = true;
+      },
+
+      closeModal() {
+        this.showModal = false;
+        this.selectedEmployee = null;
+      },
+
+      // Called when the modal form is submitted
+      updateEmployee() {
+        // Example: send updated data back to server via fetch POST, or
+        // copy selectedEmployee fields back into the employees array, etc.
+        console.log("Submitting update for:", this.selectedEmployee);
+
+        // If you want to *apply changes locally*, find the index:
+        let idx = this.employees.findIndex(e => e.ssn === this.selectedEmployee.ssn);
+        if (idx !== -1) {
+          this.employees.splice(idx, 1, this.selectedEmployee);
+        }
+
+        // Then close:
+        this.closeModal();
+      }
+    };
+  }
+</script>

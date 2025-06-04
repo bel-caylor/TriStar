@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Personal</title>
+  <title>Personal Information</title>
   <link href="/style.css" rel="stylesheet">
   <link
     rel="stylesheet"
@@ -57,7 +57,7 @@
 
     <!-- ────── 2.3. Page Title (always visible) ────── -->
     <div class="flex-1 text-center md:text-left">
-      <span class="text-lg font-semibold">Personal</span>
+      <span class="text-lg font-semibold">Personal Information</span>
     </div>
 
     <!-- ────── 2.4. Avatar or Other Controls (always visible) ────── -->
@@ -172,10 +172,536 @@
 
 
     
-    <main class="flex-grow">
-      <section class="text-center py-20">
-  <h1 class="text-4xl font-bold mb-4">Personal</h1>
-</section>
+    <main class="flex-grow p-3 md:p-10 w-full">
+      
+<div x-data="employeeTableComponent()" x-init="loadData()">
+
+  <div class="mb-6">
+    <h1 class="text-3xl font-bold text-gray-800">Edit Personal Information</h1>
+    <p class="mt-1 text-gray-600">
+      Edit as needed, or leave it alone if all looks in order.
+    </p>
+  </div>
+
+  <div class="mb-4 flex items-center justify-between">
+
+    <div class="search-wrapper">
+  <span class="search-icon">
+    <i class="fas fa-search"></i>
+  </span>
+  <input
+    id="search"
+    type="text"
+    x-model="searchQuery"
+    placeholder="Search name..."
+    class="search-input"
+  />
+</div>
+
+
+  </div>
+
+  <div class="table-container">
+  <table class="table-base">
+    <thead class="table-head">
+      <tr>
+        <th class="th-cell">SSN</th>
+        <th class="th-cell">Name</th>
+        <th class="th-cell">Address</th>
+        <th class="th-cell">Birth Date</th>
+        <th class="th-cell">Employer</th>
+        <th class="th-cell">Term Date</th>
+      </tr>
+    </thead>
+    <tbody class="tbody-base">
+      <template x-for="emp in filteredEmployees" :key="emp.ssn">
+        <tr class="tr-hover">
+          <!-- SSN -->
+          <td class="td-cell">
+            <span x-text="emp.ssn"></span>
+          </td>
+
+          <!-- Name (opens the modal) -->
+          <td class="td-cell">
+            <a
+              href="#"
+              @click.prevent="openEmployee(emp)"
+            >
+              <span x-text="emp.name"></span>
+            </a>
+          </td>
+
+          <!-- Address -->
+          <td class="td-cell">
+            <span x-text="emp.address.split(', ')[0]"></span><br>
+            <span x-text="emp.address.split(', ').slice(1).join(', ')"></span>
+          </td>
+
+          <!-- Birth Date -->
+          <td class="td-cell">
+            <span x-text="formatDate(emp.birthDate)"></span>
+          </td>
+
+          <!-- Employer -->
+          <td class="td-cell">
+            <span x-text="emp.employer.split(' - ')[0]"></span><br>
+            <span x-text="emp.employer.split(' - ').slice(1).join(', ')"></span>
+          </td>
+
+          <!-- Term Date -->
+          <td class="td-cell">
+            <span x-text="emp.terminationDate ? formatDate(emp.terminationDate) : '—'"></span>
+          </td>
+        </tr>
+      </template>
+
+      <tr x-show="filteredEmployees.length === 0" class="tr-empty">
+        <td colspan="6" class="td-empty">
+          No employees to display.
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+
+  <hr class="">
+
+  <div class="overflow-x-visible bg-gray-100">
+  <table class="responsive-table md:bg-white md:rounded-lg md:shadow-md">
+    <thead class="">
+      <tr>
+        <th class="th-cell">SSN</th>
+        <th class="th-cell">Name</th>
+        <th class="th-cell">Address</th>
+        <th class="th-cell">Birth Date</th>
+        <th class="th-cell">Employer</th>
+        <th class="th-cell">Term Date</th>
+      </tr>
+    </thead>
+    <tbody>
+      <template x-for="emp in filteredEmployees" :key="emp.ssn">
+        <tr class="tr-hover grid grid-cols-2 grid-rows-3 gap-4 md:table-cell">
+          <!-- SSN -->
+          <td class="td-cell col-start-2 md:col-start-1 row-start-1 colon-label" data-label="SSN">
+            <span x-text="emp.ssn"></span>
+          </td>
+          <!-- Name -->
+          <td class="td-cell no-label col-start-1 row-start-1 md:col-start-2" data-label="Name">
+            <a href="#" @click.prevent="openEmployee(emp)" class="text-indigo-600 hover:text-indigo-800">
+              <span x-text="emp.name" class="text-2xl md:text-lg"></span>
+            </a>
+          </td>
+          <!-- Address -->
+          <td class="td-cell no-label address" data-label="Address">
+            <span x-text="emp.address.split(', ')[0]"></span><br>
+            <span x-text="emp.address.split(', ').slice(1).join(', ')"></span>
+          </td>
+          <!-- Birth Date -->
+          <td class="td-cell birth text-right md:text-left" data-label="Birth Date">
+            <span x-text="formatDate(emp.birthDate)"></span>
+          </td>
+          <!-- Employer -->
+          <td class="td-cell employer" data-label="Employer">
+            <span x-text="emp.employer.split(' - ')[0]"></span><br>
+            <span x-text="emp.employer.split(' - ').slice(1).join(', ')"></span>
+          </td>
+          <!-- Term Date -->
+          <td class="td-cell term text-right md:text-left" data-label="Term Date">
+            <span x-text="emp.terminationDate ? formatDate(emp.terminationDate) : '—'"></span>
+          </td>
+        </tr>
+      </template>
+
+      <!-- “No Data” fallback row, which also becomes a card on mobile -->
+      <tr x-show="filteredEmployees.length === 0" class="tr-empty">
+        <td class="td-empty" colspan="6">No employees to display.</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+
+  <div
+  x-show="showModal"
+  x-cloak
+  class="fixed inset-0 z-50 flex items-start justify-center pt-10 bg-black bg-opacity-50 overflow-y-auto"
+  @keydown.escape.window="closeModal()"
+  @click.away="closeModal()"
+>
+  <!-- Modal Card -->
+  <div class="bg-white rounded-lg shadow-lg w-full max-w-2xl mx-4" @click.stop>
+    <!-- Header -->
+    <div class="flex items-center px-6 py-4 border-b border-gray-200">
+      <i class="fas fa-user text-2xl text-gray-700 mr-3"></i>
+      <h2 class="text-xl font-semibold text-gray-800">Edit Personal Information</h2>
+      <button
+        type="button"
+        class="ml-auto text-gray-400 hover:text-gray-600"
+        @click="closeModal()"
+        aria-label="Close"
+      >
+        <svg
+          class="h-5 w-5"
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 20 20"
+          fill="currentColor"
+        >
+          <path
+            fill-rule="evenodd"
+            d="M10 9l4.95-4.95a1 1 0 111.414 1.414L11.414 10l4.95 4.95a1 1 0 01-1.414 1.414L10 11.414l-4.95 4.95a1 1 0 01-1.414-1.414L8.586 10 3.636 5.05a1 1 0 011.414-1.414L10 8z"
+            clip-rule="evenodd"
+          />
+        </svg>
+      </button>
+    </div>
+
+    <!-- Body / Form -->
+    <div class="px-6 py-6 space-y-6">
+      <!-- Notice Banner -->
+      <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4">
+        <p class="text-yellow-700 text-sm">
+          You know the drill, <span class="text-red-500">*</span> means Required.
+        </p>
+        <p class="mt-1 text-yellow-800 text-sm">
+          Please review the information below. Please ask your HR to make any
+          changes in the Chick-fil-A Payroll System.
+        </p>
+      </div>
+
+      <form @submit.prevent="updateEmployee()" class="space-y-6">
+        <!-- Row 1: First Name, MI, Last Name, Suffix -->
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+          <!-- First Name -->
+          <div>
+            <label for="firstName" class="block text-sm font-medium text-gray-700">
+              First Name <span class="text-red-500">*</span>
+            </label>
+            <input
+              type="text"
+              id="firstName"
+              x-model="selectedEmployee.name.split(',')[1]?.trim() || ''"
+              class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm
+                     py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+              placeholder="First name"
+            />
+          </div>
+
+          <!-- MI -->
+          <div>
+            <label for="middleInitial" class="block text-sm font-medium text-gray-700">
+              MI
+            </label>
+            <input
+              type="text"
+              id="middleInitial"
+              x-model="selectedEmployee.mi"
+              class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm
+                     py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+              placeholder="Middle N."
+            />
+          </div>
+
+          <!-- Last Name -->
+          <div>
+            <label for="lastName" class="block text-sm font-medium text-gray-700">
+              Last Name <span class="text-red-500">*</span>
+            </label>
+            <input
+              type="text"
+              id="lastName"
+              x-model="selectedEmployee.name.split(',')[0]?.trim() || ''"
+              class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm
+                     py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+              placeholder="Last name"
+            />
+          </div>
+
+          <!-- Suffix -->
+          <div>
+            <label for="suffix" class="block text-sm font-medium text-gray-700">
+              Suffix
+            </label>
+            <input
+              type="text"
+              id="suffix"
+              x-model="selectedEmployee.suffix"
+              class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm
+                     py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+              placeholder="Suffix"
+            />
+          </div>
+        </div>
+
+        <!-- Row 2: Birth Date & Gender -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 items-end">
+          <!-- Birth Date -->
+          <div>
+            <label for="birthDate" class="block text-sm font-medium text-gray-700">
+              Birth Date <span class="text-red-500">*</span>
+            </label>
+            <div class="mt-1 relative">
+              <input
+                type="date"
+                id="birthDate"
+                x-model="selectedEmployee.birthDate"
+                class="block w-full border border-gray-300 rounded-md shadow-sm
+                       py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+              />
+              <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
+                <i class="fas fa-calendar-alt text-gray-400"></i>
+              </div>
+            </div>
+          </div>
+
+          <!-- Gender -->
+          <div class="md:col-span-2">
+            <span class="block text-sm font-medium text-gray-700">Gender</span>
+            <div class="mt-1 flex items-center space-x-6">
+              <label class="inline-flex items-center">
+                <input
+                  type="radio"
+                  name="gender"
+                  value="Male"
+                  x-model="selectedEmployee.gender"
+                  class="text-indigo-600 focus:ring-indigo-500 border-gray-300"
+                />
+                <span class="ml-2 text-sm text-gray-700">Male</span>
+              </label>
+              <label class="inline-flex items-center">
+                <input
+                  type="radio"
+                  name="gender"
+                  value="Female"
+                  x-model="selectedEmployee.gender"
+                  class="text-indigo-600 focus:ring-indigo-500 border-gray-300"
+                />
+                <span class="ml-2 text-sm text-gray-700">Female</span>
+              </label>
+              <label class="inline-flex items-center">
+                <input
+                  type="radio"
+                  name="gender"
+                  value="Unknown"
+                  x-model="selectedEmployee.gender"
+                  class="text-indigo-600 focus:ring-indigo-500 border-gray-300"
+                />
+                <span class="ml-2 text-sm text-gray-700">Unknown</span>
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <!-- Row 3: Address 1 & Address 2 -->
+        <div class="grid grid-cols-1 gap-4">
+          <div>
+            <label for="address1" class="block text-sm font-medium text-gray-700">
+              Address 1 <span class="text-red-500">*</span>
+            </label>
+            <input
+              type="text"
+              id="address1"
+              x-model="selectedEmployee.address"
+              class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm
+                     py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+            />
+          </div>
+          <div>
+            <label for="address2" class="block text-sm font-medium text-gray-700">
+              Address 2
+            </label>
+            <input
+              type="text"
+              id="address2"
+              x-model="selectedEmployee.address2"
+              class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm
+                     py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+            />
+          </div>
+        </div>
+
+        <!-- Row 4: City, State, Zip Code -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div>
+            <label for="city" class="block text-sm font-medium text-gray-700">
+              City <span class="text-red-500">*</span>
+            </label>
+            <input
+              type="text"
+              id="city"
+              x-model="selectedEmployee.city"
+              class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm
+                     py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+            />
+          </div>
+          <div>
+            <label for="state" class="block text-sm font-medium text-gray-700">
+              State <span class="text-red-500">*</span>
+            </label>
+            <select
+              id="state"
+              x-model="selectedEmployee.state"
+              class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm
+                     py-2 px-3 bg-white focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+            >
+              <option value="">Select state</option>
+              <option>MD Maryland</option>
+              <option>VA Virginia</option>
+              <option>DC District of Columbia</option>
+              <!-- …other states… -->
+            </select>
+          </div>
+          <div>
+            <label for="zip" class="block text-sm font-medium text-gray-700">
+              Zip Code <span class="text-red-500">*</span>
+            </label>
+            <input
+              type="text"
+              id="zip"
+              x-model="selectedEmployee.zip"
+              class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm
+                     py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+            />
+          </div>
+        </div>
+
+        <!-- Row 5: Phone Number -->
+        <div class="grid grid-cols-1 gap-4">
+          <div>
+            <span class="block text-sm font-medium text-gray-700">Phone Number</span>
+            <div class="mt-1 flex space-x-2">
+              <input
+                type="text"
+                x-model="selectedEmployee.phoneArea"
+                class="block w-20 border border-gray-300 rounded-md shadow-sm
+                       py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+                placeholder="area"
+              />
+              <input
+                type="text"
+                x-model="selectedEmployee.phoneLocal"
+                class="block w-24 border border-gray-300 rounded-md shadow-sm
+                       py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+                placeholder="local"
+              />
+              <input
+                type="text"
+                x-model="selectedEmployee.phoneNumber"
+                class="block w-32 border border-gray-300 rounded-md shadow-sm
+                       py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+                placeholder="number"
+              />
+            </div>
+          </div>
+        </div>
+
+        <!-- Row 6: Email -->
+        <div class="grid grid-cols-1 gap-4">
+          <div>
+            <label for="email" class="block text-sm font-medium text-gray-700">
+              Email (<span class="text-gray-500">not required</span>), but it would really help us
+            </label>
+            <input
+              type="email"
+              id="email"
+              x-model="selectedEmployee.email"
+              class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm
+                     py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+            />
+          </div>
+        </div>
+
+        <!-- Buttons -->
+        <div class="pt-4 flex justify-end space-x-3">
+          <button
+            type="button"
+            class="px-4 py-2 bg-red-500 text-white text-sm font-medium rounded-md hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-400"
+            @click="closeModal()"
+          >
+            Cancel
+          </button>
+          <button
+            type="submit"
+            class="px-4 py-2 bg-indigo-600 text-white text-sm font-medium rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+          >
+            Update
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+
+</div>
+
+<script>
+  function employeeTableComponent() {
+    return {
+      employees: [],
+      searchQuery: "",
+      selectedEmployee: null,
+      showModal: false,
+
+      // Fetch employees.json (which Eleventy will copy into dist automatically if in _data/)
+      async loadData() {
+        try {
+          // If you want Eleventy to inject employees via Nunjucks, you could do:
+          // this.employees = ;
+          const res = await fetch("/employees.json");
+          if (!res.ok) throw new Error("Could not load employees.json");
+          this.employees = await res.json();
+        } catch (err) {
+          console.error(err);
+        }
+      },
+
+      // Filter by name
+      get filteredEmployees() {
+        if (!this.searchQuery) return this.employees;
+        let q = this.searchQuery.toLowerCase().trim();
+        return this.employees.filter(emp =>
+          emp.name.toLowerCase().includes(q)
+        );
+      },
+
+      // Convert YYYY-MM-DD → MM/DD/YYYY
+      formatDate(iso) {
+        if (!iso) return "";
+        let [y, m, d] = iso.split("-");
+        return `${m}/${d}/${y}`;
+      },
+
+      // Called when user clicks a Name link
+      openEmployee(emp) {
+        // Deep clone so editing fields doesn’t immediately change the underlying array
+        this.selectedEmployee = JSON.parse(JSON.stringify(emp));
+        this.showModal = true;
+      },
+
+      closeModal() {
+        this.showModal = false;
+        this.selectedEmployee = null;
+      },
+
+      // Called when the modal form is submitted
+      updateEmployee() {
+        // Example: send updated data back to server via fetch POST, or
+        // copy selectedEmployee fields back into the employees array, etc.
+        console.log("Submitting update for:", this.selectedEmployee);
+
+        // If you want to *apply changes locally*, find the index:
+        let idx = this.employees.findIndex(e => e.ssn === this.selectedEmployee.ssn);
+        if (idx !== -1) {
+          this.employees.splice(idx, 1, this.selectedEmployee);
+        }
+
+        // Then close:
+        this.closeModal();
+      }
+    };
+  }
+</script>
 
     </main>
 

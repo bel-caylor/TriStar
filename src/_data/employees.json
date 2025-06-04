@@ -1,0 +1,42 @@
+[
+  {
+    "ssn": "712712712",
+    "name": "Sample, Sally",
+    "address": "1234 Main Street, Annapolis, MD 21401",
+    "birthDate": "1976-09-24",
+    "employer": "MNE LLC - #00903",
+    "terminationDate": ""
+  },
+  {
+    "ssn": "812345678",
+    "name": "Johnson, Mark",
+    "address": "789 Oak Avenue, Baltimore, MD 21201",
+    "birthDate": "1982-04-15",
+    "employer": "MNE LLC - #00903",
+    "terminationDate": ""
+  },
+  {
+    "ssn": "923456789",
+    "name": "Garcia, Maria",
+    "address": "456 Pine Road, Annapolis, MD 21401",
+    "birthDate": "1990-12-03",
+    "employer": "MNE LLC - #00903",
+    "terminationDate": "2024-11-30"
+  },
+  {
+    "ssn": "634567890",
+    "name": "Lee, David",
+    "address": "321 Elm Street, Annapolis, MD 21401",
+    "birthDate": "1978-07-08",
+    "employer": "MNE LLC - #00903",
+    "terminationDate": ""
+  },
+  {
+    "ssn": "745678901",
+    "name": "Patel, Anika",
+    "address": "654 Maple Drive, Baltimore, MD 21202",
+    "birthDate": "1985-05-21",
+    "employer": "MNE LLC - #00903",
+    "terminationDate": ""
+  }
+]
