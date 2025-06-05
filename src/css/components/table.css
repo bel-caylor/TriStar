@@ -37,7 +37,7 @@
   .responsive-table {
     @apply w-full;
     tbody {
-        @apply flex flex-wrap gap-4 justify-between
+        @apply flex flex-col flex-wrap gap-4 justify-between
 
     }
     thead {
@@ -47,12 +47,12 @@
         @apply th-cell;
     }
     tr {
-        @apply tr-hover grid grid-cols-2 grid-rows-3 gap-y-1 gap-x-4;
+        @apply w-full grid grid-cols-2 gap-y-1 gap-x-4;
         @apply mb-4 bg-white shadow rounded-lg overflow-hidden;
         @apply flex-grow mb-0
     }
     td {
-        @apply flex justify-between items-center px-4 pt-0 pb-3 text-sm text-gray-900 w-full;
+        @apply flex justify-between items-center min-w-[250px] px-4 py-1 text-sm text-gray-900 w-full;
         &.no-label::before {
             content: none;
         }
@@ -75,6 +75,18 @@
     td[data-label="Term Date"],
     td[data-label="Address"] {
         @apply block;
+    }
+    td[data-label="SSN"],
+    td[data-label="Gender"],
+    td[data-label="Disabled"],
+    td[data-label="Verified"],
+    td[data-label="Relation"],
+    td[data-label="Age"] {
+        @apply inline;
+        &::before {
+            content: attr(data-label) ':';
+            @apply pr-1 inline;
+        }
     }
     .td-mobile-right {
         @apply text-right;

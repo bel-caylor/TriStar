@@ -871,6 +871,9 @@ h1 {
   display: flex;
 }
 .responsive-table tbody {
+  flex-direction: column;
+}
+.responsive-table tbody {
   flex-wrap: wrap;
 }
 .responsive-table tbody {
@@ -919,18 +922,14 @@ h1 {
     padding-bottom: 0.75rem;
   }
 }
-.responsive-table tr:hover {
-  --tw-bg-opacity: 1;
-  background-color: rgb(249 250 251 / var(--tw-bg-opacity, 1));
-}
 .responsive-table tr {
   display: grid;
 }
 .responsive-table tr {
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  width: 100%;
 }
 .responsive-table tr {
-  grid-template-rows: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 .responsive-table tr {
   row-gap: 0.25rem;
@@ -970,6 +969,9 @@ h1 {
   width: 100%;
 }
 .responsive-table td {
+  min-width: 250px;
+}
+.responsive-table td {
   align-items: center;
 }
 .responsive-table td {
@@ -980,10 +982,8 @@ h1 {
   padding-right: 1rem;
 }
 .responsive-table td {
-  padding-top: 0px;
-}
-.responsive-table td {
-  padding-bottom: 0.75rem;
+  padding-top: 0.25rem;
+  padding-bottom: 0.25rem;
 }
 .responsive-table td {
   font-size: 0.875rem;
@@ -1017,6 +1017,18 @@ h1 {
 }
 .responsive-table td[data-label="Employer"],.responsive-table td[data-label="Birth Date"],.responsive-table td[data-label="Term Date"],.responsive-table td[data-label="Address"] {
   display: block;
+}
+.responsive-table td[data-label="SSN"],.responsive-table td[data-label="Gender"],.responsive-table td[data-label="Disabled"],.responsive-table td[data-label="Verified"],.responsive-table td[data-label="Relation"],.responsive-table td[data-label="Age"] {
+  display: inline;
+}
+:is(.responsive-table td[data-label="SSN"],.responsive-table td[data-label="Gender"],.responsive-table td[data-label="Disabled"],.responsive-table td[data-label="Verified"],.responsive-table td[data-label="Relation"],.responsive-table td[data-label="Age"])::before {
+            content: attr(data-label) ':';
+        }
+:is(.responsive-table td[data-label="SSN"],.responsive-table td[data-label="Gender"],.responsive-table td[data-label="Disabled"],.responsive-table td[data-label="Verified"],.responsive-table td[data-label="Relation"],.responsive-table td[data-label="Age"])::before {
+  display: inline;
+}
+:is(.responsive-table td[data-label="SSN"],.responsive-table td[data-label="Gender"],.responsive-table td[data-label="Disabled"],.responsive-table td[data-label="Verified"],.responsive-table td[data-label="Relation"],.responsive-table td[data-label="Age"])::before {
+  padding-right: 0.25rem;
 }
 .responsive-table .td-mobile-right {
   text-align: right;
@@ -1282,9 +1294,6 @@ h1 {
 .fixed {
   position: fixed;
 }
-.absolute {
-  position: absolute;
-}
 .inset-0 {
   inset: 0px;
 }
@@ -1309,6 +1318,18 @@ h1 {
 .row-start-1 {
   grid-row-start: 1;
 }
+.row-start-2 {
+  grid-row-start: 2;
+}
+.row-start-3 {
+  grid-row-start: 3;
+}
+.row-start-4 {
+  grid-row-start: 4;
+}
+.row-start-5 {
+  grid-row-start: 5;
+}
 .mx-4 {
   margin-left: 1rem;
   margin-right: 1rem;
@@ -1329,6 +1350,9 @@ h1 {
 .ml-2 {
   margin-left: 0.5rem;
 }
+.ml-20 {
+  margin-left: 5rem;
+}
 .mr-3 {
   margin-right: 0.75rem;
 }
@@ -1341,15 +1365,6 @@ h1 {
 .mt-3 {
   margin-top: 0.75rem;
 }
-.ml-\[80px\] {
-  margin-left: 80px;
-}
-.ml-\[160px\] {
-  margin-left: 160px;
-}
-.ml-20 {
-  margin-left: 5rem;
-}
 .mt-\[70px\] {
   margin-top: 70px;
 }
@@ -1361,6 +1376,9 @@ h1 {
 }
 .flex {
   display: flex;
+}
+.\!inline-flex {
+  display: inline-flex !important;
 }
 .inline-flex {
   display: inline-flex;
@@ -1386,17 +1404,11 @@ h1 {
 .h-8 {
   height: 2rem;
 }
-.h-screen {
-  height: 100vh;
-}
-.h-\[100px\] {
-  height: 100px;
-}
-.h-\[80px\] {
-  height: 80px;
-}
 .h-\[70px\] {
   height: 70px;
+}
+.h-screen {
+  height: 100vh;
 }
 .min-h-screen {
   min-height: 100vh;
@@ -1419,26 +1431,11 @@ h1 {
 .w-full {
   width: 100%;
 }
-.min-w-\[250px\] {
-  min-width: 250px;
-}
 .max-w-2xl {
   max-width: 42rem;
 }
-.max-w-\[400px\] {
-  max-width: 400px;
-}
-.max-w-\[50\%\] {
-  max-width: 50%;
-}
-.max-w-\[48\%\] {
-  max-width: 48%;
-}
 .flex-1 {
   flex: 1 1 0%;
-}
-.flex-grow {
-  flex-grow: 1;
 }
 .-translate-x-4 {
   --tw-translate-x: -1rem;
@@ -1457,6 +1454,12 @@ h1 {
 .grid-cols-1 {
   grid-template-columns: repeat(1, minmax(0, 1fr));
 }
+.grid-rows-3 {
+  grid-template-rows: repeat(3, minmax(0, 1fr));
+}
+.grid-rows-5 {
+  grid-template-rows: repeat(5, minmax(0, 1fr));
+}
 .flex-col {
   flex-direction: column;
 }
@@ -1468,6 +1471,9 @@ h1 {
 }
 .items-center {
   align-items: center;
+}
+.\!justify-start {
+  justify-content: flex-start !important;
 }
 .justify-end {
   justify-content: flex-end;
@@ -1591,9 +1597,6 @@ h1 {
 .p-2 {
   padding: 0.5rem;
 }
-.p-3 {
-  padding: 0.75rem;
-}
 .p-4 {
   padding: 1rem;
 }
@@ -1642,14 +1645,14 @@ h1 {
 .pt-10 {
   padding-top: 2.5rem;
 }
+.pt-3 {
+  padding-top: 0.75rem;
+}
 .pt-4 {
   padding-top: 1rem;
 }
 .pt-5 {
   padding-top: 1.25rem;
-}
-.pt-3 {
-  padding-top: 0.75rem;
 }
 .text-left {
   text-align: left;
@@ -1808,6 +1811,9 @@ h1 {
 .ease-out {
   transition-timing-function: cubic-bezier(0, 0, 0.2, 1);
 }
+.\[grid-template-rows\:30px_15px_15px_30px_30px\] {
+  grid-template-rows: 30px 15px 15px 30px 30px;
+}
 @media (min-width: 1280px) {
   .xl\:container {
     width: 100%;
@@ -1963,9 +1969,6 @@ h1 {
   .md\:col-span-2 {
     grid-column: span 2 / span 2;
   }
-  .md\:col-start-2 {
-    grid-column-start: 2;
-  }
   .md\:table-cell {
     display: table-cell;
   }
@@ -1977,9 +1980,6 @@ h1 {
   }
   .md\:grid-cols-4 {
     grid-template-columns: repeat(4, minmax(0, 1fr));
-  }
-  .md\:p-10 {
-    padding: 2.5rem;
   }
   .md\:px-6 {
     padding-left: 1.5rem;
@@ -1997,17 +1997,11 @@ h1 {
   .lg\:col-start-1 {
     grid-column-start: 1;
   }
-  .lg\:col-start-2 {
-    grid-column-start: 2;
-  }
   .lg\:table-cell {
     display: table-cell;
   }
   .lg\:table-header-group {
     display: table-header-group;
-  }
-  .lg\:max-w-none {
-    max-width: none;
   }
   .lg\:text-sm {
     font-size: 0.875rem;

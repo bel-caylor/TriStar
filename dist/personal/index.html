@@ -276,13 +276,13 @@
     </thead>
     <tbody class="tbody-base">
       <template x-for="emp in filteredEmployees" :key="emp.ssn">
-        <tr class="max-w-[48%] lg:max-w-none min-w-[250px]">
+        <tr class="grid-rows-3">
           <!-- SSN -->
           <td class="td-cell col-start-2 lg:col-start-1 row-start-1 colon-label td-mobile-right" data-label="SSN">
             <span x-text="emp.ssn"></span>
           </td>
           <!-- Name -->
-          <td class="td-cell no-label col-start-1 row-start-1 lg:col-start-2" data-label="Name">
+          <td class="td-cell no-label col-start-1 row-start-1" data-label="Name">
             <a href="#" @click.prevent="openEmployee(emp)">
               <span class="text-xl lg:text-sm" x-text="emp.lastName + ', ' + emp.firstName"></span>
             </a>

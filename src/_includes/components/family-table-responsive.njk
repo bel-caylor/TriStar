@@ -9,7 +9,7 @@
     </button>
   </div>
 
-  <div class="table-container">
+  <div class="overflow-x-visible bg-gray-100">
     <table class="responsive-table resp-lg">
       <thead class="hidden xl:table-header-group">
         <tr>
@@ -28,39 +28,36 @@
       <tbody class="tbody-base xl:table-row-group">
         <template x-if="familyMembers && familyMembers.length > 0">
           <template x-for="member in familyMembers" :key="member.id">
-            <tr class="tr-hover">
-              <td 
-                class="td-cell no-label col-start-1 row-start-1 md:col-start-2" 
-                data-label="Name"
-              >
+            <tr class="grid-rows-5 [grid-template-rows:30px_15px_15px_30px_30px]">
+              <td class="td-cell no-label col-start-1 row-start-1" data-label="Name">
                 <a href="#" @click.prevent="openEdit(member.id)" class="text-indigo-600 hover:text-indigo-800">
-                  <span x-text="`${member.lastName}, ${member.firstName}`"></span>
+                  <span class="text-xl lg:text-sm" x-text="`${member.lastName}, ${member.firstName}`"></span>
                 </a>
               </td>
 
               <!-- SSN -->
-              <td class="td-cell" data-label="SSN" x-text="member.ssn"></td>
+              <td class="td-cell col-start-2 row-start-1 colon-label !inline-flex items-center !justify-start" data-label="SSN" x-text="member.ssn"></td>
 
               <!-- Relation -->
-              <td class="td-cell" data-label="Relation" x-text="member.relation"></td>
+              <td class="td-cell col-start-1 row-start-2" data-label="Relation" x-text="member.relation"></td>
 
               <!-- Birth Date -->
-              <td class="td-cell" data-label="Birth Date" x-text="member.birthDate"></td>
+              <td class="td-cell col-start-1 row-start-4" data-label="Birth Date" x-text="member.birthDate"></td>
 
               <!-- Age -->
-              <td class="td-cell" data-label="Age" x-text="member.age"></td>
+              <td class="td-cell col-start-1 row-start-5" data-label="Age" x-text="member.age"></td>
 
               <!-- Gender -->
-              <td class="td-cell" data-label="Gender" x-text="member.gender"></td>
+              <td class="td-cell col-start-1 row-start-3" data-label="Gender" x-text="member.gender"></td>
 
               <!-- Disabled -->
-              <td class="td-cell" data-label="Disabled" x-text="member.disabled ? 'Yes' : 'No'"></td>
+              <td class="td-cell col-start-2 row-start-2" data-label="Disabled" x-text="member.disabled ? 'Yes' : 'No'"></td>
 
               <!-- Verified -->
-              <td class="td-cell" data-label="Verified" x-text="member.verified ? 'Yes' : 'No'"></td>
+              <td class="td-cell col-start-2 row-start-3" data-label="Verified" x-text="member.verified ? 'Yes' : 'No'"></td>
 
               <!-- Term Date -->
-              <td class="td-cell" data-label="Term Date" x-text="member.termDate || '-'"></td>
+              <td class="td-cell col-start-2 row-start-4" data-label="Term Date" x-text="member.termDate || '-'"></td>
             </tr>
           </template>
         </template>
