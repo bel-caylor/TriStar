@@ -1,0 +1,78 @@
+<section class="">
+  <div class="flex items-center justify-end mb-4">
+    <button
+      type="button"
+      class="inline-flex items-center px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+      @click="openAdd()"
+    >
+      Add a New Family Member
+    </button>
+  </div>
+
+  <div class="table-container">
+    <table class="responsive-table resp-lg">
+      <thead class="hidden xl:table-header-group">
+        <tr>
+          <th class="th-cell">Name</th>
+          <th class="th-cell">SSN</th>
+          <th class="th-cell">Relation</th>
+          <th class="th-cell">Birth Date</th>
+          <th class="th-cell">Age</th>
+          <th class="th-cell">Gender</th>
+          <th class="th-cell">Disabled</th>
+          <th class="th-cell">Verified</th>
+          <th class="th-cell">Term Date</th>
+        </tr>
+      </thead>
+
+      <tbody class="tbody-base xl:table-row-group">
+        <template x-if="familyMembers && familyMembers.length > 0">
+          <template x-for="member in familyMembers" :key="member.id">
+            <tr class="tr-hover">
+              <td 
+                class="td-cell no-label col-start-1 row-start-1 md:col-start-2" 
+                data-label="Name"
+              >
+                <a href="#" @click.prevent="openEdit(member.id)" class="text-indigo-600 hover:text-indigo-800">
+                  <span x-text="`${member.lastName}, ${member.firstName}`"></span>
+                </a>
+              </td>
+
+              <!-- SSN -->
+              <td class="td-cell" data-label="SSN" x-text="member.ssn"></td>
+
+              <!-- Relation -->
+              <td class="td-cell" data-label="Relation" x-text="member.relation"></td>
+
+              <!-- Birth Date -->
+              <td class="td-cell" data-label="Birth Date" x-text="member.birthDate"></td>
+
+              <!-- Age -->
+              <td class="td-cell" data-label="Age" x-text="member.age"></td>
+
+              <!-- Gender -->
+              <td class="td-cell" data-label="Gender" x-text="member.gender"></td>
+
+              <!-- Disabled -->
+              <td class="td-cell" data-label="Disabled" x-text="member.disabled ? 'Yes' : 'No'"></td>
+
+              <!-- Verified -->
+              <td class="td-cell" data-label="Verified" x-text="member.verified ? 'Yes' : 'No'"></td>
+
+              <!-- Term Date -->
+              <td class="td-cell" data-label="Term Date" x-text="member.termDate || '-'"></td>
+            </tr>
+          </template>
+        </template>
+
+        <template x-if="!familyMembers || familyMembers.length === 0">
+          <tr class="tr-empty">
+            <td class="td-empty" colspan="9">
+              No family members found.
+            </td>
+          </tr>
+        </template>
+      </tbody>
+    </table>
+  </div>
+</section>

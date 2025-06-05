@@ -5,12 +5,11 @@
         <!-- Always visible on all breakpoints -->
         <th class="th-cell">SSN</th>
         <th class="th-cell">Name</th>
-        <th class="th-cell">Address</th>
-
         <!-- Hide on small screens (below md) -->
-        <th class="th-cell hidden sm:table-cell">Birth Date</th>
-        <th class="th-cell hidden sm:table-cell">Employer</th>
-        <th class="th-cell hidden sm:table-cell">Term Date</th>
+        <th class="th-cell hidden sm:table-cell">Address</th>
+        <th class="th-cell hidden md:table-cell">Birth Date</th>
+        <th class="th-cell hidden lg:table-cell">Employer</th>
+        <th class="th-cell hidden md:table-cell">Term Date</th>
       </tr>
     </thead>
     <tbody class="tbody-base">
@@ -29,22 +28,22 @@
           </td>
 
           <!-- Address -->
-          <td class="td-cell">
+          <td class="td-cell hidden sm:table-cell">
             <span x-text="emp.city + ', ' + emp.state + '  ' + emp.zipCode"></span>
           </td>
 
-          <!-- Birth Date: hidden on <640px -->
-          <td class="td-cell hidden sm:table-cell">
+          <!-- Birth Date -->
+          <td class="td-cell hidden md:table-cell">
             <span x-text="formatDate(emp.birthDate)"></span>
           </td>
 
-          <!-- Employer: hidden on <640px -->
-          <td class="td-cell hidden sm:table-cell">
+          <!-- Employer -->
+          <td class="td-cell hidden lg:table-cell">
             <span x-text="emp.employer"></span>
           </td>
 
-          <!-- Term Date: hidden on <640px -->
-          <td class="td-cell hidden sm:table-cell">
+          <!-- Term Date -->
+          <td class="td-cell hidden md:table-cell">
             <span x-text="emp.terminationDate ? formatDate(emp.terminationDate) : '—'"></span>
           </td>
         </tr>

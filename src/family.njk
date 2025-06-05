@@ -1,7 +1,95 @@
 ---
+title: "Family"
 layout: layouts/base.njk
-title: Family
 ---
-<section class="text-center py-20">
-  <h1 class="text-4xl font-bold mb-4">Family</h1>
-</section>
+
+<div x-data="familyTableComponent()" x-init="loadData()" >
+
+  <div class="mb-6">
+    <h1 class="text-3xl font-bold text-gray-800">Edit Family Information</h1>
+    <p class="mt-1 text-gray-600">
+      Edit as needed, or leave it alone if all looks in order.
+    </p>
+  </div>
+
+  {% include "components/family-table-responsive.njk" %}
+  {% include "components/family-edit-modal.njk" %}
+
+<script>
+  function familyTableComponent() {
+    return {
+      // ─── State ────────────────────────────────────────────────
+      familyMembers: [],       // our array of family objects
+      editingMember: {},       // the member we’re currently editing
+      showModal: false,        // controls modal visibility
+      isEdit: false,           // “Add” vs “Edit” mode
+
+      // ─── Initialization (called by x-init="init()") ──────────
+      async loadData() {
+        try {
+          // If you want Eleventy to inject employees via Nunjucks, you could do:
+          // this.employees = {{ collections.employees | safe }};
+          const res = await fetch("/familyMembers.json");
+          if (!res.ok) throw new Error("Could not load family.json");
+          this.familyMembers = await res.json();
+          console.log(this.familyMembers);
+        } catch (err) {
+          console.error(err);
+        }
+      },
+
+      // ─── Called by the “Add” button in the table ──────────────
+      openAdd() {
+        this.isEdit = false;
+        this.editingMember = {
+          id: "",
+          firstName: "",
+          middleInitial: "",
+          lastName: "",
+          suffix: "",
+          ssn: "",
+          birthDate: "",
+          relation: "Spouse",
+          age: "",
+          gender: "Male",
+          disabled: false,
+          verified: false,
+          termDate: ""
+        };
+        this.showModal = true;
+      },
+
+      // ─── Called by the “Edit” button for a given row ─────────
+      openEdit(memberId) {
+        const found = this.familyMembers.find(m => m.id === memberId);
+        if (!found) return;
+        this.isEdit = true;
+        this.editingMember = JSON.parse(JSON.stringify(found));
+        this.showModal = true;
+      },
+
+      // ─── Close the modal ──────────────────────────────────────
+      closeModal() {
+        this.showModal = false;
+      },
+
+      // ─── Save the member (Add or Edit) ───────────────────────
+      saveMember() {
+        if (this.isEdit) {
+          // Update existing
+          const idx = this.familyMembers.findIndex(m => m.id === this.editingMember.id);
+          if (idx !== -1) {
+            this.familyMembers.splice(idx, 1, JSON.parse(JSON.stringify(this.editingMember)));
+          }
+        } else {
+          // Add new (generate a timestamp‐based ID)
+          const newId = Date.now().toString();
+          this.editingMember.id = newId;
+          this.editingMember.verified = false;
+          this.familyMembers.push(JSON.parse(JSON.stringify(this.editingMember)));
+        }
+        this.closeModal();
+      }
+    };
+  }
+</script>

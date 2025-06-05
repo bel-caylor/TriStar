@@ -26,7 +26,7 @@
   "
   …
 >
-  <header class="z-40 bg-white text-textDark text-shadow-md border-b">
+  <header class="z-40 bg-white text-textDark text-shadow-md border-b fixed inset-0 h-[70px]">
   <div class="flex items-center justify-between px-4 py-3 md:px-6 md:py-4">
     <!-- ────── 2.1. Hamburger (mobile) ────── -->
     <button
@@ -79,7 +79,7 @@
 
 
   <!-- Wrap sidebar + content in a horizontal flex -->
-  <div class="flex flex-1">
+  <div class="flex">
 
     
     
@@ -94,7 +94,7 @@
   x-transition:leave-start="opacity-100 transform translate-x-0"
   x-transition:leave-end="opacity-0 transform -translate-x-4"
   @click.away="sidebarOpen = false"
-  class="w-20 bg-white border-r border-gray-200 h-screen flex flex-col items-center py-4">
+  class="w-20 bg-white border-r border-gray-200 h-screen flex flex-col items-center py-4 fixed top-[70px] left-0">
   <nav class="flex-1">
     <ul class="flex flex-col items-center space-y-6">
 
@@ -172,7 +172,7 @@
 
 
     
-    <main class="flex-grow p-3 md:p-10 w-full">
+    <main class="ml-20 mt-[70px] px-3 pt-3 w-full">
       <section class="text-center py-20">
   <h1 class="text-4xl font-bold mb-4">Home</h1>
   <p class="text-lg text-zinc-600 dark:text-zinc-300">Welcome to my personal profile site powered by Eleventy, Tailwind CSS, and Alpine.js!</p>

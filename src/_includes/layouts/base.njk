@@ -29,13 +29,13 @@
   {% include "components/header.njk" %}
 
   <!-- Wrap sidebar + content in a horizontal flex -->
-  <div class="flex flex-1">
+  <div class="flex">
 
     {# ─── Sidebar (fixed width) ───────────────────────────────────────── #}
     {% include "components/sidebar-nav.njk" %}
 
     {# ─── Main content (fills remaining space) ────────────────────────── #}
-    <main class="flex-grow p-3 md:p-10 w-full">
+    <main class="ml-20 mt-[70px] px-3 pt-3 w-full">
       {{ content | safe }}
     </main>
 

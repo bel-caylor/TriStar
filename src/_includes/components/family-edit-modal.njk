@@ -1,0 +1,257 @@
+{# ============================================================================
+   File: src/_includes/components/family-edit-modal.njk
+   Description:
+     - Alpine‐powered Add/Edit modal for family members.
+     - Must live inside an element with x-data="familyApp(...)".
+   ============================================================================ #}
+
+<div 
+  x-show="showModal" 
+  x-transition.opacity 
+  class="fixed inset-0 z-50 overflow-y-auto"
+  style="background-color: rgba(0, 0, 0, 0.5);"
+  aria-labelledby="familyEditModalLabel" 
+  role="dialog" 
+  aria-modal="true"
+>
+  <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+
+    {# Overlay: clicking it closes the modal #}
+    <div 
+      class="fixed inset-0" 
+      aria-hidden="true"
+      @click="closeModal()"
+    ></div>
+
+    {# Spacer to help vertical centering #}
+    <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
+
+    {# Modal panel #}
+    <div 
+      class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg w-full"
+      role="document"
+    >
+      <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+        <div class="sm:flex sm:items-start">
+          <div class="mt-3 text-center sm:mt-0 sm:text-left w-full">
+            <h3 
+              class="text-lg leading-6 font-medium text-gray-900" 
+              id="familyEditModalLabel"
+            >
+              <span x-text="isEdit ? 'Edit Family Member' : 'Add Family Member'"></span>
+            </h3>
+
+            <div class="mt-2">
+              <form 
+                id="familyForm" 
+                class="space-y-6" 
+                @submit.prevent="saveMember()"
+              >
+                {# Hidden field for “id” (used only when editing) #}
+                <input type="hidden" x-model="editingMember.id" />
+
+                {# Name fields in a grid #}
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  {# First Name * #}
+                  <div>
+                    <label for="firstName" class="block text-sm font-medium text-gray-700">
+                      First Name <span class="text-red-500">*</span>
+                    </label>
+                    <input
+                      type="text"
+                      id="firstName"
+                      x-model="editingMember.firstName"
+                      required
+                      class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+                      placeholder="First Name"
+                    />
+                  </div>
+
+                  {# Middle Initial #}
+                  <div>
+                    <label for="middleInitial" class="block text-sm font-medium text-gray-700">
+                      MI
+                    </label>
+                    <input
+                      type="text"
+                      id="middleInitial"
+                      x-model="editingMember.middleInitial"
+                      maxlength="1"
+                      class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+                      placeholder="M"
+                    />
+                  </div>
+
+                  {# Last Name * (span two columns) #}
+                  <div class="sm:col-span-2">
+                    <label for="lastName" class="block text-sm font-medium text-gray-700">
+                      Last Name <span class="text-red-500">*</span>
+                    </label>
+                    <input
+                      type="text"
+                      id="lastName"
+                      x-model="editingMember.lastName"
+                      required
+                      class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+                      placeholder="Last Name"
+                    />
+                  </div>
+
+                  {# Suffix #}
+                  <div>
+                    <label for="suffix" class="block text-sm font-medium text-gray-700">
+                      Suffix
+                    </label>
+                    <input
+                      type="text"
+                      id="suffix"
+                      x-model="editingMember.suffix"
+                      class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+                      placeholder="Jr., Sr., III"
+                    />
+                  </div>
+                </div>
+
+                {# SSN * #}
+                <div>
+                  <label for="ssn" class="block text-sm font-medium text-gray-700">
+                    SSN <span class="text-red-500">*</span>
+                  </label>
+                  <input
+                    type="text"
+                    id="ssn"
+                    x-model="editingMember.ssn"
+                    pattern="\d{9}"
+                    maxlength="9"
+                    required
+                    class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+                    placeholder="000000000"
+                  />
+                </div>
+
+                {# Birth Date * and Relation #}
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div>
+                    <label for="birthDate" class="block text-sm font-medium text-gray-700">
+                      Birth Date <span class="text-red-500">*</span>
+                    </label>
+                    <input
+                      type="date"
+                      id="birthDate"
+                      x-model="editingMember.birthDate"
+                      required
+                      class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+                    />
+                  </div>
+
+                  <div>
+                    <label for="relation" class="block text-sm font-medium text-gray-700">
+                      Relation
+                    </label>
+                    <select
+                      id="relation"
+                      x-model="editingMember.relation"
+                      class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+                    >
+                      <option value="Spouse">Spouse</option>
+                      <option value="Child">Child</option>
+                      <option value="Other">Other</option>
+                    </select>
+                  </div>
+                </div>
+
+                {# Gender and Disabled radio groups #}
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  {# Gender #}
+                  <div>
+                    <span class="block text-sm font-medium text-gray-700">Gender</span>
+                    <div class="mt-1 flex items-center space-x-4">
+                      <label class="inline-flex items-center">
+                        <input
+                          type="radio"
+                          name="gender"
+                          value="Male"
+                          x-model="editingMember.gender"
+                          class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300"
+                        />
+                        <span class="ml-2 text-sm text-gray-700">Male</span>
+                      </label>
+                      <label class="inline-flex items-center">
+                        <input
+                          type="radio"
+                          name="gender"
+                          value="Female"
+                          x-model="editingMember.gender"
+                          class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300"
+                        />
+                        <span class="ml-2 text-sm text-gray-700">Female</span>
+                      </label>
+                    </div>
+                  </div>
+
+                  {# Disabled #}
+                  <div>
+                    <span class="block text-sm font-medium text-gray-700">Disabled</span>
+                    <div class="mt-1 flex items-center space-x-4">
+                      <label class="inline-flex items-center">
+                        <input
+                          type="radio"
+                          name="disabled"
+                          value="true"
+                          x-model="editingMember.disabled"
+                          class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300"
+                        />
+                        <span class="ml-2 text-sm text-gray-700">Yes</span>
+                      </label>
+                      <label class="inline-flex items-center">
+                        <input
+                          type="radio"
+                          name="disabled"
+                          value="false"
+                          x-model="editingMember.disabled"
+                          class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300"
+                        />
+                        <span class="ml-2 text-sm text-gray-700">No</span>
+                      </label>
+                    </div>
+                  </div>
+                </div>
+
+                {# Term Date (optional) #}
+                <div>
+                  <label for="termDate" class="block text-sm font-medium text-gray-700">
+                    Term Date
+                  </label>
+                  <input
+                    type="date"
+                    id="termDate"
+                    x-model="editingMember.termDate"
+                    class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+                  />
+                </div>
+
+                {# Action Buttons: Cancel / Save #}
+                <div class="pt-4 flex justify-end space-x-3">
+                  <button
+                    type="button"
+                    class="inline-flex justify-center py-2 px-4 bg-gray-200 text-gray-700 rounded hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-400"
+                    @click="closeModal()"
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    type="submit"
+                    class="inline-flex justify-center py-2 px-4 bg-blue-600 text-white rounded hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                  >
+                    Save
+                  </button>
+                </div>
+
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
