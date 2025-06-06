@@ -1,4 +1,9 @@
+/* ---------------------------------------------- */
+/* table.css                                    */
+/* ---------------------------------------------- */
+
 @layer components {
+  /* 1. Base table components                          */
   .table-container {
     @apply overflow-x-auto bg-white shadow rounded-lg;
   }
@@ -8,11 +13,11 @@
   }
 
   .th-cell {
-    @apply px-4 py-2 sm:px-6 sm:py-3 text-left text-xs font-medium text-gray-500 tracking-wider;
+    @apply px-6 py-3 text-left text-xs font-medium text-gray-500 tracking-wider;
   }
 
   .tbody-base {
-    @apply divide-y divide-gray-200;
+    @apply bg-white divide-y divide-gray-200;
   }
 
   .tr-hover {
@@ -20,147 +25,12 @@
   }
 
   .td-cell {
-    @apply px-4 py-2 sm:px-6 sm:py-4 text-sm text-gray-900 whitespace-nowrap;
+    @apply px-6 py-4 text-sm text-gray-900 whitespace-nowrap;
     a {
       @apply text-indigo-600 hover:text-indigo-800;
     }
   }
 
-  .tr-empty {
-    @apply bg-gray-100;
-  }
-
-  .td-empty {
-    @apply px-6 py-4 text-center text-sm text-gray-500;
-  }
-
-  .responsive-table {
-    @apply w-full;
-    tbody {
-        @apply flex flex-col flex-wrap gap-4 justify-between
-
-    }
-    thead {
-        @apply hidden;
-    }
-    th {
-        @apply th-cell;
-    }
-    tr {
-        @apply w-full grid grid-cols-2 gap-y-1 gap-x-4;
-        @apply mb-4 bg-white shadow rounded-lg overflow-hidden;
-        @apply flex-grow mb-0
-    }
-    td {
-        @apply flex justify-between items-center min-w-[250px] px-4 py-1 text-sm text-gray-900 w-full;
-        &.no-label::before {
-            content: none;
-        }
-        &.colon-label {
-            @apply justify-end;
-        }
-        &[data-label="Employer"] > br {
-            @apply hidden;
-        }
-        &::before {
-            content: attr(data-label);
-            @apply font-medium text-gray-400;
-        }
-        &:not(.colon-label)::before {
-            @apply block;
-        }
-    }
-    td[data-label="Employer"],
-    td[data-label="Birth Date"],
-    td[data-label="Term Date"],
-    td[data-label="Address"] {
-        @apply block;
-    }
-    td[data-label="SSN"],
-    td[data-label="Gender"],
-    td[data-label="Disabled"],
-    td[data-label="Verified"],
-    td[data-label="Relation"],
-    td[data-label="Age"] {
-        @apply inline;
-        &::before {
-            content: attr(data-label) ':';
-            @apply pr-1 inline;
-        }
-    }
-    .td-mobile-right {
-        @apply text-right;
-    }
-    @media (min-width: 768px) {
-        &.resp-md {
-            @apply block md:table md:w-full md:table-fixed md:bg-white rounded-lg shadow-lg;
-            thead {
-                @apply md:table-header-group;
-            }
-            tr {
-                @apply md:table-cell md:table-row md:mb-0 md:bg-transparent md:shadow-none md:rounded-none;
-            }
-            th {
-                @apply md:table-cell;
-            }
-            td {
-                @apply md:!table-cell md:px-6 md:py-4 md:whitespace-nowrap;
-                &.colon-label {
-                    @apply md:justify-between;
-                }
-                &[data-label="Employer"] > br {
-                    @apply md:inline-block;
-                }
-                &::before {
-                    @apply md:hidden;
-                }
-                
-            }
-            tbody {
-                @apply block md:table-row-group;
-            }
-            td[data-label="Employer"],
-            td[data-label="Birth Date"],
-            td[data-label="Term Date"],
-            td[data-label="Address"] {
-                @apply block;
-            }
-            .td-mobile-right {
-                @apply md:text-left;
-            }
-        }
-    }
-    @media (min-width: 1024px) {
-        &.resp-lg {
-            @apply block lg:table lg:w-full lg:table-fixed lg:bg-white rounded-lg shadow-lg;
-            thead {
-                @apply lg:table-header-group;
-            }
-            tr {
-                @apply lg:table-cell lg:table-row lg:mb-0 lg:bg-transparent lg:shadow-none lg:rounded-none;
-            }
-            th {
-                @apply lg:table-cell;
-            }
-            td {
-                @apply lg:table-cell lg:px-6 lg:py-4 lg:whitespace-nowrap;
-                &.colon-label {
-                    @apply lg:justify-between;
-                }
-                &[data-label="Employer"] > br {
-                    @apply lg:inline-block;
-                }   
-                &::before {
-                    @apply lg:hidden;
-                }                             
-            }
-            tbody {
-                @apply block lg:table-row-group;
-            }
-            .td-mobile-right {
-                @apply lg:text-left;
-            }
-        }
-    }
-  }
+  /* 2. Card‐style (mobile/tablet) grids are defined inline via Tailwind classes,
+         so you can remove the old .responsive-table block entirely. */
 }

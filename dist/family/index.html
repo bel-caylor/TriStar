@@ -187,69 +187,147 @@
   <div class="flex items-center justify-end mb-4">
     <button
       type="button"
-      class="inline-flex items-center px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+      class="inline-flex items-center px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-md
+             hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
       @click="openAdd()"
     >
       Add a New Family Member
     </button>
   </div>
 
-  <div class="overflow-x-visible bg-gray-100">
-    <table class="responsive-table resp-lg">
-      <thead class="hidden xl:table-header-group">
-        <tr>
-          <th class="th-cell">Name</th>
-          <th class="th-cell">SSN</th>
-          <th class="th-cell">Relation</th>
-          <th class="th-cell">Birth Date</th>
-          <th class="th-cell">Age</th>
-          <th class="th-cell">Gender</th>
-          <th class="th-cell">Disabled</th>
-          <th class="th-cell">Verified</th>
-          <th class="th-cell">Term Date</th>
+  
+  
+  
+  <div class="lg:hidden space-y-4">
+    <!-- Alpine loop: one “card” per family member -->
+    <template x-for="member in familyMembers" :key="member.id">
+      <div class="grid grid-cols-2 gap-x-4 gap-y-1 p-4 bg-white shadow rounded-lg">
+        <!-- Name -->
+        <div class="font-medium text-gray-400">Name</div>
+        <div>
+          <a
+            href="#"
+            @click.prevent="openEdit(member.id)"
+            class="text-indigo-600 hover:text-indigo-800"
+          >
+            <span x-text="`${member.lastName}, ${member.firstName}`"></span>
+          </a>
+        </div>
+
+        <!-- SSN -->
+        <div class="font-medium text-gray-400">SSN</div>
+        <div x-text="member.ssn"></div>
+
+        <!-- Relation -->
+        <div class="font-medium text-gray-400">Relation</div>
+        <div x-text="member.relation"></div>
+
+        <!-- Birth Date -->
+        <div class="font-medium text-gray-400">Birth Date</div>
+        <div x-text="member.birthDate"></div>
+
+        <!-- Age -->
+        <div class="font-medium text-gray-400">Age</div>
+        <div x-text="member.age"></div>
+
+        <!-- Gender -->
+        <div class="font-medium text-gray-400">Gender</div>
+        <div x-text="member.gender"></div>
+
+        <!-- Disabled -->
+        <div class="font-medium text-gray-400">Disabled</div>
+        <div x-text="member.disabled ? 'Yes' : 'No'"></div>
+
+        <!-- Verified -->
+        <div class="font-medium text-gray-400">Verified</div>
+        <div x-text="member.verified ? 'Yes' : 'No'"></div>
+
+        <!-- Term Date -->
+        <div class="font-medium text-gray-400">Term Date</div>
+        <div x-text="member.termDate || '-'"></div>
+      </div>
+    </template>
+
+    <!-- Alpine empty‐state: show when no familyMembers -->
+    <template x-if="!familyMembers || familyMembers.length === 0">
+      <div class="p-4 bg-white shadow rounded-lg text-center text-gray-500">
+        No family members found.
+      </div>
+    </template>
+  </div>
+
+  
+  
+  
+  <div class="hidden lg:block overflow-x-auto bg-gray-100 rounded-lg shadow">
+    <table class="min-w-full divide-y divide-gray-200">
+      <thead class="bg-gray-50">
+        <tr class="text-left text-xs font-medium text-gray-500 tracking-wider">
+          <th class="px-6 py-3">Name</th>
+          <th class="px-6 py-3">SSN</th>
+          <th class="px-6 py-3">Relation</th>
+          <th class="px-6 py-3">Birth Date</th>
+          <th class="px-6 py-3">Age</th>
+          <th class="px-6 py-3">Gender</th>
+          <th class="px-6 py-3">Disabled</th>
+          <th class="px-6 py-3">Verified</th>
+          <th class="px-6 py-3">Term Date</th>
         </tr>
       </thead>
+      <tbody class="bg-white divide-y divide-gray-200">
+        <!-- Alpine loop for table rows -->
+        <template x-for="member in familyMembers" :key="member.id">
+          <tr class="hover:bg-gray-50">
+            <!-- Name -->
+            <td class="px-6 py-4 text-sm text-gray-900 whitespace-nowrap">
+              <a
+                href="#"
+                @click.prevent="openEdit(member.id)"
+                class="text-indigo-600 hover:text-indigo-800"
+              >
+                <span x-text="`${member.lastName}, ${member.firstName}`"></span>
+              </a>
+            </td>
 
-      <tbody class="tbody-base xl:table-row-group">
-        <template x-if="familyMembers && familyMembers.length > 0">
-          <template x-for="member in familyMembers" :key="member.id">
-            <tr class="grid-rows-5 [grid-template-rows:30px_15px_15px_30px_30px]">
-              <td class="td-cell no-label col-start-1 row-start-1" data-label="Name">
-                <a href="#" @click.prevent="openEdit(member.id)" class="text-indigo-600 hover:text-indigo-800">
-                  <span class="text-xl lg:text-sm" x-text="`${member.lastName}, ${member.firstName}`"></span>
-                </a>
-              </td>
+            <!-- SSN -->
+            <td class="px-6 py-4 text-sm text-gray-900 whitespace-nowrap" x-text="member.ssn"></td>
 
-              <!-- SSN -->
-              <td class="td-cell col-start-2 row-start-1 colon-label !inline-flex items-center !justify-start" data-label="SSN" x-text="member.ssn"></td>
+            <!-- Relation -->
+            <td class="px-6 py-4 text-sm text-gray-900 whitespace-nowrap" x-text="member.relation"></td>
 
-              <!-- Relation -->
-              <td class="td-cell col-start-1 row-start-2" data-label="Relation" x-text="member.relation"></td>
+            <!-- Birth Date -->
+            <td class="px-6 py-4 text-sm text-gray-900 whitespace-nowrap" x-text="member.birthDate"></td>
 
-              <!-- Birth Date -->
-              <td class="td-cell col-start-1 row-start-4" data-label="Birth Date" x-text="member.birthDate"></td>
+            <!-- Age -->
+            <td class="px-6 py-4 text-sm text-gray-900 whitespace-nowrap" x-text="member.age"></td>
 
-              <!-- Age -->
-              <td class="td-cell col-start-1 row-start-5" data-label="Age" x-text="member.age"></td>
+            <!-- Gender -->
+            <td class="px-6 py-4 text-sm text-gray-900 whitespace-nowrap" x-text="member.gender"></td>
 
-              <!-- Gender -->
-              <td class="td-cell col-start-1 row-start-3" data-label="Gender" x-text="member.gender"></td>
+            <!-- Disabled -->
+            <td
+              class="px-6 py-4 text-sm text-gray-900 whitespace-nowrap"
+              x-text="member.disabled ? 'Yes' : 'No'"
+            ></td>
 
-              <!-- Disabled -->
-              <td class="td-cell col-start-2 row-start-2" data-label="Disabled" x-text="member.disabled ? 'Yes' : 'No'"></td>
+            <!-- Verified -->
+            <td
+              class="px-6 py-4 text-sm text-gray-900 whitespace-nowrap"
+              x-text="member.verified ? 'Yes' : 'No'"
+            ></td>
 
-              <!-- Verified -->
-              <td class="td-cell col-start-2 row-start-3" data-label="Verified" x-text="member.verified ? 'Yes' : 'No'"></td>
-
-              <!-- Term Date -->
-              <td class="td-cell col-start-2 row-start-4" data-label="Term Date" x-text="member.termDate || '-'"></td>
-            </tr>
-          </template>
+            <!-- Term Date -->
+            <td
+              class="px-6 py-4 text-sm text-gray-900 whitespace-nowrap"
+              x-text="member.termDate || '-'"
+            ></td>
+          </tr>
         </template>
 
+        <!-- Alpine empty‐state inside table -->
         <template x-if="!familyMembers || familyMembers.length === 0">
-          <tr class="tr-empty">
-            <td class="td-empty" colspan="9">
+          <tr>
+            <td colspan="9" class="px-6 py-4 text-sm text-gray-500 text-center">
               No family members found.
             </td>
           </tr>
@@ -258,6 +336,7 @@
     </table>
   </div>
 </section>
+
   
 
 <div 
