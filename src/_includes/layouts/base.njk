@@ -35,7 +35,7 @@
     {% include "components/sidebar-nav.njk" %}
 
     {# ─── Main content (fills remaining space) ────────────────────────── #}
-    <main class="ml-20 mt-[70px] px-3 pt-3 w-full">
+    <main class="ml-20 mt-[70px] px-3 pt-3 w-full print:mt-0 print:ml-0">
       {{ content | safe }}
     </main>
 

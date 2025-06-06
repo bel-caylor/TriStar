@@ -6,7 +6,7 @@ module.exports = function(eleventyConfig) {
   eleventyConfig.addPassthroughCopy("src/js");
   eleventyConfig.addPassthroughCopy("src/img");
   eleventyConfig.addPassthroughCopy({ "src/_data/employees.json": "employees.json" });
-  eleventyConfig.addPassthroughCopy({ "src/_data/familyMembers.json": "familyMembers.json" });
+  eleventyConfig.addPassthroughCopy({ "src/_data/employee.json": "employee.json" });
 
   eleventyConfig.addWatchTarget("dist/style.css");
   eleventyConfig.setBrowserSyncConfig({

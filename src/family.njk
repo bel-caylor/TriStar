@@ -15,30 +15,35 @@ layout: layouts/base.njk
   {% include "components/family-table-responsive.njk" %}
   {% include "components/family-edit-modal.njk" %}
 
+</div>
+
 <script>
   function familyTableComponent() {
     return {
       // ─── State ────────────────────────────────────────────────
-      familyMembers: [],       // our array of family objects
-      editingMember: {},       // the member we’re currently editing
-      showModal: false,        // controls modal visibility
-      isEdit: false,           // “Add” vs “Edit” mode
+      employee: {},           // the full employee object (including familyMembers)
+      familyMembers: [],      // alias for employee.familyMembers
+      editingMember: {},      // the member we’re currently editing
+      showModal: false,       // controls modal visibility
+      isEdit: false,          // “Add” vs “Edit” mode
 
-      // ─── Initialization (called by x-init="init()") ──────────
+      // ─── Initialization ────────────────────────────────────────
       async loadData() {
         try {
-          // If you want Eleventy to inject employees via Nunjucks, you could do:
-          // this.employees = {{ collections.employees | safe }};
-          const res = await fetch("/familyMembers.json");
-          if (!res.ok) throw new Error("Could not load family.json");
-          this.familyMembers = await res.json();
-          console.log(this.familyMembers);
+          // Fetch the full employee‐level JSON (which contains a nested familyMembers array)
+          const res = await fetch("/employee.json");
+          if (!res.ok) throw new Error("Could not load employee.json");
+
+          const data = await res.json();
+          this.employee = data;
+          // Copy out just the nested array, so templates can still use `familyMembers`
+          this.familyMembers = Array.isArray(data.familyMembers) ? data.familyMembers : [];
         } catch (err) {
-          console.error(err);
+          console.error("Error loading data:", err);
         }
       },
 
-      // ─── Called by the “Add” button in the table ──────────────
+      // ─── Modal controls ─────────────────────────────────────────
       openAdd() {
         this.isEdit = false;
         this.editingMember = {
@@ -49,9 +54,8 @@ layout: layouts/base.njk
           suffix: "",
           ssn: "",
           birthDate: "",
-          relation: "Spouse",
-          age: "",
-          gender: "Male",
+          relation: "",
+          gender: "",
           disabled: false,
           verified: false,
           termDate: ""
@@ -59,36 +63,36 @@ layout: layouts/base.njk
         this.showModal = true;
       },
 
-      // ─── Called by the “Edit” button for a given row ─────────
-      openEdit(memberId) {
-        const found = this.familyMembers.find(m => m.id === memberId);
-        if (!found) return;
+      openEdit(member) {
         this.isEdit = true;
-        this.editingMember = JSON.parse(JSON.stringify(found));
+        // Deep‐clone to avoid mutating the live array until Save
+        this.editingMember = JSON.parse(JSON.stringify(member));
         this.showModal = true;
       },
 
-      // ─── Close the modal ──────────────────────────────────────
       closeModal() {
         this.showModal = false;
       },
 
-      // ─── Save the member (Add or Edit) ───────────────────────
       saveMember() {
         if (this.isEdit) {
-          // Update existing
+          // Replace the edited member in place
           const idx = this.familyMembers.findIndex(m => m.id === this.editingMember.id);
           if (idx !== -1) {
             this.familyMembers.splice(idx, 1, JSON.parse(JSON.stringify(this.editingMember)));
           }
         } else {
-          // Add new (generate a timestamp‐based ID)
+          // Assign a fresh ID (timestamp‐based) and push
           const newId = Date.now().toString();
           this.editingMember.id = newId;
           this.editingMember.verified = false;
           this.familyMembers.push(JSON.parse(JSON.stringify(this.editingMember)));
         }
         this.closeModal();
+      },
+
+      removeMember(id) {
+        this.familyMembers = this.familyMembers.filter(m => m.id !== id);
       }
     };
   }

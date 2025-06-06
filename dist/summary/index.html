@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Summary</title>
+  <title>Benefit Enrollment Summary</title>
   <link href="/style.css" rel="stylesheet">
   <link
     rel="stylesheet"
@@ -26,7 +26,7 @@
   "
   …
 >
-  <header class="z-40 bg-white text-textDark text-shadow-md border-b fixed inset-0 h-[70px]">
+  <header class="z-40 bg-white text-textDark text-shadow-md border-b fixed inset-0 h-[70px] print:hidden">
   <div class="flex items-center justify-between px-4 py-3 md:px-6 md:py-4">
     <!-- ────── 2.1. Hamburger (mobile) ────── -->
     <button
@@ -57,7 +57,7 @@
 
     <!-- ────── 2.3. Page Title (always visible) ────── -->
     <div class="flex-1 text-center md:text-left">
-      <span class="text-lg font-semibold">Summary</span>
+      <span class="text-lg font-semibold">Benefit Enrollment Summary</span>
     </div>
 
     <!-- ────── 2.4. Avatar or Other Controls (always visible) ────── -->
@@ -94,7 +94,7 @@
   x-transition:leave-start="opacity-100 transform translate-x-0"
   x-transition:leave-end="opacity-0 transform -translate-x-4"
   @click.away="sidebarOpen = false"
-  class="w-20 bg-white border-r border-gray-200 h-screen flex flex-col items-center py-4 fixed top-[70px] left-0">
+  class="w-20 bg-white border-r border-gray-200 h-screen flex flex-col items-center py-4 fixed top-[70px] left-0 print:hidden">
   <nav class="flex-1">
     <ul class="flex flex-col items-center space-y-6">
 
@@ -172,10 +172,238 @@
 
 
     
-    <main class="ml-20 mt-[70px] px-3 pt-3 w-full">
-      <section class="text-center py-20">
-  <h1 class="text-4xl font-bold mb-4">Summary</h1>
-</section>
+    <main class="ml-20 mt-[70px] px-3 pt-3 w-full print:mt-0 print:ml-0">
+      
+<div x-data="summaryComponent()" x-init="loadData()" class="p-6 bg-white text-gray-900">
+
+  <!-- ────── Page Header ────── -->
+  <div class="flex items-center justify-between mb-6 print:mb-4">
+    <h1 class="text-2xl font-semibold">Benefit Enrollment Summary</h1>
+    <div class="text-sm text-gray-600">
+      <span x-text="formattedDate"></span>
+    </div>
+  </div>
+
+  <!-- ────── Employee Info ────── -->
+  <section class="mb-8">
+    <div class="grid grid-cols-1 md:grid-cols-2 print:grid-cols-2 gap-4">
+      <!-- Left column: Name & Address -->
+      <div>
+        <div class="font-medium">Sally Sample</div>
+        <div x-text="`${employee.address1}`"></div>
+        <div x-text="`${employee.city}, ${employee.state} ${employee.zipCode}`"></div>
+        <div class="mt-2 text-sm text-gray-600">
+          <span class="font-medium">Birth Date:</span>
+          <span x-text="formatDate(employee.birthDate)"></span>
+        </div>
+      </div>
+
+      <!-- Right column: Plan & Employer Details -->
+      <div>
+        <div class="text-sm text-gray-600 mb-1">
+          <span class="font-medium">Plan Year:</span>
+          <span x-text="planYear"></span>
+        </div>
+        <div class="text-sm text-gray-600 mb-1">
+          <span class="font-medium">Account:</span>
+          <span x-text="accountNumber"></span>
+        </div>
+        <div class="text-sm text-gray-600 mb-1">
+          <span class="font-medium">Employer:</span>
+          <span x-text="employee.employer"></span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ────── Family Section ────── -->
+  <section class="mb-8">
+    <h2 class="text-xl font-semibold mb-4">Family</h2>
+    <div class="overflow-x-auto">
+      <table class="min-w-full divide-y divide-gray-300 border border-gray-200">
+        <thead class="bg-gray-100 print:bg-gray-200">
+          <tr class="text-left text-sm font-medium text-gray-700 uppercase">
+            <th class="px-4 py-2">Name</th>
+            <th class="px-4 py-2">Relation</th>
+            <th class="px-4 py-2">Gender</th>
+            <th class="px-4 py-2">SSN</th>
+            <th class="px-4 py-2">Birth Date</th>
+          </tr>
+        </thead>
+        <tbody class="bg-white divide-y divide-gray-200">
+          <template x-for="member in employee.familyMembers" :key="member.id">
+            <tr>
+              <td class="px-4 py-2 text-sm text-gray-900" x-text="`${member.lastName}, ${member.firstName}`"></td>
+              <td class="px-4 py-2 text-sm text-gray-900" x-text="member.relation"></td>
+              <td class="px-4 py-2 text-sm text-gray-900" x-text="member.gender"></td>
+              <td class="px-4 py-2 text-sm text-gray-900" x-text="member.ssn"></td>
+              <td class="px-4 py-2 text-sm text-gray-900" x-text="formatDate(member.birthDate)"></td>
+            </tr>
+          </template>
+          <template x-if="!employee.familyMembers || employee.familyMembers.length === 0">
+            <tr>
+              <td colspan="5" class="px-4 py-4 text-center text-sm text-gray-500">
+                No family members found.
+              </td>
+            </tr>
+          </template>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ────── Beneficiaries Section ────── -->
+  <section class="mb-8">
+    <h2 class="text-xl font-semibold mb-4">Beneficiaries</h2>
+    <div class="overflow-x-auto">
+      <table class="min-w-full divide-y divide-gray-300 border border-gray-200">
+        <thead class="bg-gray-100 print:bg-gray-200">
+          <tr class="text-left text-sm font-medium text-gray-700 uppercase">
+            <th class="px-4 py-2">Type</th>
+            <th class="px-4 py-2">Name</th>
+            <th class="px-4 py-2">SSN</th>
+            <th class="px-4 py-2">Relationship</th>
+            <th class="px-4 py-2">Percent</th>
+          </tr>
+        </thead>
+        <tbody class="bg-white divide-y divide-gray-200">
+          <template x-for="ben in employee.beneficiaries" :key="ben.id">
+            <tr>
+              <td class="px-4 py-2 text-sm text-gray-900" x-text="ben.type"></td>
+              <td class="px-4 py-2 text-sm text-gray-900" x-text="ben.name"></td>
+              <td class="px-4 py-2 text-sm text-gray-900" x-text="ben.ssn"></td>
+              <td class="px-4 py-2 text-sm text-gray-900" x-text="ben.relationship"></td>
+              <td class="px-4 py-2 text-sm text-gray-900" x-text="`${ben.percent}%`"></td>
+            </tr>
+          </template>
+          <template x-if="!employee.beneficiaries || employee.beneficiaries.length === 0">
+            <tr>
+              <td colspan="5" class="px-4 py-4 text-center text-sm text-gray-500">
+                No beneficiaries found.
+              </td>
+            </tr>
+          </template>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ────── Benefit Elections Section ────── -->
+  <section class="mb-8">
+    <h2 class="text-xl font-semibold mb-4">Benefit Elections</h2>
+    <div class="overflow-x-auto">
+      <table class="min-w-full divide-y divide-gray-300 border border-gray-200">
+        <thead class="bg-gray-100 print:bg-gray-200">
+          <tr class="text-left text-sm font-medium text-gray-700 uppercase">
+            <th class="px-4 py-2">Benefit</th>
+            <th class="px-4 py-2">Option</th>
+            <th class="px-4 py-2">Coverage</th>
+            <th class="px-4 py-2 text-right">Cost Per Pay Period</th>
+          </tr>
+        </thead>
+        <tbody class="bg-white divide-y divide-gray-200">
+          <template x-for="ben in employee.benefits" :key="ben.change">
+            <tr>
+              <td class="px-4 py-2 text-sm text-gray-900" x-text="ben.change"></td>
+              <td class="px-4 py-2 text-sm text-gray-900" x-text="ben.benefit"></td>
+              <td class="px-4 py-2 text-sm text-gray-900" x-text="ben.coverage"></td>
+              <td class="px-4 py-2 text-sm text-gray-900 text-right" x-text="formatCurrency(ben.costPerPayPeriod)"></td>
+            </tr>
+          </template>
+          <template x-if="!employee.benefits || employee.benefits.length === 0">
+            <tr>
+              <td colspan="4" class="px-4 py-4 text-center text-sm text-gray-500">
+                No benefit elections found.
+              </td>
+            </tr>
+          </template>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Total Row -->
+    <div class="mt-4 flex justify-end">
+      <div class="text-right">
+        <div class="text-sm text-gray-700 font-medium">Total Cost Per Pay Period</div>
+        <div class="text-lg font-semibold" x-text="formatCurrency(totalCost)"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ────── Print Button ────── -->
+  <div class="text-center print:hidden">
+    <button
+      @click="window.print()"
+      class="inline-flex items-center px-4 py-2 bg-gray-800 text-white text-sm font-medium rounded-md
+             hover:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-700"
+    >
+      Print
+    </button>
+  </div>
+</div>
+
+<script>
+  function summaryComponent() {
+    return {
+      employee: {
+        familyMembers: [],
+        beneficiaries: [],
+        benefits: [],
+        employer: ""
+      },
+      formattedDate: "",
+      planYear: "01/01/2025 - 12/31/2025",      // hardcoded or replace with dynamic value if available
+      accountNumber: "1371024",                  // hardcoded or replace with dynamic value if available
+      totalCost: 0,
+
+      // Fetch employee.json and initialize data
+      async loadData() {
+        try {
+          const res = await fetch("/employee.json");
+          if (!res.ok) throw new Error("Could not load employee.json");
+          const data = await res.json();
+          this.employee = data;
+
+          // Compute total cost
+          this.totalCost = data.benefits
+            .reduce((sum, b) => sum + parseFloat(b.costPerPayPeriod || 0), 0);
+
+          // Set formatted date/time for header
+          const now = new Date();
+          const yyyy = now.getFullYear();
+          const mm = String(now.getMonth() + 1).padStart(2, "0");
+          const dd = String(now.getDate()).padStart(2, "0");
+          const hh = String(now.getHours()).padStart(2, "0");
+          const mi = String(now.getMinutes()).padStart(2, "0");
+          const ss = String(now.getSeconds()).padStart(2, "0");
+          this.formattedDate = `${mm}/${dd}/${yyyy} ${hh}:${mi}:${ss} AM`;
+        } catch (err) {
+          console.error(err);
+        }
+      },
+
+      // Format ISO date to MM/DD/YYYY
+      formatDate(iso) {
+        if (!iso) return "-";
+        const d = new Date(iso);
+        const mm = String(d.getMonth() + 1).padStart(2, "0");
+        const dd = String(d.getDate()).padStart(2, "0");
+        const yyyy = d.getFullYear();
+        return `${mm}/${dd}/${yyyy}`;
+      },
+
+      // Format number to currency (USD)
+      formatCurrency(value) {
+        const num = parseFloat(value || 0);
+        return num.toLocaleString("en-US", {
+          style: "currency",
+          currency: "USD",
+          minimumFractionDigits: 2
+        });
+      }
+    };
+  }
+</script>
 
     </main>
 
