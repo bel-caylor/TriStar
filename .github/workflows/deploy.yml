@@ -1,18 +1,39 @@
 name: Deploy to GitHub Pages
+
+# 1) Ensure the token has content-write & pages-write
+permissions:
+  contents: write    # for pushing code
+  pages: write       # for updating GitHub Pages
+
 on:
   push:
-    branches: [ main ]
+    branches:
+      - main
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
+
     steps:
-      - uses: actions/checkout@v2
+      # 2) Checkout entire history, keep credentials so pushes work
+      - name: Checkout repository
+        uses: actions/checkout@v3
         with:
-          fetch-depth: 0 
+          fetch-depth: 0
           persist-credentials: true
-      - name: Deploy dist folder
+
+      # 3) (Optional) If you have a build step, do it here:
+      #- name: Install & build
+      #  run: |
+      #    npm ci
+      #    npm run build    # <-- make sure this writes into ./dist
+
+      # 4) Deploy dist/, allow an empty commit so we don’t error if there’s no change
+      - name: Deploy to gh-pages
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_branch: gh-pages
           publish_dir: ./dist
+          publish_branch: gh-pages
+          # ensure it won’t fail if dist is empty or unchanged
+          allow_empty_commit: true
