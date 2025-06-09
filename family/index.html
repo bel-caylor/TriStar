@@ -1,0 +1,726 @@
+<!DOCTYPE html>
+<html lang="en" class="bg-white text-zinc-900 dark:bg-zinc-900 dark:text-white">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Family</title>
+  <link href="/style.css" rel="stylesheet">
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+    crossorigin="anonymous"
+  />
+</head>
+
+<body class="min-h-screen flex flex-col">
+  <div
+    x-data="{
+      // start closed on screens smaller than 768px
+      sidebarOpen: window.innerWidth >= 768
+    }"
+    x-init="
+      // whenever the window is resized, re‐evaluate
+      window.addEventListener('resize', () => {
+        sidebarOpen = (window.innerWidth >= 768)
+      })
+    "
+    class="flex flex-col flex-1"
+  >
+    <header class="sticky top-0 z-40 w-full bg-white text-textDark text-shadow-md border-b h-[70px] print:hidden">
+  <div class="flex items-center justify-between px-4 py-3 md:px-6 md:py-4">
+    <!-- ────── 2.1. Hamburger (mobile) ────── -->
+    <button
+      @click="sidebarOpen = true"
+      class="md:hidden p-2 rounded-md hover:bg-white/20 focus:outline-none focus:ring-2 focus:ring-white"
+      aria-label="Open sidebar"
+    >
+      <!-- Heroicon “Menu” -->
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        class="h-6 w-6"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor"
+      >
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+      </svg>
+    </button>
+
+    <!-- ────── 2.2. Logo ────── -->
+    <div class="flex-1">
+      <img
+        src="/img/tri-star-logo-orange.png"
+        alt="Tri Star Logo"
+        class="h-8 w-auto mb-0"
+      />
+    </div>
+
+    <!-- ────── 2.3. Page Title (always visible) ────── -->
+    <div class="flex-1 text-center md:text-left">
+      <span class="text-lg font-semibold">Family</span>
+    </div>
+
+    <!-- ────── 2.4. Avatar or Other Controls (always visible) ────── -->
+    <div class="flex items-center space-x-4">
+      <!-- Notification Bell (hidden on very small if you wish) -->
+      <button class="hidden sm:inline-flex p-1 rounded-full hover:bg-white/20 focus:outline-none focus:ring-2 focus:ring-white" aria-label="Notifications">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11c0-3.07-1.64-5.64-4.5-6.32V4a1.5 1.5 0 10-3 0v.68C7.64 5.36 6 7.929 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
+        </svg>
+      </button>
+      <!-- Avatar -->
+      <div class="h-10 w-10 rounded-full bg-gray-200 flex items-center justify-center overflow-hidden">
+        <i class="fas fa-user text-gray-400"></i>
+      </div>
+    </div>
+  </div>
+</header>
+
+
+    <div class="flex flex-1 overflow-hidden">
+      <!-- Sidebar -->
+      <aside
+        class="transition-all duration-300 ease-in-out bg-white border-r border-gray-200"
+      >
+        
+
+
+<aside 
+  x-show="sidebarOpen"
+  x-transition:enter="transition ease-out duration-200"
+  x-transition:enter-start="opacity-0 transform -translate-x-4"
+  x-transition:enter-end="opacity-100 transform translate-x-0"
+  x-transition:leave="transition ease-in duration-150"
+  x-transition:leave-start="opacity-100 transform translate-x-0"
+  x-transition:leave-end="opacity-0 transform -translate-x-4"
+  @click.outside="
+    if ($event.target.closest('#edit-modal')) return;
+    sidebarOpen = false
+  class="w-20 bg-white border-r border-gray-200 h-screen flex flex-col items-center py-4 fixed top-[70px] left-0 print:hidden">
+  <nav class="flex-1">
+    <ul class="flex flex-col items-center space-y-6 py-4 px-1">
+
+      
+  <li class="min-h-12">
+    <a
+      href="/personal/"
+      class="flex flex-col items-center text-gray-500 hover:text-gray-800"
+    >
+      <i class="fas fa-user text-xl"></i>
+      <span class="mt-1 text-xs">Personal</span>
+    </a>
+  </li>
+
+      
+  <li class="min-h-12">
+    <a
+      href="/family/"
+      class="flex flex-col items-center text-gray-500 hover:text-gray-800"
+    >
+      <i class="fas fa-home text-xl"></i>
+      <span class="mt-1 text-xs">Family</span>
+    </a>
+  </li>
+
+      
+  <li class="min-h-12">
+    <a
+      href="/benefits/"
+      class="flex flex-col items-center text-gray-500 hover:text-gray-800"
+    >
+      <i class="fas fa-notes-medical text-xl"></i>
+      <span class="mt-1 text-xs">Benefits</span>
+    </a>
+  </li>
+
+      
+  <li class="min-h-12">
+    <a
+      href="/beneficiaries/"
+      class="flex flex-col items-center text-gray-500 hover:text-gray-800"
+    >
+      <i class="fas fa-hand-holding-usd text-xl"></i>
+      <span class="mt-1 text-xs">Beneficiaries</span>
+    </a>
+  </li>
+
+      
+  <li class="min-h-12">
+    <a
+      href="/summary/"
+      class="flex flex-col items-center text-gray-500 hover:text-gray-800"
+    >
+      <i class="fas fa-table text-xl"></i>
+      <span class="mt-1 text-xs">Summary</span>
+    </a>
+  </li>
+
+      
+  <li class="min-h-12">
+    <a
+      href="/upload/"
+      class="flex flex-col items-center text-gray-500 hover:text-gray-800"
+    >
+      <i class="fas fa-upload text-xl"></i>
+      <span class="mt-1 text-xs">Upload</span>
+    </a>
+  </li>
+
+
+    </ul>
+  </nav>
+</aside>
+
+
+      </aside>
+
+      <!-- Main Content -->
+      <main
+        class="w-full px-3 pt-3 overflow-auto print:mt-0 print:ml-0 transition-all duration-300 ease-in-out"
+        
+      >
+        
+<div 
+  x-data="familyTableComponent()" 
+  x-init="loadData()" 
+  class="page-container mx-auto px-4"
+>
+  <header class="page-header">
+    <h1 class="page-title">Family</h1>
+    <p class="page-desc">
+      Edit as needed, or leave it alone if all looks in order.
+    </p>
+  </header>
+
+  <div class="family-section">
+    <section class="">
+  <div class="flex items-center justify-end mb-4">
+    <button
+      type="button"
+      class="inline-flex items-center px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-md
+             hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+      @click="openAdd()"
+    >
+      Add a New Family Member
+    </button>
+  </div>
+
+  
+  
+  
+  <div class="lg:hidden space-y-4">
+    <!-- Alpine loop: one “card” per family member -->
+    <template x-for="member in familyMembers" :key="member.id">
+      <div class="grid grid-cols-2 gap-x-4 gap-y-1 p-4 bg-white shadow rounded-lg">
+        <!-- Name -->
+        <div class="font-medium text-gray-400">Name</div>
+        <div>
+          <a
+            href="#"
+            @click.prevent="openEdit(member.id)"
+            class="text-indigo-600 hover:text-indigo-800"
+          >
+            <span x-text="`${member.lastName}, ${member.firstName}`"></span>
+          </a>
+        </div>
+
+        <!-- SSN -->
+        <div class="font-medium text-gray-400">SSN</div>
+        <div x-text="member.ssn"></div>
+
+        <!-- Relation -->
+        <div class="font-medium text-gray-400">Relation</div>
+        <div x-text="member.relation"></div>
+
+        <!-- Birth Date -->
+        <div class="font-medium text-gray-400">Birth Date</div>
+        <div x-text="member.birthDate"></div>
+
+        <!-- Age -->
+        <div class="font-medium text-gray-400">Age</div>
+        <div x-text="member.age"></div>
+
+        <!-- Gender -->
+        <div class="font-medium text-gray-400">Gender</div>
+        <div x-text="member.gender"></div>
+
+        <!-- Disabled -->
+        <div class="font-medium text-gray-400">Disabled</div>
+        <div x-text="member.disabled ? 'Yes' : 'No'"></div>
+
+        <!-- Verified -->
+        <div class="font-medium text-gray-400">Verified</div>
+        <div x-text="member.verified ? 'Yes' : 'No'"></div>
+
+        <!-- Term Date -->
+        <div class="font-medium text-gray-400">Term Date</div>
+        <div x-text="member.termDate || '-'"></div>
+      </div>
+    </template>
+
+    <!-- Alpine empty‐state: show when no familyMembers -->
+    <template x-if="!familyMembers || familyMembers.length === 0">
+      <div class="p-4 bg-white shadow rounded-lg text-center text-gray-500">
+        No family members found.
+      </div>
+    </template>
+  </div>
+
+  
+  
+  
+  <div class="hidden lg:block overflow-x-auto bg-gray-100 rounded-lg shadow">
+    <table class="min-w-full divide-y divide-gray-200">
+      <thead class="bg-gray-50">
+        <tr class="text-left text-xs font-medium text-gray-500 tracking-wider">
+          <th class="px-6 py-3">Name</th>
+          <th class="px-6 py-3">SSN</th>
+          <th class="px-6 py-3">Relation</th>
+          <th class="px-6 py-3">Birth Date</th>
+          <th class="px-6 py-3">Age</th>
+          <th class="px-6 py-3">Gender</th>
+          <th class="px-6 py-3">Disabled</th>
+          <th class="px-6 py-3">Verified</th>
+          <th class="px-6 py-3">Term Date</th>
+        </tr>
+      </thead>
+      <tbody class="bg-white divide-y divide-gray-200">
+        <!-- Alpine loop for table rows -->
+        <template x-for="member in familyMembers" :key="member.id">
+          <tr class="hover:bg-gray-50">
+            <!-- Name -->
+            <td class="px-6 py-4 text-sm text-gray-900 whitespace-nowrap">
+              <a
+                href="#"
+                @click.prevent="openEdit(member.id)"
+                class="text-indigo-600 hover:text-indigo-800"
+              >
+                <span x-text="`${member.lastName}, ${member.firstName}`"></span>
+              </a>
+            </td>
+
+            <!-- SSN -->
+            <td class="px-6 py-4 text-sm text-gray-900 whitespace-nowrap" x-text="member.ssn"></td>
+
+            <!-- Relation -->
+            <td class="px-6 py-4 text-sm text-gray-900 whitespace-nowrap" x-text="member.relation"></td>
+
+            <!-- Birth Date -->
+            <td class="px-6 py-4 text-sm text-gray-900 whitespace-nowrap" x-text="member.birthDate"></td>
+
+            <!-- Age -->
+            <td class="px-6 py-4 text-sm text-gray-900 whitespace-nowrap" x-text="member.age"></td>
+
+            <!-- Gender -->
+            <td class="px-6 py-4 text-sm text-gray-900 whitespace-nowrap" x-text="member.gender"></td>
+
+            <!-- Disabled -->
+            <td
+              class="px-6 py-4 text-sm text-gray-900 whitespace-nowrap"
+              x-text="member.disabled ? 'Yes' : 'No'"
+            ></td>
+
+            <!-- Verified -->
+            <td
+              class="px-6 py-4 text-sm text-gray-900 whitespace-nowrap"
+              x-text="member.verified ? 'Yes' : 'No'"
+            ></td>
+
+            <!-- Term Date -->
+            <td
+              class="px-6 py-4 text-sm text-gray-900 whitespace-nowrap"
+              x-text="member.termDate || '-'"
+            ></td>
+          </tr>
+        </template>
+
+        <!-- Alpine empty‐state inside table -->
+        <template x-if="!familyMembers || familyMembers.length === 0">
+          <tr>
+            <td colspan="9" class="px-6 py-4 text-sm text-gray-500 text-center">
+              No family members found.
+            </td>
+          </tr>
+        </template>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+    
+
+<div 
+  
+  x-show="showModal" 
+  x-transition.opacity 
+  class="fixed inset-0 z-50 overflow-y-auto"
+  style="background-color: rgba(0, 0, 0, 0.5);"
+  aria-labelledby="familyEditModalLabel" 
+  role="dialog" 
+  aria-modal="true"
+>
+  <div class="flex items-center justify-center min-h-screen px-4">
+    <div class="bg-white rounded-lg overflow-hidden shadow-xl transform transition-all sm:max-w-lg w-full">
+      <div class="px-6 py-4">
+        <button @click="closeModal()" class="btn btn-close">
+          <span class="sr-only">Close</span>
+          &times;
+        </button>
+        <div class="flex justify-between items-center mb-4">
+          <h2 class="text-xl font-semibold text-gray-800"
+              id="familyEditModalLabel"
+              x-text="isEdit ? 'Edit Family Member' : 'Add Family Member'">
+          </h2>
+        </div>
+
+        <form @submit.prevent="saveMember()">
+          <div class="grid grid-cols-1 gap-4">
+
+            <!-- First Name (text input) -->
+            <div>
+              
+  <div>
+    <label for="firstName" class="form-label">
+      First Name <span class="field-required">*</span>
+    </label>
+    <input
+      type="text"
+      id="firstName"
+      x-model="editingMember.firstName"
+      class="form-input"
+      placeholder=""
+      required
+    />
+  </div>
+
+            </div>
+
+            <!-- Suffix (text input) -->
+            <div>
+              
+  <div>
+    <label for="suffix" class="form-label">
+      Suffix
+    </label>
+    <input
+      type="text"
+      id="suffix"
+      x-model="editingMember.suffix"
+      class="form-input"
+      placeholder=""
+      
+    />
+  </div>
+
+            </div>
+
+            <!-- Last Name (text input) -->
+            <div>
+              
+  <div>
+    <label for="lastName" class="form-label">
+      Last Name <span class="field-required">*</span>
+    </label>
+    <input
+      type="text"
+      id="lastName"
+      x-model="editingMember.lastName"
+      class="form-input"
+      placeholder=""
+      required
+    />
+  </div>
+
+            </div>
+
+            <!-- Relation (select dropdown) -->
+            <div>
+              
+  <div>
+    <label for="relation" class="form-label">
+      Relation <span class="field-required">*</span>
+    </label>
+    <select
+      id="relation"
+      x-model="editingMember.relation"
+      class="form-select"
+      required
+    >
+      
+        <option value=""></option>
+      
+        <option value=""></option>
+      
+        <option value=""></option>
+      
+    </select>
+  </div>
+
+            </div>
+
+            <!-- Birth Date (date input) -->
+            <div>
+              
+  <div>
+    <label for="birthDate" class="form-label">
+      Birth Date <span class="field-required">*</span>
+    </label>
+    <div class="form-date-wrapper">
+      <input
+        type="date"
+        id="birthDate"
+        x-model="editingMember.birthDate"
+        class="form-input"
+        required
+      />
+      <div class="form-date-icon">
+        <i class="fas fa-calendar-alt"></i>
+      </div>
+    </div>
+  </div>
+
+            </div>
+
+            <!-- Term Date (date input) -->
+            <div>
+              
+  <div>
+    <label for="termDate" class="form-label">
+      Term Date
+    </label>
+    <div class="form-date-wrapper">
+      <input
+        type="date"
+        id="termDate"
+        x-model="editingMember.termDate"
+        class="form-input"
+        
+      />
+      <div class="form-date-icon">
+        <i class="fas fa-calendar-alt"></i>
+      </div>
+    </div>
+  </div>
+
+            </div>
+
+            <div>
+              
+  <div>
+    <label for="ssn" class="form-label">
+      SSN
+    </label>
+    <input
+      type="text"
+      id="ssn"
+      x-model="editingMember.ssn"
+      class="form-input"
+      placeholder=""
+      
+    />
+  </div>
+
+            </div>
+            <div>
+              
+  <div>
+    <span class="form-label">Gender</span>
+    <div class="form-radio-group">
+      
+        <label class="inline-flex items-center">
+          <input
+            type="radio"
+            name="gender"
+            value="Male"
+            x-model="editingMember.gender"
+            class="text-indigo-600 focus:ring-indigo-500 border-gray-300"
+          />
+          <span class="ml-2 text-sm text-gray-700">Male</span>
+        </label>
+      
+        <label class="inline-flex items-center">
+          <input
+            type="radio"
+            name="gender"
+            value="Female"
+            x-model="editingMember.gender"
+            class="text-indigo-600 focus:ring-indigo-500 border-gray-300"
+          />
+          <span class="ml-2 text-sm text-gray-700">Female</span>
+        </label>
+      
+        <label class="inline-flex items-center">
+          <input
+            type="radio"
+            name="gender"
+            value="Unknown"
+            x-model="editingMember.gender"
+            class="text-indigo-600 focus:ring-indigo-500 border-gray-300"
+          />
+          <span class="ml-2 text-sm text-gray-700">Unknown</span>
+        </label>
+      
+    </div>
+  </div>
+
+            </div>
+            <div>
+              
+  <div>
+    <span class="form-label">Disabled</span>
+    <div class="form-radio-group">
+      
+        <label class="inline-flex items-center">
+          <input
+            type="radio"
+            name="isDisabled"
+            value="Yes"
+            x-model="editingMember.isDisabled"
+            class="text-indigo-600 focus:ring-indigo-500 border-gray-300"
+          />
+          <span class="ml-2 text-sm text-gray-700">Yes</span>
+        </label>
+      
+        <label class="inline-flex items-center">
+          <input
+            type="radio"
+            name="isDisabled"
+            value="No"
+            x-model="editingMember.isDisabled"
+            class="text-indigo-600 focus:ring-indigo-500 border-gray-300"
+          />
+          <span class="ml-2 text-sm text-gray-700">No</span>
+        </label>
+      
+    </div>
+  </div>
+
+            </div>
+
+          </div>
+
+          <div class="mt-6 flex justify-end space-x-2">
+            <button type="button" @click="closeModal()" class="btn btn-cancel">Cancel</button>
+            <button type="submit" class="btn btn-submit">Save</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+  </div>
+</div>
+
+
+<script>
+  function familyTableComponent() {
+    return {
+      // ─── State ────────────────────────────────────────────────
+      employee: {},           // the full employee object (including familyMembers)
+      familyMembers: [],      // alias for employee.familyMembers
+      editingMember: {},      // the member we’re currently editing
+      showModal: false,       // controls modal visibility
+      isEdit: false,          // “Add” vs “Edit” mode
+
+      // ─── Initialization ────────────────────────────────────────
+      async loadData() {
+        try {
+          // Fetch the full employee‐level JSON (which contains a nested familyMembers array)
+          const res = await fetch("/employee.json");
+          if (!res.ok) throw new Error("Could not load employee.json");
+
+          const data = await res.json();
+          this.employee = data;
+          // Copy out just the nested array, so templates can still use `familyMembers`
+          this.familyMembers = Array.isArray(data.familyMembers) ? data.familyMembers : [];
+        } catch (err) {
+          console.error("Error loading data:", err);
+        }
+      },
+
+      // ─── Modal controls ─────────────────────────────────────────
+      openAdd() {
+        this.isEdit = false;
+        this.editingMember = {
+          id: "",
+          firstName: "",
+          middleInitial: "",
+          lastName: "",
+          suffix: "",
+          ssn: "",
+          birthDate: "",
+          relation: "",
+          gender: "",
+          disabled: false,
+          verified: false,
+          termDate: ""
+        };
+        this.showModal = true;
+      },
+
+      openEdit(member) {
+        this.isEdit = true;
+        // Deep‐clone to avoid mutating the live array until Save
+        this.editingMember = JSON.parse(JSON.stringify(member));
+        this.showModal = true;
+      },
+
+      closeModal() {
+        this.showModal = false;
+      },
+
+      saveMember() {
+        if (this.isEdit) {
+          // Replace the edited member in place
+          const idx = this.familyMembers.findIndex(m => m.id === this.editingMember.id);
+          if (idx !== -1) {
+            this.familyMembers.splice(idx, 1, JSON.parse(JSON.stringify(this.editingMember)));
+          }
+        } else {
+          // Assign a fresh ID (timestamp‐based) and push
+          const newId = Date.now().toString();
+          this.editingMember.id = newId;
+          this.editingMember.verified = false;
+          this.familyMembers.push(JSON.parse(JSON.stringify(this.editingMember)));
+        }
+        this.closeModal();
+      },
+
+      removeMember(id) {
+        this.familyMembers = this.familyMembers.filter(m => m.id !== id);
+      }
+    };
+  }
+</script>
+
+        <footer class="p-4 text-center text-sm text-zinc-500 dark:text-zinc-400">
+  &copy; 2025 MyProfile. All rights reserved.
+</footer>
+
+      </main>
+    </div>
+  </div>
+  
+
+  <script src="/js/main.js"></script>
+  <script src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
+
+</body>
+
+<script>
+function toggleSidebar(open) {
+  const rightSide = document.querySelector('aside.right-side');
+  if (!rightSide) return;
+
+  if (open) {
+    rightSide.classList.add('ml-20');
+  } else {
+    rightSide.classList.remove('ml-20');
+  }
+}
+</script>
+
+</html>

@@ -1,0 +1,66 @@
+
+
+---
+layout: layouts/base.njk
+title: Upload
+permalink: "upload/"
+---
+
+<section class="page-container mx-auto px-4 upload-page max-w-3xl">
+  <!-- Header -->
+  
+
+  
+  
+
+  
+  
+
+
+  <!-- Instructions -->
+  <ol class="instructions">
+    <li>
+      <span class="font-medium">All pages to one file on your computer</span><br />
+      Save all supporting documentation to one file, if possible.
+    </li>
+    <li>
+      <span class="font-medium">Optional Comments</span><br />
+      If you wish to add an optional comment, <strong>please upload only 1 file</strong>,
+      the file associated with the comment. Otherwise, the comment will be associated
+      with the first file received. You’ll be able to upload more documents thereafter.
+    </li>
+    <li>
+      <span class="font-medium">Select the file to upload to Tri-Star</span><br />
+      Click the <strong>Choose File</strong> or <strong>Browse</strong> button below and select
+      the file you saved.
+    </li>
+    <li>
+      <span class="font-medium">Upload the file to Tri-Star</span><br />
+      Click the <strong>Upload</strong> button below to securely transfer your file to us.
+    </li>
+  </ol>
+
+  <!-- Comments -->
+  <div class="form-group">
+    <label for="comments" class="form-label">Comments (Optional)</label>
+    <textarea id="comments" name="comments" rows="4" class="form-textarea" placeholder="Optional comments"></textarea>
+  </div>
+
+  <!-- File upload form -->
+  <form action="/upload" method="POST" enctype="multipart/form-data">
+    <div class="form-group">
+      <label for="file-upload" class="form-label">Select file to upload:</label>
+      <input id="file-upload" name="file" type="file" accept=".jpg,.tif,.gif,.pdf,.doc,.docx,.xls,.xlsx,.csv"
+        class="file-input" required />
+    </div>
+
+    <div class="form-actions">
+      <button type="button" onclick="window.history.back()" class="btn btn-cancel">
+        Cancel
+      </button>
+      <button type="submit" class="btn btn-submit">
+        Upload
+      </button>
+    </div>
+  </form>
+</section>

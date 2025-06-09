@@ -1,0 +1,743 @@
+<!DOCTYPE html>
+<html lang="en" class="bg-white text-zinc-900 dark:bg-zinc-900 dark:text-white">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Personal Information</title>
+  <link href="/style.css" rel="stylesheet">
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+    crossorigin="anonymous"
+  />
+</head>
+
+<body class="min-h-screen flex flex-col">
+  <div
+    x-data="{
+      // start closed on screens smaller than 768px
+      sidebarOpen: window.innerWidth >= 768
+    }"
+    x-init="
+      // whenever the window is resized, re‐evaluate
+      window.addEventListener('resize', () => {
+        sidebarOpen = (window.innerWidth >= 768)
+      })
+    "
+    class="flex flex-col flex-1"
+  >
+    <header class="sticky top-0 z-40 w-full bg-white text-textDark text-shadow-md border-b h-[70px] print:hidden">
+  <div class="flex items-center justify-between px-4 py-3 md:px-6 md:py-4">
+    <!-- ────── 2.1. Hamburger (mobile) ────── -->
+    <button
+      @click="sidebarOpen = true"
+      class="md:hidden p-2 rounded-md hover:bg-white/20 focus:outline-none focus:ring-2 focus:ring-white"
+      aria-label="Open sidebar"
+    >
+      <!-- Heroicon “Menu” -->
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        class="h-6 w-6"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor"
+      >
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+      </svg>
+    </button>
+
+    <!-- ────── 2.2. Logo ────── -->
+    <div class="flex-1">
+      <img
+        src="/img/tri-star-logo-orange.png"
+        alt="Tri Star Logo"
+        class="h-8 w-auto mb-0"
+      />
+    </div>
+
+    <!-- ────── 2.3. Page Title (always visible) ────── -->
+    <div class="flex-1 text-center md:text-left">
+      <span class="text-lg font-semibold">Personal Information</span>
+    </div>
+
+    <!-- ────── 2.4. Avatar or Other Controls (always visible) ────── -->
+    <div class="flex items-center space-x-4">
+      <!-- Notification Bell (hidden on very small if you wish) -->
+      <button class="hidden sm:inline-flex p-1 rounded-full hover:bg-white/20 focus:outline-none focus:ring-2 focus:ring-white" aria-label="Notifications">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11c0-3.07-1.64-5.64-4.5-6.32V4a1.5 1.5 0 10-3 0v.68C7.64 5.36 6 7.929 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
+        </svg>
+      </button>
+      <!-- Avatar -->
+      <div class="h-10 w-10 rounded-full bg-gray-200 flex items-center justify-center overflow-hidden">
+        <i class="fas fa-user text-gray-400"></i>
+      </div>
+    </div>
+  </div>
+</header>
+
+
+    <div class="flex flex-1 overflow-hidden">
+      <!-- Sidebar -->
+      <aside
+        class="transition-all duration-300 ease-in-out bg-white border-r border-gray-200"
+      >
+        
+
+
+<aside 
+  x-show="sidebarOpen"
+  x-transition:enter="transition ease-out duration-200"
+  x-transition:enter-start="opacity-0 transform -translate-x-4"
+  x-transition:enter-end="opacity-100 transform translate-x-0"
+  x-transition:leave="transition ease-in duration-150"
+  x-transition:leave-start="opacity-100 transform translate-x-0"
+  x-transition:leave-end="opacity-0 transform -translate-x-4"
+  @click.outside="
+    if ($event.target.closest('#edit-modal')) return;
+    sidebarOpen = false
+  class="w-20 bg-white border-r border-gray-200 h-screen flex flex-col items-center py-4 fixed top-[70px] left-0 print:hidden">
+  <nav class="flex-1">
+    <ul class="flex flex-col items-center space-y-6 py-4 px-1">
+
+      
+  <li class="min-h-12">
+    <a
+      href="/personal/"
+      class="flex flex-col items-center text-gray-500 hover:text-gray-800"
+    >
+      <i class="fas fa-user text-xl"></i>
+      <span class="mt-1 text-xs">Personal</span>
+    </a>
+  </li>
+
+      
+  <li class="min-h-12">
+    <a
+      href="/family/"
+      class="flex flex-col items-center text-gray-500 hover:text-gray-800"
+    >
+      <i class="fas fa-home text-xl"></i>
+      <span class="mt-1 text-xs">Family</span>
+    </a>
+  </li>
+
+      
+  <li class="min-h-12">
+    <a
+      href="/benefits/"
+      class="flex flex-col items-center text-gray-500 hover:text-gray-800"
+    >
+      <i class="fas fa-notes-medical text-xl"></i>
+      <span class="mt-1 text-xs">Benefits</span>
+    </a>
+  </li>
+
+      
+  <li class="min-h-12">
+    <a
+      href="/beneficiaries/"
+      class="flex flex-col items-center text-gray-500 hover:text-gray-800"
+    >
+      <i class="fas fa-hand-holding-usd text-xl"></i>
+      <span class="mt-1 text-xs">Beneficiaries</span>
+    </a>
+  </li>
+
+      
+  <li class="min-h-12">
+    <a
+      href="/summary/"
+      class="flex flex-col items-center text-gray-500 hover:text-gray-800"
+    >
+      <i class="fas fa-table text-xl"></i>
+      <span class="mt-1 text-xs">Summary</span>
+    </a>
+  </li>
+
+      
+  <li class="min-h-12">
+    <a
+      href="/upload/"
+      class="flex flex-col items-center text-gray-500 hover:text-gray-800"
+    >
+      <i class="fas fa-upload text-xl"></i>
+      <span class="mt-1 text-xs">Upload</span>
+    </a>
+  </li>
+
+
+    </ul>
+  </nav>
+</aside>
+
+
+      </aside>
+
+      <!-- Main Content -->
+      <main
+        class="w-full px-3 pt-3 overflow-auto print:mt-0 print:ml-0 transition-all duration-300 ease-in-out"
+        
+      >
+        
+<div x-data="employeeTableComponent()" x-init="loadData()" class="page-container mx-auto px-4">
+  <header class="page-header">
+    <h1 class="page-title">Personal Information</h1>
+    <p class="page-desc">
+      Edit as needed, or leave it alone if all looks in order.
+    </p>
+  </header>
+
+  <div class="section-controls">
+    <div class="search-wrapper">
+  <span class="search-icon">
+    <i class="fas fa-search"></i>
+  </span>
+  <input
+    id="search"
+    type="text"
+    x-model="searchQuery"
+    placeholder="Search name..."
+    class="search-input"
+  />
+</div>
+
+  </div>
+
+  <div class="employee-tables">
+    <div class="table-container">
+  <table class="table-base">
+    <thead class="table-head">
+      <tr>
+        <!-- Always visible on all breakpoints -->
+        <th class="th-cell">SSN</th>
+        <th class="th-cell">Name</th>
+        <!-- Hide on small screens (below md) -->
+        <th class="th-cell hidden sm:table-cell">Address</th>
+        <th class="th-cell hidden md:table-cell">Birth Date</th>
+        <th class="th-cell hidden lg:table-cell">Employer</th>
+        <th class="th-cell hidden md:table-cell">Term Date</th>
+      </tr>
+    </thead>
+    <tbody class="tbody-base">
+      <template x-for="emp in filteredEmployees" :key="emp.ssn">
+        <tr class="tr-hover">
+          <!-- SSN -->
+          <td class="td-cell">
+            <span x-text="emp.ssn"></span>
+          </td>
+
+          <!-- Name -->
+          <td class="td-cell">
+            <a href="#" @click.prevent="openEmployee(emp)" class="">
+              <span x-text="emp.lastName + ', ' + emp.firstName"></span>
+            </a>
+          </td>
+
+          <!-- Address -->
+          <td class="td-cell hidden sm:table-cell">
+            <span x-text="emp.city + ', ' + emp.state + '  ' + emp.zipCode"></span>
+          </td>
+
+          <!-- Birth Date -->
+          <td class="td-cell hidden md:table-cell">
+            <span x-text="formatDate(emp.birthDate)"></span>
+          </td>
+
+          <!-- Employer -->
+          <td class="td-cell hidden lg:table-cell">
+            <span x-text="emp.employer"></span>
+          </td>
+
+          <!-- Term Date -->
+          <td class="td-cell hidden md:table-cell">
+            <span x-text="emp.terminationDate ? formatDate(emp.terminationDate) : '—'"></span>
+          </td>
+        </tr>
+      </template>
+
+      <tr x-show="filteredEmployees.length === 0" class="tr-empty">
+        <td colspan="6" class="td-empty">No employees to display.</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+    
+    
+  </div>
+
+  
+
+
+
+<div x-show="showModal" x-cloak
+  class="fixed inset-0 z-50 flex items-start justify-center pt-10 bg-black bg-opacity-50 overflow-y-auto"
+  @keydown.escape.window="closeModal()" @click.away="closeModal()">
+  <!-- Modal Card -->
+  <div class="bg-white rounded-lg shadow-lg w-full max-w-2xl mx-4" @click.stop>
+    <!-- Header -->
+    <div class="flex justify-between items-center px-6 py-4 border-b border-gray-200">
+      <div class="flex items-center">
+        <i class="fas fa-user text-2xl text-gray-700 mr-3"></i>
+        <h2 class="text-xl font-semibold text-gray-800 mb-0">Edit Personal Information</h2>
+      </div>
+      
+<div class="flex items-center justify-end py-3">
+    <button
+    @click="showModal = false"
+    class="p-1 rounded-md hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+    aria-label="Close sidebar"
+    >
+    <!-- “X” Icon -->
+    <svg
+        xmlns="http://www.w3.org/2000/svg"
+        class="h-6 w-6 text-gray-800 dark:text-gray-200"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor"
+    >
+        <path
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        stroke-width="2"
+        d="M6 18L18 6M6 6l12 12"
+        />
+    </svg>
+    </button>
+</div>
+    </div>
+
+    <!-- Body / Form -->
+    <div class="px-6 py-6 space-y-6">
+      
+  <div class="bg-
+      &lt;p class=&quot;text-yellow-700 text-sm&quot;&gt;
+        You know the drill, &lt;span class=&quot;text-red-500&quot;&gt;*&lt;/span&gt; means Required.
+      &lt;/p&gt;
+      &lt;p class=&quot;mt-1 text-yellow-800 text-sm&quot;&gt;
+        Please review the information below. Please ask your HR to make any
+        changes in the Chick-fil-A Payroll System.
+      &lt;/p&gt;
+      -50 border-l-4 border-
+      &lt;p class=&quot;text-yellow-700 text-sm&quot;&gt;
+        You know the drill, &lt;span class=&quot;text-red-500&quot;&gt;*&lt;/span&gt; means Required.
+      &lt;/p&gt;
+      &lt;p class=&quot;mt-1 text-yellow-800 text-sm&quot;&gt;
+        Please review the information below. Please ask your HR to make any
+        changes in the Chick-fil-A Payroll System.
+      &lt;/p&gt;
+      -400 p-4 mb-6">
+    
+  </div>
+
+
+
+      <form @submit.prevent="updateEmployee()" class="space-y-6">
+        
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+          
+  <div>
+    <label for="firstName" class="form-label">
+      First Name <span class="field-required">*</span>
+    </label>
+    <input
+      type="text"
+      id="firstName"
+      x-model="selectedEmployee.firstName"
+      class="form-input"
+      placeholder="First name"
+      required
+    />
+  </div>
+
+          
+  <div>
+    <label for="middleInitial" class="form-label">
+      MI
+    </label>
+    <input
+      type="text"
+      id="middleInitial"
+      x-model="selectedEmployee.middleInitial"
+      class="form-input"
+      placeholder="Middle N."
+      
+    />
+  </div>
+
+          
+  <div>
+    <label for="lastName" class="form-label">
+      Last Name <span class="field-required">*</span>
+    </label>
+    <input
+      type="text"
+      id="lastName"
+      x-model="selectedEmployee.lastName"
+      class="form-input"
+      placeholder="Last name"
+      required
+    />
+  </div>
+
+          
+  <div>
+    <label for="suffix" class="form-label">
+      Suffix
+    </label>
+    <input
+      type="text"
+      id="suffix"
+      x-model="selectedEmployee.suffix"
+      class="form-input"
+      placeholder="Suffix"
+      
+    />
+  </div>
+
+        </div>
+
+        
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 items-end">
+          
+  <div>
+    <label for="birthDate" class="form-label">
+      Birth Date <span class="field-required">*</span>
+    </label>
+    <div class="form-date-wrapper">
+      <input
+        type="date"
+        id="birthDate"
+        x-model="selectedEmployee.birthDate"
+        class="form-input"
+        required
+      />
+      <div class="form-date-icon">
+        <i class="fas fa-calendar-alt"></i>
+      </div>
+    </div>
+  </div>
+
+
+          <div class="md:col-span-2">
+            
+  <div>
+    <span class="form-label">Gender</span>
+    <div class="form-radio-group">
+      
+        <label class="inline-flex items-center">
+          <input
+            type="radio"
+            name="gender"
+            value="Male"
+            x-model="selectedEmployee.gender"
+            class="text-indigo-600 focus:ring-indigo-500 border-gray-300"
+          />
+          <span class="ml-2 text-sm text-gray-700">Male</span>
+        </label>
+      
+        <label class="inline-flex items-center">
+          <input
+            type="radio"
+            name="gender"
+            value="Female"
+            x-model="selectedEmployee.gender"
+            class="text-indigo-600 focus:ring-indigo-500 border-gray-300"
+          />
+          <span class="ml-2 text-sm text-gray-700">Female</span>
+        </label>
+      
+        <label class="inline-flex items-center">
+          <input
+            type="radio"
+            name="gender"
+            value="Unknown"
+            x-model="selectedEmployee.gender"
+            class="text-indigo-600 focus:ring-indigo-500 border-gray-300"
+          />
+          <span class="ml-2 text-sm text-gray-700">Unknown</span>
+        </label>
+      
+    </div>
+  </div>
+
+          </div>
+        </div>
+
+        
+        <div class="grid grid-cols-1 gap-4">
+          
+  <div>
+    <label for="address1" class="form-label">
+      Address 1 <span class="field-required">*</span>
+    </label>
+    <input
+      type="text"
+      id="address1"
+      x-model="selectedEmployee.address1"
+      class="form-input"
+      placeholder=""
+      required
+    />
+  </div>
+
+          
+  <div>
+    <label for="address2" class="form-label">
+      Address 2
+    </label>
+    <input
+      type="text"
+      id="address2"
+      x-model="selectedEmployee.address2"
+      class="form-input"
+      placeholder=""
+      
+    />
+  </div>
+
+        </div>
+
+        
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+          
+  <div>
+    <label for="city" class="form-label">
+      City <span class="field-required">*</span>
+    </label>
+    <input
+      type="text"
+      id="city"
+      x-model="selectedEmployee.city"
+      class="form-input"
+      placeholder=""
+      required
+    />
+  </div>
+
+
+          
+          
+  <div>
+    <label for="state" class="form-label">
+      State <span class="field-required">*</span>
+    </label>
+    <select
+      id="state"
+      x-model="selectedEmployee.state"
+      class="form-select"
+      required
+    >
+      
+        <option value="">Select state</option>
+      
+        <option value="MD">MD Maryland</option>
+      
+        <option value="VA">VA Virginia</option>
+      
+        <option value="DC">DC District of Columbia</option>
+      
+    </select>
+  </div>
+
+
+          
+  <div>
+    <label for="zip" class="form-label">
+      Zip Code <span class="field-required">*</span>
+    </label>
+    <input
+      type="text"
+      id="zip"
+      x-model="selectedEmployee.zipCode"
+      class="form-input"
+      placeholder=""
+      required
+    />
+  </div>
+
+        </div>
+
+        
+        <div class="grid grid-cols-1 gap-4">
+          <div>
+            <span class="block text-sm font-medium text-gray-700">Phone Number</span>
+            <div class="mt-1 flex space-x-2">
+              
+  <div>
+    <label for="phoneArea" class="form-label">
+      
+    </label>
+    <input
+      type="text"
+      id="phoneArea"
+      x-model="selectedEmployee.phoneArea"
+      class="form-input"
+      placeholder="area"
+      
+    />
+  </div>
+
+              
+  <div>
+    <label for="phoneLocal" class="form-label">
+      
+    </label>
+    <input
+      type="text"
+      id="phoneLocal"
+      x-model="selectedEmployee.phoneLocal"
+      class="form-input"
+      placeholder="local"
+      
+    />
+  </div>
+
+              
+  <div>
+    <label for="phoneNumber" class="form-label">
+      
+    </label>
+    <input
+      type="text"
+      id="phoneNumber"
+      x-model="selectedEmployee.phoneNumber"
+      class="form-input"
+      placeholder="number"
+      
+    />
+  </div>
+
+            </div>
+          </div>
+        </div>
+
+        
+        <div class="grid grid-cols-1 gap-4">
+          
+  <div>
+    <label for="email" class="form-label">
+      Email (<span class="text-gray-500">not required</span>), but it would really help us
+    </label>
+    <input
+      type="email"
+      id="email"
+      x-model="selectedEmployee.email"
+      class="form-input"
+      placeholder=""
+      
+    />
+  </div>
+
+        </div>
+
+        
+        <div class="pt-4 flex justify-end space-x-3">
+          <button type="button" @click="closeModal()" class="btn btn-cancel">Cancel</button>
+          <button type="submit" class="btn btn-submit">Update</button>
+        </div>
+      </form>
+
+    </div>
+  </div>
+</div>
+</div>
+
+<script>
+  function employeeTableComponent() {
+    return {
+      employees: [],
+      searchQuery: "",
+      selectedEmployee: null,
+      showModal: false,
+
+      // Fetch employees.json (which Eleventy will copy into dist automatically if in _data/)
+      async loadData() {
+        try {
+          // If you want Eleventy to inject employees via Nunjucks, you could do:
+          // this.employees = ;
+          const res = await fetch("/employees.json");
+          if (!res.ok) throw new Error("Could not load employees.json");
+          this.employees = await res.json();
+        } catch (err) {
+          console.error(err);
+        }
+      },
+
+      // Filter by name
+      get filteredEmployees() {
+        if (!this.searchQuery) return this.employees;
+        let q = this.searchQuery.toLowerCase().trim();
+        return this.employees.filter(emp =>
+          emp.name.toLowerCase().includes(q)
+        );
+      },
+
+      // Convert YYYY-MM-DD → MM/DD/YYYY
+      formatDate(iso) {
+        if (!iso) return "";
+        let [y, m, d] = iso.split("-");
+        return `${m}/${d}/${y}`;
+      },
+
+      // Called when user clicks a Name link
+      openEmployee(emp) {
+        // Deep clone so editing fields doesn’t immediately change the underlying array
+        this.selectedEmployee = JSON.parse(JSON.stringify(emp));
+        this.showModal = true;
+      },
+
+      closeModal() {
+        this.showModal = false;
+        this.selectedEmployee = null;
+      },
+
+      // Called when the modal form is submitted
+      updateEmployee() {
+        // Example: send updated data back to server via fetch POST, or
+        // copy selectedEmployee fields back into the employees array, etc.
+        console.log("Submitting update for:", this.selectedEmployee);
+
+        // If you want to *apply changes locally*, find the index:
+        let idx = this.employees.findIndex(e => e.ssn === this.selectedEmployee.ssn);
+        if (idx !== -1) {
+          this.employees.splice(idx, 1, this.selectedEmployee);
+        }
+
+        // Then close:
+        this.closeModal();
+      }
+    };
+  }
+</script>
+        <footer class="p-4 text-center text-sm text-zinc-500 dark:text-zinc-400">
+  &copy; 2025 MyProfile. All rights reserved.
+</footer>
+
+      </main>
+    </div>
+  </div>
+  
+
+  <script src="/js/main.js"></script>
+  <script src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
+
+</body>
+
+<script>
+function toggleSidebar(open) {
+  const rightSide = document.querySelector('aside.right-side');
+  if (!rightSide) return;
+
+  if (open) {
+    rightSide.classList.add('ml-20');
+  } else {
+    rightSide.classList.remove('ml-20');
+  }
+}
+</script>
+
+</html>

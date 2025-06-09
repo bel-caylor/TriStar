@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="en" class="bg-white text-zinc-900 dark:bg-zinc-900 dark:text-white">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Benefit Enrollment Summary</title>
+  <link href="/style.css" rel="stylesheet">
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+    crossorigin="anonymous"
+  />
+</head>
+
+<body class="min-h-screen flex flex-col">
+  <div
+    x-data="{
+      // start closed on screens smaller than 768px
+      sidebarOpen: window.innerWidth >= 768
+    }"
+    x-init="
+      // whenever the window is resized, re‐evaluate
+      window.addEventListener('resize', () => {
+        sidebarOpen = (window.innerWidth >= 768)
+      })
+    "
+    class="flex flex-col flex-1"
+  >
+    <header class="sticky top-0 z-40 w-full bg-white text-textDark text-shadow-md border-b h-[70px] print:hidden">
+  <div class="flex items-center justify-between px-4 py-3 md:px-6 md:py-4">
+    <!-- ────── 2.1. Hamburger (mobile) ────── -->
+    <button
+      @click="sidebarOpen = true"
+      class="md:hidden p-2 rounded-md hover:bg-white/20 focus:outline-none focus:ring-2 focus:ring-white"
+      aria-label="Open sidebar"
+    >
+      <!-- Heroicon “Menu” -->
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        class="h-6 w-6"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor"
+      >
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+      </svg>
+    </button>
+
+    <!-- ────── 2.2. Logo ────── -->
+    <div class="flex-1">
+      <img
+        src="/img/tri-star-logo-orange.png"
+        alt="Tri Star Logo"
+        class="h-8 w-auto mb-0"
+      />
+    </div>
+
+    <!-- ────── 2.3. Page Title (always visible) ────── -->
+    <div class="flex-1 text-center md:text-left">
+      <span class="text-lg font-semibold">Benefit Enrollment Summary</span>
+    </div>
+
+    <!-- ────── 2.4. Avatar or Other Controls (always visible) ────── -->
+    <div class="flex items-center space-x-4">
+      <!-- Notification Bell (hidden on very small if you wish) -->
+      <button class="hidden sm:inline-flex p-1 rounded-full hover:bg-white/20 focus:outline-none focus:ring-2 focus:ring-white" aria-label="Notifications">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11c0-3.07-1.64-5.64-4.5-6.32V4a1.5 1.5 0 10-3 0v.68C7.64 5.36 6 7.929 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
+        </svg>
+      </button>
+      <!-- Avatar -->
+      <div class="h-10 w-10 rounded-full bg-gray-200 flex items-center justify-center overflow-hidden">
+        <i class="fas fa-user text-gray-400"></i>
+      </div>
+    </div>
+  </div>
+</header>
+
+
+    <div class="flex flex-1 overflow-hidden">
+      <!-- Sidebar -->
+      <aside
+        class="transition-all duration-300 ease-in-out bg-white border-r border-gray-200"
+      >
+        
+
+
+<aside 
+  x-show="sidebarOpen"
+  x-transition:enter="transition ease-out duration-200"
+  x-transition:enter-start="opacity-0 transform -translate-x-4"
+  x-transition:enter-end="opacity-100 transform translate-x-0"
+  x-transition:leave="transition ease-in duration-150"
+  x-transition:leave-start="opacity-100 transform translate-x-0"
+  x-transition:leave-end="opacity-0 transform -translate-x-4"
+  @click.outside="
+    if ($event.target.closest('#edit-modal')) return;
+    sidebarOpen = false
+  class="w-20 bg-white border-r border-gray-200 h-screen flex flex-col items-center py-4 fixed top-[70px] left-0 print:hidden">
+  <nav class="flex-1">
+    <ul class="flex flex-col items-center space-y-6 py-4 px-1">
+
+      
+  <li class="min-h-12">
+    <a
+      href="/personal/"
+      class="flex flex-col items-center text-gray-500 hover:text-gray-800"
+    >
+      <i class="fas fa-user text-xl"></i>
+      <span class="mt-1 text-xs">Personal</span>
+    </a>
+  </li>
+
+      
+  <li class="min-h-12">
+    <a
+      href="/family/"
+      class="flex flex-col items-center text-gray-500 hover:text-gray-800"
+    >
+      <i class="fas fa-home text-xl"></i>
+      <span class="mt-1 text-xs">Family</span>
+    </a>
+  </li>
+
+      
+  <li class="min-h-12">
+    <a
+      href="/benefits/"
+      class="flex flex-col items-center text-gray-500 hover:text-gray-800"
+    >
+      <i class="fas fa-notes-medical text-xl"></i>
+      <span class="mt-1 text-xs">Benefits</span>
+    </a>
+  </li>
+
+      
+  <li class="min-h-12">
+    <a
+      href="/beneficiaries/"
+      class="flex flex-col items-center text-gray-500 hover:text-gray-800"
+    >
+      <i class="fas fa-hand-holding-usd text-xl"></i>
+      <span class="mt-1 text-xs">Beneficiaries</span>
+    </a>
+  </li>
+
+      
+  <li class="min-h-12">
+    <a
+      href="/summary/"
+      class="flex flex-col items-center text-gray-500 hover:text-gray-800"
+    >
+      <i class="fas fa-table text-xl"></i>
+      <span class="mt-1 text-xs">Summary</span>
+    </a>
+  </li>
+
+      
+  <li class="min-h-12">
+    <a
+      href="/upload/"
+      class="flex flex-col items-center text-gray-500 hover:text-gray-800"
+    >
+      <i class="fas fa-upload text-xl"></i>
+      <span class="mt-1 text-xs">Upload</span>
+    </a>
+  </li>
+
+
+    </ul>
+  </nav>
+</aside>
+
+
+      </aside>
+
+      <!-- Main Content -->
+      <main
+        class="w-full px-3 pt-3 overflow-auto print:mt-0 print:ml-0 transition-all duration-300 ease-in-out"
+        
+      >
+        
+<div 
+  x-data="summaryComponent()" 
+  x-init="loadData()" 
+  class="page-container mx-auto px-4 summary-page"
+>
+  <!-- Page Header -->
+  <header class="page-header">
+    <h1 class="page-title">Benefit Enrollment Summary</h1>
+    <div class="page-date">
+      <span x-text="formattedDate"></span>
+    </div>
+  </header>
+
+  <!-- Employee Info -->
+  <section class="section-info">
+    <div class="info-grid">
+      <!-- Left column -->
+      <div>
+        <div class="info-name font-medium">Sally Sample</div>
+        <div x-text="`${employee.address1}`"></div>
+        <div x-text="`${employee.city}, ${employee.state} ${employee.zipCode}`"></div>
+        <div class="info-birth mt-2">
+          <span class="font-medium">Birth Date:</span>
+          <span x-text="formatDate(employee.birthDate)"></span>
+        </div>
+      </div>
+      <!-- Right column -->
+      <div>
+        <div class="info-field mb-1">
+          <span class="font-medium">Plan Year:</span>
+          <span x-text="planYear"></span>
+        </div>
+        <div class="info-field mb-1">
+          <span class="font-medium">Account:</span>
+          <span x-text="accountNumber"></span>
+        </div>
+        <div class="info-field mb-1">
+          <span class="font-medium">Employer:</span>
+          <span x-text="employee.employer"></span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Family Section -->
+  <section class="section-table mb-8">
+    <h2 class="section-title">Family</h2>
+    <div class="table-wrapper">
+      <table class="table-base">
+        <thead class="table-head">
+          <tr class="table-row-head">
+            <th class="table-cell-head">Name</th>
+            <th class="table-cell-head">Relation</th>
+            <th class="table-cell-head">Gender</th>
+            <th class="table-cell-head">SSN</th>
+            <th class="table-cell-head">Birth Date</th>
+          </tr>
+        </thead>
+        <tbody class="table-body">
+          <template x-for="member in employee.familyMembers" :key="member.id">
+            <tr class="table-row">
+              <td class="table-cell" x-text="`${member.lastName}, ${member.firstName}`"></td>
+              <td class="table-cell" x-text="member.relation"></td>
+              <td class="table-cell" x-text="member.gender"></td>
+              <td class="table-cell" x-text="member.ssn"></td>
+              <td class="table-cell" x-text="formatDate(member.birthDate)"></td>
+            </tr>
+          </template>
+          <template x-if="!employee.familyMembers || employee.familyMembers.length === 0">
+            <tr>
+              <td colspan="5" class="table-empty">No family members found.</td>
+            </tr>
+          </template>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- Beneficiaries Section -->
+  <section class="section-table mb-8">
+    <h2 class="section-title">Beneficiaries</h2>
+    <div class="table-wrapper">
+      <table class="table-base">
+        <thead class="table-head">
+          <tr class="table-row-head">
+            <th class="table-cell-head">Type</th>
+            <th class="table-cell-head">Name</th>
+            <th class="table-cell-head">SSN</th>
+            <th class="table-cell-head">Relationship</th>
+            <th class="table-cell-head">Percent</th>
+          </tr>
+        </thead>
+        <tbody class="table-body">
+          <template x-for="ben in employee.beneficiaries" :key="ben.id">
+            <tr class="table-row">
+              <td class="table-cell" x-text="ben.type"></td>
+              <td class="table-cell" x-text="ben.name"></td>
+              <td class="table-cell" x-text="ben.ssn"></td>
+              <td class="table-cell" x-text="ben.relationship"></td>
+              <td class="table-cell" x-text="`${ben.percent}%`"></td>
+            </tr>
+          </template>
+          <template x-if="!employee.beneficiaries || employee.beneficiaries.length === 0">
+            <tr>
+              <td colspan="5" class="table-empty">No beneficiaries found.</td>
+            </tr>
+          </template>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- Benefit Elections Section -->
+  <section class="section-table mb-8">
+    <h2 class="section-title">Benefit Elections</h2>
+    <div class="table-wrapper">
+      <table class="table-base">
+        <thead class="table-head">
+          <tr class="table-row-head">
+            <th class="table-cell-head">Benefit</th>
+            <th class="table-cell-head">Option</th>
+            <th class="table-cell-head">Coverage</th>
+            <th class="table-cell-head text-right">Cost Per Pay Period</th>
+          </tr>
+        </thead>
+        <tbody class="table-body">
+          <template x-for="ben in employee.benefits" :key="ben.change">
+            <tr class="table-row">
+              <td class="table-cell" x-text="ben.change"></td>
+              <td class="table-cell" x-text="ben.benefit"></td>
+              <td class="table-cell" x-text="ben.coverage"></td>
+              <td class="table-cell text-right" x-text="formatCurrency(ben.costPerPayPeriod)"></td>
+            </tr>
+          </template>
+          <template x-if="!employee.benefits || employee.benefits.length === 0">
+            <tr>
+              <td colspan="4" class="table-empty">No benefit elections found.</td>
+            </tr>
+          </template>
+        </tbody>
+      </table>
+    </div>
+    <div class="total-row">
+      <div class="total-info">
+        <div class="total-label">Total Cost Per Pay Period</div>
+        <div class="total-value" x-text="formatCurrency(totalCost)"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Print Button -->
+  <div class="print-hide text-center">
+    <button
+      @click="window.print()"
+      class="btn-print"
+    >
+      Print
+    </button>
+  </div>
+</div>
+
+
+<script>
+  function summaryComponent() {
+    return {
+      employee: {
+        familyMembers: [],
+        beneficiaries: [],
+        benefits: [],
+        employer: ""
+      },
+      formattedDate: "",
+      planYear: "01/01/2025 - 12/31/2025",      // hardcoded or replace with dynamic value if available
+      accountNumber: "1371024",                  // hardcoded or replace with dynamic value if available
+      totalCost: 0,
+
+      // Fetch employee.json and initialize data
+      async loadData() {
+        try {
+          const res = await fetch("/employee.json");
+          if (!res.ok) throw new Error("Could not load employee.json");
+          const data = await res.json();
+          this.employee = data;
+
+          // Compute total cost
+          this.totalCost = data.benefits
+            .reduce((sum, b) => sum + parseFloat(b.costPerPayPeriod || 0), 0);
+
+          // Set formatted date/time for header
+          const now = new Date();
+          const yyyy = now.getFullYear();
+          const mm = String(now.getMonth() + 1).padStart(2, "0");
+          const dd = String(now.getDate()).padStart(2, "0");
+          const hh = String(now.getHours()).padStart(2, "0");
+          const mi = String(now.getMinutes()).padStart(2, "0");
+          const ss = String(now.getSeconds()).padStart(2, "0");
+          this.formattedDate = `${mm}/${dd}/${yyyy} ${hh}:${mi}:${ss} AM`;
+        } catch (err) {
+          console.error(err);
+        }
+      },
+
+      // Format ISO date to MM/DD/YYYY
+      formatDate(iso) {
+        if (!iso) return "-";
+        const d = new Date(iso);
+        const mm = String(d.getMonth() + 1).padStart(2, "0");
+        const dd = String(d.getDate()).padStart(2, "0");
+        const yyyy = d.getFullYear();
+        return `${mm}/${dd}/${yyyy}`;
+      },
+
+      // Format number to currency (USD)
+      formatCurrency(value) {
+        const num = parseFloat(value || 0);
+        return num.toLocaleString("en-US", {
+          style: "currency",
+          currency: "USD",
+          minimumFractionDigits: 2
+        });
+      }
+    };
+  }
+</script>
+
+        <footer class="p-4 text-center text-sm text-zinc-500 dark:text-zinc-400">
+  &copy; 2025 MyProfile. All rights reserved.
+</footer>
+
+      </main>
+    </div>
+  </div>
+  
+
+  <script src="/js/main.js"></script>
+  <script src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
+
+</body>
+
+<script>
+function toggleSidebar(open) {
+  const rightSide = document.querySelector('aside.right-side');
+  if (!rightSide) return;
+
+  if (open) {
+    rightSide.classList.add('ml-20');
+  } else {
+    rightSide.classList.remove('ml-20');
+  }
+}
+</script>
+
+</html>
