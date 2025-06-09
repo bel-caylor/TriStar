@@ -52,17 +52,9 @@
           {{ dateInputField("Birth Date", "birthDate", "selectedEmployee.birthDate", true) }}
 
           <div class="md:col-span-2">
-            {{ radioGroup(
-                "Gender",
-                "gender",
-                "selectedEmployee.gender",
-                [
-                  { value: "Male",   label: "Male" },
-                  { value: "Female", label: "Female" },
-                  { value: "Unknown", label: "Unknown" }
-                ]
-              )
-            }}
+            {{ radioGroup("Gender", "gender", "selectedEmployee.gender",
+                [ "Male", "Female", "Unknown" ]
+            )}}
           </div>
         </div>
 
@@ -115,20 +107,8 @@
 
         {# ────── Buttons ────── #}
         <div class="pt-4 flex justify-end space-x-3">
-          <button
-            type="button"
-            class="px-4 py-2 bg-red-500 text-white text-sm font-medium rounded-md hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-400"
-            @click="closeModal()"
-          >
-            Cancel
-          </button>
-
-          <button
-            type="submit"
-            class="px-4 py-2 bg-indigo-600 text-white text-sm font-medium rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500"
-          >
-            Update
-          </button>
+            <button type="button" @click="closeModal()" class="btn btn-cancel">Cancel</button>
+            <button type="submit" class="btn btn-submit">Update</button>
         </div>
       </form>
 

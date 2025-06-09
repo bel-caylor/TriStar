@@ -13,20 +13,21 @@
   />
 </head>
 
-<div
-  x-data="{
-    // start closed on screens smaller than 768px
-    sidebarOpen: window.innerWidth >= 768
-  }"
-  x-init="
-    // whenever the window is resized, re‐evaluate
-    window.addEventListener('resize', () => {
-      sidebarOpen = (window.innerWidth >= 768)
-    })
-  "
-  …
->
-  <header class="z-40 bg-white text-textDark text-shadow-md border-b fixed inset-0 h-[70px] print:hidden">
+<body class="min-h-screen flex flex-col">
+  <div
+    x-data="{
+      // start closed on screens smaller than 768px
+      sidebarOpen: window.innerWidth >= 768
+    }"
+    x-init="
+      // whenever the window is resized, re‐evaluate
+      window.addEventListener('resize', () => {
+        sidebarOpen = (window.innerWidth >= 768)
+      })
+    "
+    class="flex flex-col flex-1"
+  >
+    <header class="sticky top-0 z-40 w-full bg-white text-textDark text-shadow-md border-b h-[70px] print:hidden">
   <div class="flex items-center justify-between px-4 py-3 md:px-6 md:py-4">
     <!-- ────── 2.1. Hamburger (mobile) ────── -->
     <button
@@ -78,11 +79,12 @@
 </header>
 
 
-  <!-- Wrap sidebar + content in a horizontal flex -->
-  <div class="flex">
-
-    
-    
+    <div class="flex flex-1 overflow-hidden">
+      <!-- Sidebar -->
+      <aside
+        class="transition-all duration-300 ease-in-out bg-white border-r border-gray-200"
+      >
+        
 
 
 <aside 
@@ -93,13 +95,15 @@
   x-transition:leave="transition ease-in duration-150"
   x-transition:leave-start="opacity-100 transform translate-x-0"
   x-transition:leave-end="opacity-0 transform -translate-x-4"
-  @click.away="sidebarOpen = false"
+  @click.outside="
+    if ($event.target.closest('#edit-modal')) return;
+    sidebarOpen = false
   class="w-20 bg-white border-r border-gray-200 h-screen flex flex-col items-center py-4 fixed top-[70px] left-0 print:hidden">
   <nav class="flex-1">
-    <ul class="flex flex-col items-center space-y-6">
+    <ul class="flex flex-col items-center space-y-6 py-4 px-1">
 
       
-  <li>
+  <li class="min-h-12">
     <a
       href="/personal/"
       class="flex flex-col items-center text-gray-500 hover:text-gray-800"
@@ -110,7 +114,7 @@
   </li>
 
       
-  <li>
+  <li class="min-h-12">
     <a
       href="/family/"
       class="flex flex-col items-center text-gray-500 hover:text-gray-800"
@@ -121,7 +125,7 @@
   </li>
 
       
-  <li>
+  <li class="min-h-12">
     <a
       href="/benefits/"
       class="flex flex-col items-center text-gray-500 hover:text-gray-800"
@@ -132,7 +136,7 @@
   </li>
 
       
-  <li>
+  <li class="min-h-12">
     <a
       href="/beneficiaries/"
       class="flex flex-col items-center text-gray-500 hover:text-gray-800"
@@ -143,7 +147,7 @@
   </li>
 
       
-  <li>
+  <li class="min-h-12">
     <a
       href="/summary/"
       class="flex flex-col items-center text-gray-500 hover:text-gray-800"
@@ -154,7 +158,7 @@
   </li>
 
       
-  <li>
+  <li class="min-h-12">
     <a
       href="/upload/"
       class="flex flex-col items-center text-gray-500 hover:text-gray-800"
@@ -170,30 +174,53 @@
 </aside>
 
 
+      </aside>
 
-    
-    <main class="ml-20 mt-[70px] px-3 pt-3 w-full print:mt-0 print:ml-0">
-      <section class="text-center py-20">
-  <h1 class="text-4xl font-bold mb-4">Home</h1>
-  <p class="text-lg text-zinc-600 dark:text-zinc-300">Welcome to my personal profile site powered by Eleventy, Tailwind CSS, and Alpine.js!</p>
-</section>
-
-<section class="py-16 bg-zinc-100 dark:bg-zinc-900">
-  <div class="xl:container mx-auto px-4">
+      <!-- Main Content -->
+      <main
+        class="w-full px-3 pt-3 overflow-auto print:mt-0 print:ml-0 transition-all duration-300 ease-in-out"
+        
+      >
+        
+<section class="section-hero pr-18">
+  <div class="container mx-auto px-4">
+    <p class="text-lg text-zinc-600 dark:text-zinc-300 text-center">
+      Welcome to my TriStar!
+    </p>
   </div>
 </section>
-    </main>
 
+<section class="section-bg">
+  <div class="container mx-auto px-4">
+    <!-- 🚧 Your next content goes here -->
   </div>
-  
-  <footer class="p-4 text-center text-sm text-zinc-500 dark:text-zinc-400">
+</section>
+
+        <footer class="p-4 text-center text-sm text-zinc-500 dark:text-zinc-400">
   &copy; 2025 MyProfile. All rights reserved.
 </footer>
 
+      </main>
+    </div>
+  </div>
+  
 
   <script src="/js/main.js"></script>
   <script src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
 
 </body>
+
+<script>
+function toggleSidebar(open) {
+  const rightSide = document.querySelector('aside.right-side');
+  if (!rightSide) return;
+
+  if (open) {
+    rightSide.classList.add('ml-20');
+  } else {
+    rightSide.classList.remove('ml-20');
+  }
+}
+</script>
 
 </html>

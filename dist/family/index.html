@@ -13,20 +13,21 @@
   />
 </head>
 
-<div
-  x-data="{
-    // start closed on screens smaller than 768px
-    sidebarOpen: window.innerWidth >= 768
-  }"
-  x-init="
-    // whenever the window is resized, re‐evaluate
-    window.addEventListener('resize', () => {
-      sidebarOpen = (window.innerWidth >= 768)
-    })
-  "
-  …
->
-  <header class="z-40 bg-white text-textDark text-shadow-md border-b fixed inset-0 h-[70px] print:hidden">
+<body class="min-h-screen flex flex-col">
+  <div
+    x-data="{
+      // start closed on screens smaller than 768px
+      sidebarOpen: window.innerWidth >= 768
+    }"
+    x-init="
+      // whenever the window is resized, re‐evaluate
+      window.addEventListener('resize', () => {
+        sidebarOpen = (window.innerWidth >= 768)
+      })
+    "
+    class="flex flex-col flex-1"
+  >
+    <header class="sticky top-0 z-40 w-full bg-white text-textDark text-shadow-md border-b h-[70px] print:hidden">
   <div class="flex items-center justify-between px-4 py-3 md:px-6 md:py-4">
     <!-- ────── 2.1. Hamburger (mobile) ────── -->
     <button
@@ -78,11 +79,12 @@
 </header>
 
 
-  <!-- Wrap sidebar + content in a horizontal flex -->
-  <div class="flex">
-
-    
-    
+    <div class="flex flex-1 overflow-hidden">
+      <!-- Sidebar -->
+      <aside
+        class="transition-all duration-300 ease-in-out bg-white border-r border-gray-200"
+      >
+        
 
 
 <aside 
@@ -93,13 +95,15 @@
   x-transition:leave="transition ease-in duration-150"
   x-transition:leave-start="opacity-100 transform translate-x-0"
   x-transition:leave-end="opacity-0 transform -translate-x-4"
-  @click.away="sidebarOpen = false"
+  @click.outside="
+    if ($event.target.closest('#edit-modal')) return;
+    sidebarOpen = false
   class="w-20 bg-white border-r border-gray-200 h-screen flex flex-col items-center py-4 fixed top-[70px] left-0 print:hidden">
   <nav class="flex-1">
-    <ul class="flex flex-col items-center space-y-6">
+    <ul class="flex flex-col items-center space-y-6 py-4 px-1">
 
       
-  <li>
+  <li class="min-h-12">
     <a
       href="/personal/"
       class="flex flex-col items-center text-gray-500 hover:text-gray-800"
@@ -110,7 +114,7 @@
   </li>
 
       
-  <li>
+  <li class="min-h-12">
     <a
       href="/family/"
       class="flex flex-col items-center text-gray-500 hover:text-gray-800"
@@ -121,7 +125,7 @@
   </li>
 
       
-  <li>
+  <li class="min-h-12">
     <a
       href="/benefits/"
       class="flex flex-col items-center text-gray-500 hover:text-gray-800"
@@ -132,7 +136,7 @@
   </li>
 
       
-  <li>
+  <li class="min-h-12">
     <a
       href="/beneficiaries/"
       class="flex flex-col items-center text-gray-500 hover:text-gray-800"
@@ -143,7 +147,7 @@
   </li>
 
       
-  <li>
+  <li class="min-h-12">
     <a
       href="/summary/"
       class="flex flex-col items-center text-gray-500 hover:text-gray-800"
@@ -154,7 +158,7 @@
   </li>
 
       
-  <li>
+  <li class="min-h-12">
     <a
       href="/upload/"
       class="flex flex-col items-center text-gray-500 hover:text-gray-800"
@@ -170,10 +174,14 @@
 </aside>
 
 
+      </aside>
 
-    
-    <main class="ml-20 mt-[70px] px-3 pt-3 w-full print:mt-0 print:ml-0">
-      
+      <!-- Main Content -->
+      <main
+        class="w-full px-3 pt-3 overflow-auto print:mt-0 print:ml-0 transition-all duration-300 ease-in-out"
+        
+      >
+        
 <div x-data="familyTableComponent()" x-init="loadData()" >
 
   <div class="mb-6">
@@ -340,6 +348,7 @@
   
 
 <div 
+  
   x-show="showModal" 
   x-transition.opacity 
   class="fixed inset-0 z-50 overflow-y-auto"
@@ -351,82 +360,246 @@
   <div class="flex items-center justify-center min-h-screen px-4">
     <div class="bg-white rounded-lg overflow-hidden shadow-xl transform transition-all sm:max-w-lg w-full">
       <div class="px-6 py-4">
+        <button @click="closeModal()" class="btn btn-close">
+          <span class="sr-only">Close</span>
+          &times;
+        </button>
         <div class="flex justify-between items-center mb-4">
-          <h2 class="text-xl font-semibold text-gray-800" id="familyEditModalLabel" x-text="isEdit ? 'Edit Family Member' : 'Add Family Member'"></h2>
-          <button @click="closeModal()" class="text-gray-400 hover:text-gray-600">
-            <span class="sr-only">Close</span>
-            &times;
-          </button>
+          <h2 class="text-xl font-semibold text-gray-800"
+              id="familyEditModalLabel"
+              x-text="isEdit ? 'Edit Family Member' : 'Add Family Member'">
+          </h2>
         </div>
 
         <form @submit.prevent="saveMember()">
           <div class="grid grid-cols-1 gap-4">
+
+            <!-- First Name (text input) -->
             <div>
-              <label for="firstName" class="block text-sm font-medium text-gray-700">First Name</label>
-              <input type="text" id="firstName" x-model="editingMember.firstName"
-                     class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 
-                            focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-                     required />
+              
+  <div>
+    <label for="firstName" class="form-label">
+      First Name <span class="field-required">*</span>
+    </label>
+    <input
+      type="text"
+      id="firstName"
+      x-model="editingMember.firstName"
+      class="form-input"
+      placeholder=""
+      required
+    />
+  </div>
+
+            </div>
+
+            <!-- Suffix (text input) -->
+            <div>
+              
+  <div>
+    <label for="suffix" class="form-label">
+      Suffix
+    </label>
+    <input
+      type="text"
+      id="suffix"
+      x-model="editingMember.suffix"
+      class="form-input"
+      placeholder=""
+      
+    />
+  </div>
+
+            </div>
+
+            <!-- Last Name (text input) -->
+            <div>
+              
+  <div>
+    <label for="lastName" class="form-label">
+      Last Name <span class="field-required">*</span>
+    </label>
+    <input
+      type="text"
+      id="lastName"
+      x-model="editingMember.lastName"
+      class="form-input"
+      placeholder=""
+      required
+    />
+  </div>
+
+            </div>
+
+            <!-- Relation (select dropdown) -->
+            <div>
+              
+  <div>
+    <label for="relation" class="form-label">
+      Relation <span class="field-required">*</span>
+    </label>
+    <select
+      id="relation"
+      x-model="editingMember.relation"
+      class="form-select"
+      required
+    >
+      
+        <option value=""></option>
+      
+        <option value=""></option>
+      
+        <option value=""></option>
+      
+    </select>
+  </div>
+
+            </div>
+
+            <!-- Birth Date (date input) -->
+            <div>
+              
+  <div>
+    <label for="birthDate" class="form-label">
+      Birth Date <span class="field-required">*</span>
+    </label>
+    <div class="form-date-wrapper">
+      <input
+        type="date"
+        id="birthDate"
+        x-model="editingMember.birthDate"
+        class="form-input"
+        required
+      />
+      <div class="form-date-icon">
+        <i class="fas fa-calendar-alt"></i>
+      </div>
+    </div>
+  </div>
+
+            </div>
+
+            <!-- Term Date (date input) -->
+            <div>
+              
+  <div>
+    <label for="termDate" class="form-label">
+      Term Date
+    </label>
+    <div class="form-date-wrapper">
+      <input
+        type="date"
+        id="termDate"
+        x-model="editingMember.termDate"
+        class="form-input"
+        
+      />
+      <div class="form-date-icon">
+        <i class="fas fa-calendar-alt"></i>
+      </div>
+    </div>
+  </div>
+
             </div>
 
             <div>
-              <label for="lastName" class="block text-sm font-medium text-gray-700">Last Name</label>
-              <input type="text" id="lastName" x-model="editingMember.lastName"
-                     class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 
-                            focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-                     required />
-            </div>
+              
+  <div>
+    <label for="ssn" class="form-label">
+      SSN
+    </label>
+    <input
+      type="text"
+      id="ssn"
+      x-model="editingMember.ssn"
+      class="form-input"
+      placeholder=""
+      
+    />
+  </div>
 
+            </div>
             <div>
-              <label for="relation" class="block text-sm font-medium text-gray-700">Relation</label>
-              <select id="relation" x-model="editingMember.relation"
-                      class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 
-                             focus:outline-none focus:ring-blue-500 focus:border-blue-500">
-                <option value="Child">Child</option>
-                <option value="Spouse">Spouse</option>
-                <option value="Other">Other</option>
-              </select>
-            </div>
+              
+  <div>
+    <span class="form-label">Gender</span>
+    <div class="form-radio-group">
+      
+        <label class="inline-flex items-center">
+          <input
+            type="radio"
+            name="gender"
+            value="Male"
+            x-model="editingMember.gender"
+            class="text-indigo-600 focus:ring-indigo-500 border-gray-300"
+          />
+          <span class="ml-2 text-sm text-gray-700">Male</span>
+        </label>
+      
+        <label class="inline-flex items-center">
+          <input
+            type="radio"
+            name="gender"
+            value="Female"
+            x-model="editingMember.gender"
+            class="text-indigo-600 focus:ring-indigo-500 border-gray-300"
+          />
+          <span class="ml-2 text-sm text-gray-700">Female</span>
+        </label>
+      
+        <label class="inline-flex items-center">
+          <input
+            type="radio"
+            name="gender"
+            value="Unknown"
+            x-model="editingMember.gender"
+            class="text-indigo-600 focus:ring-indigo-500 border-gray-300"
+          />
+          <span class="ml-2 text-sm text-gray-700">Unknown</span>
+        </label>
+      
+    </div>
+  </div>
 
+            </div>
             <div>
-              <label for="birthDate" class="block text-sm font-medium text-gray-700">Birth Date</label>
-              <input type="date" id="birthDate" x-model="editingMember.birthDate"
-                     class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 
-                            focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-                     required />
+              
+  <div>
+    <span class="form-label">Disabled</span>
+    <div class="form-radio-group">
+      
+        <label class="inline-flex items-center">
+          <input
+            type="radio"
+            name="isDisabled"
+            value="Yes"
+            x-model="editingMember.isDisabled"
+            class="text-indigo-600 focus:ring-indigo-500 border-gray-300"
+          />
+          <span class="ml-2 text-sm text-gray-700">Yes</span>
+        </label>
+      
+        <label class="inline-flex items-center">
+          <input
+            type="radio"
+            name="isDisabled"
+            value="No"
+            x-model="editingMember.isDisabled"
+            class="text-indigo-600 focus:ring-indigo-500 border-gray-300"
+          />
+          <span class="ml-2 text-sm text-gray-700">No</span>
+        </label>
+      
+    </div>
+  </div>
+
             </div>
 
-            <div class="grid grid-cols-2 gap-4">
-              <div>
-                <label for="gender" class="block text-sm font-medium text-gray-700">Gender</label>
-                <select id="gender" x-model="editingMember.gender"
-                        class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 
-                               focus:outline-none focus:ring-blue-500 focus:border-blue-500">
-                  <option value="Male">Male</option>
-                  <option value="Female">Female</option>
-                </select>
-              </div>
-              <div>
-                <label for="ssn" class="block text-sm font-medium text-gray-700">SSN</label>
-                <input type="text" id="ssn" x-model="editingMember.ssn"
-                       class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 
-                              focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-                       maxlength="9" />
-              </div>
-            </div>
           </div>
 
           <div class="mt-6 flex justify-end space-x-2">
-            <button type="button" @click="closeModal()"
-                    class="px-4 py-2 bg-gray-200 border border-gray-300 rounded-md
-                           text-gray-700 hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500">
-              Cancel
-            </button>
-            <button type="submit"
-                    class="inline-flex justify-center py-2 px-4 bg-blue-600 text-white text-sm font-medium rounded-md
-                           hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
-              Save
-            </button>
+            <button type="button" @click="closeModal()" class="btn btn-cancel">Cancel</button>
+            <button type="submit" class="btn btn-submit">Save</button>
           </div>
         </form>
       </div>
@@ -518,18 +691,31 @@
   }
 </script>
 
-    </main>
-
-  </div>
-  
-  <footer class="p-4 text-center text-sm text-zinc-500 dark:text-zinc-400">
+        <footer class="p-4 text-center text-sm text-zinc-500 dark:text-zinc-400">
   &copy; 2025 MyProfile. All rights reserved.
 </footer>
 
+      </main>
+    </div>
+  </div>
+  
 
   <script src="/js/main.js"></script>
   <script src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
 
 </body>
+
+<script>
+function toggleSidebar(open) {
+  const rightSide = document.querySelector('aside.right-side');
+  if (!rightSide) return;
+
+  if (open) {
+    rightSide.classList.add('ml-20');
+  } else {
+    rightSide.classList.remove('ml-20');
+  }
+}
+</script>
 
 </html>

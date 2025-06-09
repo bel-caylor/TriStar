@@ -1,11 +1,12 @@
-{# ============================================================================
-   File: src/_includes/components/family-edit-modal.njk
-   Description:
-     - Alpine‐powered Add/Edit modal for family members.
-     - Must live inside an element with x-data="familyTableComponent(...)".
-   ============================================================================ #}
+{% from "components/input-field.njk" import
+   textInputField,
+   dateInputField,
+   selectField,
+   radioGroup
+%}
 
 <div 
+  {# id = "edit-modal" #}
   x-show="showModal" 
   x-transition.opacity 
   class="fixed inset-0 z-50 overflow-y-auto"
@@ -17,82 +18,67 @@
   <div class="flex items-center justify-center min-h-screen px-4">
     <div class="bg-white rounded-lg overflow-hidden shadow-xl transform transition-all sm:max-w-lg w-full">
       <div class="px-6 py-4">
+        <button @click="closeModal()" class="btn btn-close">
+          <span class="sr-only">Close</span>
+          &times;
+        </button>
         <div class="flex justify-between items-center mb-4">
-          <h2 class="text-xl font-semibold text-gray-800" id="familyEditModalLabel" x-text="isEdit ? 'Edit Family Member' : 'Add Family Member'"></h2>
-          <button @click="closeModal()" class="text-gray-400 hover:text-gray-600">
-            <span class="sr-only">Close</span>
-            &times;
-          </button>
+          <h2 class="text-xl font-semibold text-gray-800"
+              id="familyEditModalLabel"
+              x-text="isEdit ? 'Edit Family Member' : 'Add Family Member'">
+          </h2>
         </div>
 
         <form @submit.prevent="saveMember()">
           <div class="grid grid-cols-1 gap-4">
+
+            <!-- First Name (text input) -->
             <div>
-              <label for="firstName" class="block text-sm font-medium text-gray-700">First Name</label>
-              <input type="text" id="firstName" x-model="editingMember.firstName"
-                     class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 
-                            focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-                     required />
+              {{ textInputField("First Name", "firstName", "editingMember.firstName", "", "text", true) }}
+            </div>
+
+            <!-- Suffix (text input) -->
+            <div>
+              {{ textInputField("Suffix", "suffix", "editingMember.suffix", "", "text", false) }}
+            </div>
+
+            <!-- Last Name (text input) -->
+            <div>
+              {{ textInputField("Last Name", "lastName", "editingMember.lastName", "", "text", true) }}
+            </div>
+
+            <!-- Relation (select dropdown) -->
+            <div>
+              {{ selectField("Relation", "relation", "editingMember.relation", ["Child", "Spouse", "Other"], true) }}
+            </div>
+
+            <!-- Birth Date (date input) -->
+            <div>
+              {{ dateInputField("Birth Date", "birthDate", "editingMember.birthDate", true) }}
+            </div>
+
+            <!-- Term Date (date input) -->
+            <div>
+              {{ dateInputField("Term Date", "termDate", "editingMember.termDate", false) }}
             </div>
 
             <div>
-              <label for="lastName" class="block text-sm font-medium text-gray-700">Last Name</label>
-              <input type="text" id="lastName" x-model="editingMember.lastName"
-                     class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 
-                            focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-                     required />
+              {{ textInputField("SSN", "ssn", "editingMember.ssn", "", "text", false) }}
             </div>
-
             <div>
-              <label for="relation" class="block text-sm font-medium text-gray-700">Relation</label>
-              <select id="relation" x-model="editingMember.relation"
-                      class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 
-                             focus:outline-none focus:ring-blue-500 focus:border-blue-500">
-                <option value="Child">Child</option>
-                <option value="Spouse">Spouse</option>
-                <option value="Other">Other</option>
-              </select>
+              {{ radioGroup("Gender", "gender", "editingMember.gender", 
+                [ "Male", "Female", "Unknown" ]
+              )}}
             </div>
-
             <div>
-              <label for="birthDate" class="block text-sm font-medium text-gray-700">Birth Date</label>
-              <input type="date" id="birthDate" x-model="editingMember.birthDate"
-                     class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 
-                            focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-                     required />
+              {{ radioGroup("Disabled", "isDisabled", "editingMember.isDisabled", ["Yes", "No"]) }}
             </div>
 
-            <div class="grid grid-cols-2 gap-4">
-              <div>
-                <label for="gender" class="block text-sm font-medium text-gray-700">Gender</label>
-                <select id="gender" x-model="editingMember.gender"
-                        class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 
-                               focus:outline-none focus:ring-blue-500 focus:border-blue-500">
-                  <option value="Male">Male</option>
-                  <option value="Female">Female</option>
-                </select>
-              </div>
-              <div>
-                <label for="ssn" class="block text-sm font-medium text-gray-700">SSN</label>
-                <input type="text" id="ssn" x-model="editingMember.ssn"
-                       class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 
-                              focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-                       maxlength="9" />
-              </div>
-            </div>
           </div>
 
           <div class="mt-6 flex justify-end space-x-2">
-            <button type="button" @click="closeModal()"
-                    class="px-4 py-2 bg-gray-200 border border-gray-300 rounded-md
-                           text-gray-700 hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500">
-              Cancel
-            </button>
-            <button type="submit"
-                    class="inline-flex justify-center py-2 px-4 bg-blue-600 text-white text-sm font-medium rounded-md
-                           hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
-              Save
-            </button>
+            <button type="button" @click="closeModal()" class="btn btn-cancel">Cancel</button>
+            <button type="submit" class="btn btn-submit">Save</button>
           </div>
         </form>
       </div>

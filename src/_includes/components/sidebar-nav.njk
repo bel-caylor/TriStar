@@ -9,10 +9,12 @@
   x-transition:leave="transition ease-in duration-150"
   x-transition:leave-start="opacity-100 transform translate-x-0"
   x-transition:leave-end="opacity-0 transform -translate-x-4"
-  @click.away="sidebarOpen = false"
+  @click.outside="
+    if ($event.target.closest('#edit-modal')) return;
+    sidebarOpen = false
   class="w-20 bg-white border-r border-gray-200 h-screen flex flex-col items-center py-4 fixed top-[70px] left-0 print:hidden">
   <nav class="flex-1">
-    <ul class="flex flex-col items-center space-y-6">
+    <ul class="flex flex-col items-center space-y-6 py-4 px-1">
 
       {{ linkItem("/personal/",      "fa-user",           "Personal") }}
       {{ linkItem("/family/",        "fa-home",           "Family") }}
