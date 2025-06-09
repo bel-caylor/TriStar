@@ -182,16 +182,20 @@
         
       >
         
-<div x-data="familyTableComponent()" x-init="loadData()" >
-
-  <div class="mb-6">
-    <h1 class="text-3xl font-bold text-gray-800">Edit Family Information</h1>
-    <p class="mt-1 text-gray-600">
+<div 
+  x-data="familyTableComponent()" 
+  x-init="loadData()" 
+  class="page-container mx-auto px-4"
+>
+  <header class="page-header">
+    <h1 class="page-title">Family</h1>
+    <p class="page-desc">
       Edit as needed, or leave it alone if all looks in order.
     </p>
-  </div>
+  </header>
 
-  <section class="">
+  <div class="family-section">
+    <section class="">
   <div class="flex items-center justify-end mb-4">
     <button
       type="button"
@@ -345,7 +349,7 @@
   </div>
 </section>
 
-  
+    
 
 <div 
   
@@ -607,8 +611,9 @@
   </div>
 </div>
 
-
+  </div>
 </div>
+
 
 <script>
   function familyTableComponent() {

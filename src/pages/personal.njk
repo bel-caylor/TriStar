@@ -4,29 +4,26 @@ layout: layouts/base.njk
 permalink: "personal/"
 ---
 
-<div x-data="employeeTableComponent()" x-init="loadData()">
-
-  <div class="mb-6">
-    <h1 class="text-3xl font-bold text-gray-800">Edit Personal Information</h1>
-    <p class="mt-1 text-gray-600">
+<div x-data="employeeTableComponent()" x-init="loadData()" class="page-container mx-auto px-4">
+  <header class="page-header">
+    <h1 class="page-title">{{ title }}</h1>
+    <p class="page-desc">
       Edit as needed, or leave it alone if all looks in order.
     </p>
-  </div>
+  </header>
 
-  <div class="mb-4 flex items-center justify-between">
-
+  <div class="section-controls">
     {% include "components/search-input.njk" %}
-
   </div>
 
-  {% include "components/employees-table.njk" %}
-
-  <hr class="">
-
-  {% include "components/employees-table-responsive.njk" %}
+  <div class="employee-tables">
+    {% include "components/employees-table.njk" %}
+    {#
+    <hr class="divider" /> #}
+    {# {% include "components/employees-table-responsive.njk" %} #}
+  </div>
 
   {% include "components/employee-edit-modal.njk" %}
-
 </div>
 
 <script>

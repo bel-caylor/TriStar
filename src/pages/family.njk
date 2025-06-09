@@ -4,19 +4,24 @@ layout: layouts/base.njk
 permalink: "family/"
 ---
 
-<div x-data="familyTableComponent()" x-init="loadData()" >
-
-  <div class="mb-6">
-    <h1 class="text-3xl font-bold text-gray-800">Edit Family Information</h1>
-    <p class="mt-1 text-gray-600">
+<div 
+  x-data="familyTableComponent()" 
+  x-init="loadData()" 
+  class="page-container mx-auto px-4"
+>
+  <header class="page-header">
+    <h1 class="page-title">{{ title }}</h1>
+    <p class="page-desc">
       Edit as needed, or leave it alone if all looks in order.
     </p>
+  </header>
+
+  <div class="family-section">
+    {% include "components/family-table-responsive.njk" %}
+    {% include "components/family-edit-modal.njk" %}
   </div>
-
-  {% include "components/family-table-responsive.njk" %}
-  {% include "components/family-edit-modal.njk" %}
-
 </div>
+
 
 <script>
   function familyTableComponent() {

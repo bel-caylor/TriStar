@@ -1,0 +1,11 @@
+@layer components {
+  /* Hero banner on the home page */
+  .section-hero {
+    @apply text-center py-20;
+  }
+
+  /* Generic gray “feature” section */
+  .section-bg {
+    @apply py-16 bg-zinc-100 dark:bg-zinc-900;
+  }
+}

@@ -182,41 +182,43 @@
         
       >
         
-<div x-data="summaryComponent()" x-init="loadData()" class="p-6 bg-white text-gray-900">
-
-  <!-- ────── Page Header ────── -->
-  <div class="flex items-center justify-between mb-6 print:mb-4">
-    <h1 class="text-2xl font-semibold">Benefit Enrollment Summary</h1>
-    <div class="text-sm text-gray-600">
+<div 
+  x-data="summaryComponent()" 
+  x-init="loadData()" 
+  class="page-container mx-auto px-4 summary-page"
+>
+  <!-- Page Header -->
+  <header class="page-header">
+    <h1 class="page-title">Benefit Enrollment Summary</h1>
+    <div class="page-date">
       <span x-text="formattedDate"></span>
     </div>
-  </div>
+  </header>
 
-  <!-- ────── Employee Info ────── -->
-  <section class="mb-8">
-    <div class="grid grid-cols-1 md:grid-cols-2 print:grid-cols-2 gap-4">
-      <!-- Left column: Name & Address -->
+  <!-- Employee Info -->
+  <section class="section-info">
+    <div class="info-grid">
+      <!-- Left column -->
       <div>
-        <div class="font-medium">Sally Sample</div>
+        <div class="info-name font-medium">Sally Sample</div>
         <div x-text="`${employee.address1}`"></div>
         <div x-text="`${employee.city}, ${employee.state} ${employee.zipCode}`"></div>
-        <div class="mt-2 text-sm text-gray-600">
+        <div class="info-birth mt-2">
           <span class="font-medium">Birth Date:</span>
           <span x-text="formatDate(employee.birthDate)"></span>
         </div>
       </div>
-
-      <!-- Right column: Plan & Employer Details -->
+      <!-- Right column -->
       <div>
-        <div class="text-sm text-gray-600 mb-1">
+        <div class="info-field mb-1">
           <span class="font-medium">Plan Year:</span>
           <span x-text="planYear"></span>
         </div>
-        <div class="text-sm text-gray-600 mb-1">
+        <div class="info-field mb-1">
           <span class="font-medium">Account:</span>
           <span x-text="accountNumber"></span>
         </div>
-        <div class="text-sm text-gray-600 mb-1">
+        <div class="info-field mb-1">
           <span class="font-medium">Employer:</span>
           <span x-text="employee.employer"></span>
         </div>
@@ -224,35 +226,33 @@
     </div>
   </section>
 
-  <!-- ────── Family Section ────── -->
-  <section class="mb-8">
-    <h2 class="text-xl font-semibold mb-4">Family</h2>
-    <div class="overflow-x-auto">
-      <table class="min-w-full divide-y divide-gray-300 border border-gray-200">
-        <thead class="bg-gray-100 print:bg-gray-200">
-          <tr class="text-left text-sm font-medium text-gray-700 uppercase">
-            <th class="px-4 py-2">Name</th>
-            <th class="px-4 py-2">Relation</th>
-            <th class="px-4 py-2">Gender</th>
-            <th class="px-4 py-2">SSN</th>
-            <th class="px-4 py-2">Birth Date</th>
+  <!-- Family Section -->
+  <section class="section-table mb-8">
+    <h2 class="section-title">Family</h2>
+    <div class="table-wrapper">
+      <table class="table-base">
+        <thead class="table-head">
+          <tr class="table-row-head">
+            <th class="table-cell-head">Name</th>
+            <th class="table-cell-head">Relation</th>
+            <th class="table-cell-head">Gender</th>
+            <th class="table-cell-head">SSN</th>
+            <th class="table-cell-head">Birth Date</th>
           </tr>
         </thead>
-        <tbody class="bg-white divide-y divide-gray-200">
+        <tbody class="table-body">
           <template x-for="member in employee.familyMembers" :key="member.id">
-            <tr>
-              <td class="px-4 py-2 text-sm text-gray-900" x-text="`${member.lastName}, ${member.firstName}`"></td>
-              <td class="px-4 py-2 text-sm text-gray-900" x-text="member.relation"></td>
-              <td class="px-4 py-2 text-sm text-gray-900" x-text="member.gender"></td>
-              <td class="px-4 py-2 text-sm text-gray-900" x-text="member.ssn"></td>
-              <td class="px-4 py-2 text-sm text-gray-900" x-text="formatDate(member.birthDate)"></td>
+            <tr class="table-row">
+              <td class="table-cell" x-text="`${member.lastName}, ${member.firstName}`"></td>
+              <td class="table-cell" x-text="member.relation"></td>
+              <td class="table-cell" x-text="member.gender"></td>
+              <td class="table-cell" x-text="member.ssn"></td>
+              <td class="table-cell" x-text="formatDate(member.birthDate)"></td>
             </tr>
           </template>
           <template x-if="!employee.familyMembers || employee.familyMembers.length === 0">
             <tr>
-              <td colspan="5" class="px-4 py-4 text-center text-sm text-gray-500">
-                No family members found.
-              </td>
+              <td colspan="5" class="table-empty">No family members found.</td>
             </tr>
           </template>
         </tbody>
@@ -260,35 +260,33 @@
     </div>
   </section>
 
-  <!-- ────── Beneficiaries Section ────── -->
-  <section class="mb-8">
-    <h2 class="text-xl font-semibold mb-4">Beneficiaries</h2>
-    <div class="overflow-x-auto">
-      <table class="min-w-full divide-y divide-gray-300 border border-gray-200">
-        <thead class="bg-gray-100 print:bg-gray-200">
-          <tr class="text-left text-sm font-medium text-gray-700 uppercase">
-            <th class="px-4 py-2">Type</th>
-            <th class="px-4 py-2">Name</th>
-            <th class="px-4 py-2">SSN</th>
-            <th class="px-4 py-2">Relationship</th>
-            <th class="px-4 py-2">Percent</th>
+  <!-- Beneficiaries Section -->
+  <section class="section-table mb-8">
+    <h2 class="section-title">Beneficiaries</h2>
+    <div class="table-wrapper">
+      <table class="table-base">
+        <thead class="table-head">
+          <tr class="table-row-head">
+            <th class="table-cell-head">Type</th>
+            <th class="table-cell-head">Name</th>
+            <th class="table-cell-head">SSN</th>
+            <th class="table-cell-head">Relationship</th>
+            <th class="table-cell-head">Percent</th>
           </tr>
         </thead>
-        <tbody class="bg-white divide-y divide-gray-200">
+        <tbody class="table-body">
           <template x-for="ben in employee.beneficiaries" :key="ben.id">
-            <tr>
-              <td class="px-4 py-2 text-sm text-gray-900" x-text="ben.type"></td>
-              <td class="px-4 py-2 text-sm text-gray-900" x-text="ben.name"></td>
-              <td class="px-4 py-2 text-sm text-gray-900" x-text="ben.ssn"></td>
-              <td class="px-4 py-2 text-sm text-gray-900" x-text="ben.relationship"></td>
-              <td class="px-4 py-2 text-sm text-gray-900" x-text="`${ben.percent}%`"></td>
+            <tr class="table-row">
+              <td class="table-cell" x-text="ben.type"></td>
+              <td class="table-cell" x-text="ben.name"></td>
+              <td class="table-cell" x-text="ben.ssn"></td>
+              <td class="table-cell" x-text="ben.relationship"></td>
+              <td class="table-cell" x-text="`${ben.percent}%`"></td>
             </tr>
           </template>
           <template x-if="!employee.beneficiaries || employee.beneficiaries.length === 0">
             <tr>
-              <td colspan="5" class="px-4 py-4 text-center text-sm text-gray-500">
-                No beneficiaries found.
-              </td>
+              <td colspan="5" class="table-empty">No beneficiaries found.</td>
             </tr>
           </template>
         </tbody>
@@ -296,59 +294,55 @@
     </div>
   </section>
 
-  <!-- ────── Benefit Elections Section ────── -->
-  <section class="mb-8">
-    <h2 class="text-xl font-semibold mb-4">Benefit Elections</h2>
-    <div class="overflow-x-auto">
-      <table class="min-w-full divide-y divide-gray-300 border border-gray-200">
-        <thead class="bg-gray-100 print:bg-gray-200">
-          <tr class="text-left text-sm font-medium text-gray-700 uppercase">
-            <th class="px-4 py-2">Benefit</th>
-            <th class="px-4 py-2">Option</th>
-            <th class="px-4 py-2">Coverage</th>
-            <th class="px-4 py-2 text-right">Cost Per Pay Period</th>
+  <!-- Benefit Elections Section -->
+  <section class="section-table mb-8">
+    <h2 class="section-title">Benefit Elections</h2>
+    <div class="table-wrapper">
+      <table class="table-base">
+        <thead class="table-head">
+          <tr class="table-row-head">
+            <th class="table-cell-head">Benefit</th>
+            <th class="table-cell-head">Option</th>
+            <th class="table-cell-head">Coverage</th>
+            <th class="table-cell-head text-right">Cost Per Pay Period</th>
           </tr>
         </thead>
-        <tbody class="bg-white divide-y divide-gray-200">
+        <tbody class="table-body">
           <template x-for="ben in employee.benefits" :key="ben.change">
-            <tr>
-              <td class="px-4 py-2 text-sm text-gray-900" x-text="ben.change"></td>
-              <td class="px-4 py-2 text-sm text-gray-900" x-text="ben.benefit"></td>
-              <td class="px-4 py-2 text-sm text-gray-900" x-text="ben.coverage"></td>
-              <td class="px-4 py-2 text-sm text-gray-900 text-right" x-text="formatCurrency(ben.costPerPayPeriod)"></td>
+            <tr class="table-row">
+              <td class="table-cell" x-text="ben.change"></td>
+              <td class="table-cell" x-text="ben.benefit"></td>
+              <td class="table-cell" x-text="ben.coverage"></td>
+              <td class="table-cell text-right" x-text="formatCurrency(ben.costPerPayPeriod)"></td>
             </tr>
           </template>
           <template x-if="!employee.benefits || employee.benefits.length === 0">
             <tr>
-              <td colspan="4" class="px-4 py-4 text-center text-sm text-gray-500">
-                No benefit elections found.
-              </td>
+              <td colspan="4" class="table-empty">No benefit elections found.</td>
             </tr>
           </template>
         </tbody>
       </table>
     </div>
-
-    <!-- Total Row -->
-    <div class="mt-4 flex justify-end">
-      <div class="text-right">
-        <div class="text-sm text-gray-700 font-medium">Total Cost Per Pay Period</div>
-        <div class="text-lg font-semibold" x-text="formatCurrency(totalCost)"></div>
+    <div class="total-row">
+      <div class="total-info">
+        <div class="total-label">Total Cost Per Pay Period</div>
+        <div class="total-value" x-text="formatCurrency(totalCost)"></div>
       </div>
     </div>
   </section>
 
-  <!-- ────── Print Button ────── -->
-  <div class="text-center print:hidden">
+  <!-- Print Button -->
+  <div class="print-hide text-center">
     <button
       @click="window.print()"
-      class="inline-flex items-center px-4 py-2 bg-gray-800 text-white text-sm font-medium rounded-md
-             hover:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-700"
+      class="btn-print"
     >
       Print
     </button>
   </div>
 </div>
+
 
 <script>
   function summaryComponent() {
