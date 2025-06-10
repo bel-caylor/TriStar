@@ -29,27 +29,16 @@ jobs:
       - name: Build Eleventy
         run: npx eleventy
 
-      - name: Nest site under /TriStar
+      - name: Fix asset URLs for project path
         run: |
-          mkdir -p dist/TriStar
-          for item in dist/*; do
-            # skip the TriStar folder itself
-            if [ "$item" = "dist/TriStar" ]; then
-              continue
-            fi
-            mv "$item" dist/TriStar/
-          done
-
-      - name: Fix URLs in generated HTML
-        run: |
-          # prefix your CSS link
-          grep -Rl 'href="/style.css"' dist/TriStar/ \
+          # turn href="/style.css"  →  href="/TriStar/style.css"
+          grep -Rl 'href="/style.css"' dist/ \
             | xargs sed -i 's|href="/style.css"|href="/TriStar/style.css"|g'
-          # prefix your JS bundle
-          grep -Rl 'src="/js/' dist/TriStar/ \
+          # turn src="/js/…  →  src="/TriStar/js/…
+          grep -Rl 'src="/js/' dist/ \
             | xargs sed -i 's|src="/js/|src="/TriStar/js/|g'
-          # prefix any images
-          grep -Rl 'src="/img/' dist/TriStar/ \
+          # turn img URLs too if needed
+          grep -Rl 'src="/img/' dist/ \
             | xargs sed -i 's|src="/img/|src="/TriStar/img/|g'
 
       - name: Deploy to gh-pages
@@ -57,5 +46,5 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_branch: gh-pages
-          publish_dir: dist/TriStar
+          publish_dir: dist
           allow_empty_commit: true
