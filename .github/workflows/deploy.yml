@@ -40,6 +40,18 @@ jobs:
             mv "$item" dist/TriStar/
           done
 
+      - name: Fix URLs in generated HTML
+        run: |
+          # prefix your CSS link
+          grep -Rl 'href="/style.css"' dist/TriStar/ \
+            | xargs sed -i 's|href="/style.css"|href="/TriStar/style.css"|g'
+          # prefix your JS bundle
+          grep -Rl 'src="/js/' dist/TriStar/ \
+            | xargs sed -i 's|src="/js/|src="/TriStar/js/|g'
+          # prefix any images
+          grep -Rl 'src="/img/' dist/TriStar/ \
+            | xargs sed -i 's|src="/img/|src="/TriStar/img/|g'
+
       - name: Deploy to gh-pages
         uses: peaceiris/actions-gh-pages@v3
         with:
