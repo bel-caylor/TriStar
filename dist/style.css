@@ -2020,6 +2020,9 @@ h1 {
   .md\:col-span-2 {
     grid-column: span 2 / span 2;
   }
+  .md\:ml-20 {
+    margin-left: 5rem;
+  }
   .md\:table-cell {
     display: table-cell;
   }
