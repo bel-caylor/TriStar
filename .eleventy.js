@@ -20,8 +20,6 @@ module.exports = function(eleventyConfig) {
       includes: "_includes",
       output: "dist"
     },
-    pathPrefix: process.env.ELEVENTY_ENV === "production"
-      ? "/TriStar/"
-      : "/"
+    pathPrefix: "/"
   };
 };
