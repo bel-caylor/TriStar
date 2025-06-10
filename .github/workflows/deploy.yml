@@ -29,35 +29,12 @@ jobs:
       - name: Build Eleventy
         run: npx eleventy
 
-      - name: Fix asset URLs for project path
+      - name: Fix all absolute URLs in HTML
         run: |
-          # turn href="/style.css"  →  href="/TriStar/style.css"
-          grep -Rl 'href="/style.css"' dist/ \
-            | xargs sed -i 's|href="/style.css"|href="/TriStar/style.css"|g'
-          # turn src="/js/…  →  src="/TriStar/js/…
-          grep -Rl 'src="/js/' dist/ \
-            | xargs sed -i 's|src="/js/|src="/TriStar/js/|g'
-          # turn img URLs too if needed
-          grep -Rl 'src="/img/' dist/ \
-            | xargs sed -i 's|src="/img/|src="/TriStar/img/|g'
-          # turn href="/personal"  →  href="/TriStar/personal"
-          grep -Rl 'href="/personal"' dist/ \
-            | xargs sed -i 's|href="/personal"|href="/TriStar/personal"|g'
-          # turn href="/family"  →  href="/TriStar/family"
-          grep -Rl 'href="/family"' dist/ \
-            | xargs sed -i 's|href="/family"|href="/TriStar/family"|g'      
-          # turn href="/benefits"  →  href="/TriStar/benefits"
-          grep -Rl 'href="/benefits"' dist/ \
-            | xargs sed -i 's|href="/benefits"|href="/TriStar/benefits"|g'
-          # turn href="/beneficiaries"  →  href="/TriStar/beneficiaries"
-          grep -Rl 'href="/beneficiaries"' dist/ \
-            | xargs sed -i 's|href="/beneficiaries"|href="/TriStar/beneficiaries"|g'
-          # turn href="/summary"  →  href="/TriStar/summary"
-          grep -Rl 'href="/summary"' dist/ \
-            | xargs sed -i 's|href="/summary"|href="/TriStar/summary"|g'
-          # turn href="/upload"  →  href="/TriStar/upload"
-          grep -Rl 'href="/upload"' dist/ \
-            | xargs sed -i 's|href="/upload"|href="/TriStar/upload"|g'                                                                      
+          find dist -type f -name '*.html' -print0 \
+            | xargs -0 sed -i \
+                -e 's|href="/|href="/TriStar/|g' \
+                -e 's|src="/|src="/TriStar/|g'                                                          
 
       - name: Deploy to gh-pages
         uses: peaceiris/actions-gh-pages@v3
