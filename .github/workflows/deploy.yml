@@ -29,18 +29,14 @@ jobs:
       - name: Build Eleventy
         run: npx eleventy
 
-      - name: Fix all absolute URLs in HTML & JS
+      - name: Patch every leading-slash URL to /TriStar/
         run: |
-          # HTML files
-          find dist -type f -name '*.html' -print0 \
+          # Look through all .html and .js files in dist/
+          find dist -type f \( -name '*.html' -o -name '*.js' \) -print0 \
             | xargs -0 sed -i \
-                -e 's|href="/|href="/TriStar/|g' \
-                -e 's|src="/|src="/TriStar/|g'
-          # JS files: rewrite fetch("/something") → fetch("/TriStar/something")
-          find dist -type f -name '*.js' -print0 \
-            | xargs -0 sed -i \
-                -e 's|fetch("/|fetch("/TriStar/|g'
-                                                      
+                -e 's|href="/|href="/TriStar/|g'   \
+                -e 's|src="/|src="/TriStar/|g'     \
+                -e 's|fetch("/|fetch("/TriStar/|g' 
 
       - name: Deploy to gh-pages
         uses: peaceiris/actions-gh-pages@v3
