@@ -17,7 +17,7 @@ jobs:
           fetch-depth: 0
           persist-credentials: true
 
-      - name: Set up Node
+      - name: Setup Node.js
         uses: actions/setup-node@v3
 
       - name: Install dependencies
@@ -29,20 +29,21 @@ jobs:
       - name: Build Eleventy
         run: npx eleventy
 
-      # ────────────────────────────────────────────────────────────────────
-      # NEW STEP: Move everything into the `TriStar/` subfolder
-      # ────────────────────────────────────────────────────────────────────
       - name: Nest site under /TriStar
         run: |
           mkdir -p dist/TriStar
-          # move all files & folders (including hidden) into that subfolder
-          shopt -s dotglob && mv dist/* dist/TriStar/
+          for item in dist/*; do
+            # skip the TriStar folder itself
+            if [ "$item" = "dist/TriStar" ]; then
+              continue
+            fi
+            mv "$item" dist/TriStar/
+          done
 
       - name: Deploy to gh-pages
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          # now point at the nested folder so its contents become the site root
-          publish_dir: ./dist/TriStar
           publish_branch: gh-pages
+          publish_dir: dist/TriStar
           allow_empty_commit: true
