@@ -40,6 +40,24 @@ jobs:
           # turn img URLs too if needed
           grep -Rl 'src="/img/' dist/ \
             | xargs sed -i 's|src="/img/|src="/TriStar/img/|g'
+          # turn linkItem("/personal/  →  linkItem("/TriStar/personal/
+          grep -Rl 'linkItem("/personal/' dist/ \
+            | xargs sed -i 's|linkItem("/personal/|linkItem("/TriStar/personal/'
+          # turn linkItem("/family/  →  linkItem("/TriStar/family/
+          grep -Rl 'linkItem("/family/' dist/ \
+            | xargs sed -i 's|linkItem("/family/|linkItem("/TriStar/family/'
+          # turn linkItem("/benefits/  →  linkItem("/TriStar/benefits/
+          grep -Rl 'linkItem("/benefits/' dist/ \
+            | xargs sed -i 's|linkItem("/benefits/|linkItem("/TriStar/benefits/'
+          # turn linkItem("/beneficiaries/  →  linkItem("/TriStar/beneficiaries/
+          grep -Rl 'linkItem("/beneficiaries/' dist/ \
+            | xargs sed -i 's|linkItem("/beneficiaries/|linkItem("/TriStar/beneficiaries/'
+          # turn linkItem("/summary/  →  linkItem("/TriStar/summary/
+          grep -Rl 'linkItem("/summary/' dist/ \
+            | xargs sed -i 's|linkItem("/summary/|linkItem("/TriStar/summary/'
+          # turn linkItem("/upload/  →  linkItem("/TriStar/upload/
+          grep -Rl 'linkItem("/upload/' dist/ \
+            | xargs sed -i 's|linkItem("/upload/|linkItem("/TriStar/upload/'                      
 
       - name: Deploy to gh-pages
         uses: peaceiris/actions-gh-pages@v3
