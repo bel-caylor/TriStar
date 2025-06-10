@@ -629,7 +629,7 @@
       async loadData() {
         try {
           // Fetch the full employee‐level JSON (which contains a nested familyMembers array)
-          const res = await fetch("/employee.json");
+          const res = await fetch("/TriStar/employee.json");
           if (!res.ok) throw new Error("Could not load employee.json");
 
           const data = await res.json();

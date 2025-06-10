@@ -659,7 +659,7 @@
         try {
           // If you want Eleventy to inject employees via Nunjucks, you could do:
           // this.employees = ;
-          const res = await fetch("/employees.json");
+          const res = await fetch("/TriStar/employees.json");
           if (!res.ok) throw new Error("Could not load employees.json");
           this.employees = await res.json();
         } catch (err) {

@@ -361,7 +361,7 @@
       // Fetch employee.json and initialize data
       async loadData() {
         try {
-          const res = await fetch("/employee.json");
+          const res = await fetch("/TriStar/employee.json");
           if (!res.ok) throw new Error("Could not load employee.json");
           const data = await res.json();
           this.employee = data;
