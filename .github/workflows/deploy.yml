@@ -27,7 +27,7 @@ jobs:
         run: npm run build:css
 
       - name: Build Eleventy
-        run: eleventy
+        run: npx eleventy
 
       # ────────────────────────────────────────────────────────────────────
       # NEW STEP: Move everything into the `TriStar/` subfolder
