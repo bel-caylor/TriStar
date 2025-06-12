@@ -12,7 +12,7 @@ permalink: "personal/"
     </p>
   </header>
 
-  <div class="section-controls">
+  <div :class="{ 'hidden': !admin }" class="section-controls">
     {% include "components/search-input.njk" %}
   </div>
 

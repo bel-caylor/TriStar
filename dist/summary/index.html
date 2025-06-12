@@ -6,11 +6,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Benefit Enrollment Summary</title>
   <link href="/style.css" rel="stylesheet">
-  <link
-    rel="stylesheet"
-    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
-    crossorigin="anonymous"
-  />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+    crossorigin="anonymous" />
 </head>
 
 <body class="min-h-screen flex flex-col">
@@ -69,26 +66,29 @@
 
     <div class="flex flex-1 overflow-hidden">
       <!-- Sidebar -->
-      <aside
-        class="right-side transition-all duration-300 ease-in-out bg-white border-r border-gray-200"
-      >
+      <aside x-show="sidebarOpen && loggedIn && Object.keys(currentUser).length > 0"
+        x-transition:enter="transition ease-out duration-200"
+        x-transition:enter-start="opacity-0 transform -translate-x-4"
+        x-transition:enter-end="opacity-100 transform translate-x-0"
+        x-transition:leave="transition ease-in duration-150"
+        x-transition:leave-start="opacity-100 transform translate-x-0"
+        x-transition:leave-end="opacity-0 transform -translate-x-4"
+        @click.outside="if (mobileScreen) sidebarOpen = false" 
+        class="right-side">
+
         
 
 
-<div 
-  x-show="sidebarOpen"
-  x-transition:enter="transition ease-out duration-200"
-  x-transition:enter-start="opacity-0 transform -translate-x-4"
-  x-transition:enter-end="opacity-100 transform translate-x-0"
-  x-transition:leave="transition ease-in duration-150"
-  x-transition:leave-start="opacity-100 transform translate-x-0"
-  x-transition:leave-end="opacity-0 transform -translate-x-4"
-  @click.outside="if ($event.target.closest('#edit-modal')) return; sidebarOpen = false"
-  >
-  <nav class="flex-1 w-20 bg-white border-r border-gray-200 h-screen flex flex-col items-center py-4 fixed top-[70px] left-0 print:hidden">
-    <ul class="flex flex-col items-center space-y-6 py-4 px-1">
 
-      
+<div class="currentUser py-2 text-sm text-center text-black bg-gray-200">
+  <div class="firstName font-bold" x-text="currentUser.firstName"></div>
+  <div class="lastName font-bold" x-text="currentUser.lastName"></div>
+  <div class="employer text-xs" x-text="currentUser.employer"></div>
+</div>
+<nav class="">
+  <ul class="">
+
+    
   <li class="min-h-12">
     <a
       href="/personal/"
@@ -99,7 +99,7 @@
     </a>
   </li>
 
-      
+    
   <li class="min-h-12">
     <a
       href="/family/"
@@ -110,7 +110,7 @@
     </a>
   </li>
 
-      
+    
   <li class="min-h-12">
     <a
       href="/benefits/"
@@ -121,7 +121,7 @@
     </a>
   </li>
 
-      
+    
   <li class="min-h-12">
     <a
       href="/beneficiaries/"
@@ -132,7 +132,7 @@
     </a>
   </li>
 
-      
+    
   <li class="min-h-12">
     <a
       href="/summary/"
@@ -143,7 +143,7 @@
     </a>
   </li>
 
-      
+    
   <li class="min-h-12">
     <a
       href="/upload/"
@@ -155,18 +155,15 @@
   </li>
 
 
-    </ul>
-  </nav>
-</div>
+  </ul>
+</nav>
 
 
       </aside>
 
       <!-- Main Content -->
-      <main
-        class="w-full px-3 pt-3 md:ml-20 overflow-auto print:mt-0 print:ml-0 transition-all duration-300 ease-in-out"
-        
-      >
+      <main :class="{ 'ml-20': sidebarOpen }"
+        class="transition-all duration-300 ease-in-out">
         
 <div 
   x-data="summaryComponent()" 
@@ -400,7 +397,7 @@
       </main>
     </div>
   </div>
-  
+
 
   <script src="/js/main.js"></script>
   <script src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
@@ -408,32 +405,30 @@
 </body>
 
 <script>
-function mainApp() {
-  return {
+  function mainApp() {
+    return {
       sidebarOpen: window.innerWidth >= 768,
-      currentUser: {},
+      mobileScreen: window.innerWidth < 768,
+      currentUser: {
+        firstName: 'Sally',
+        lastName: 'Sample',
+        employer: 'MNE LLC (#00903)'
+      },
+      // currentUser: {},
       loggedIn: true,
       admin: false,
 
       init() {
-        // whenever the window is resized, re‐evaluate
-        window.addEventListener('resize', () => {
-          sidebarOpen = (window.innerWidth >= 768)
-        })
-      }
+        const updateScreen = () => {
+          this.mobileScreen = window.innerWidth < 768;
+          this.sidebarOpen = window.innerWidth >= 768;
+        };
+        window.addEventListener('resize', updateScreen);
+        updateScreen();
+      },
+    }
   }
-}
 
-function toggleSidebar(open) {
-  const rightSide = document.querySelector('aside.right-side');
-  if (!rightSide) return;
-
-  if (open) {
-    rightSide.classList.add('ml-20 top-0');
-  } else {
-    rightSide.classList.remove('ml-20');
-  }
-}
 </script>
 
 </html>

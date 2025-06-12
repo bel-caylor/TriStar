@@ -34,7 +34,7 @@
     @apply list-none pl-0 mb-0;
   }
   nav ul li {
-    @apply mb-0; /* or whatever spacing you prefer between nav items */
+    @apply my-4;
   }
   ul {
     @apply list-disc pl-6 mb-4;
@@ -80,5 +80,16 @@
   /* Images: responsive */
   img {
     @apply max-w-full h-auto mb-4 rounded;
+  }
+
+  aside.right-side {
+    @apply w-20 fixed top-[70px] left-0 h-screen;
+    @apply transition-all duration-300 ease-in-out;
+    @apply bg-white print:hidden;
+  }
+  main {
+    @apply w-full px-3 pt-3 md:ml-20;
+    @apply overflow-auto print:mt-0 print:ml-0;
+    @apply transition-all duration-300 ease-in-out;
   }
 }
