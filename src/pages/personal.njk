@@ -20,7 +20,9 @@ permalink: "personal/"
     {% include "components/employees-table-responsive.njk" %}
   </div>
 
-  {% include "components/employee-edit-modal.njk" %}
+  {# <template x-if="showModal && selectedEmployee"> #}
+    {% include "components/employee-edit-modal.njk" %}
+  {# </template> #}
 </div>
 
 <script>
@@ -28,7 +30,7 @@ permalink: "personal/"
     return {
       employees: [],
       searchQuery: "",
-      selectedEmployee: null,
+      selectedEmployee: {},
       showModal: false,
 
       // Fetch employees.json (which Eleventy will copy into dist automatically if in _data/)
@@ -62,14 +64,13 @@ permalink: "personal/"
 
       // Called when user clicks a Name link
       openEmployee(emp) {
-        // Deep clone so editing fields doesn’t immediately change the underlying array
         this.selectedEmployee = JSON.parse(JSON.stringify(emp));
         this.showModal = true;
       },
 
       closeModal() {
         this.showModal = false;
-        this.selectedEmployee = null;
+        this.selectedEmployee = {};
       },
 
       // Called when the modal form is submitted
