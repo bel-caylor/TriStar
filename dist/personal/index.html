@@ -14,24 +14,12 @@
 </head>
 
 <body class="min-h-screen flex flex-col">
-  <div
-    x-data="{
-      // start closed on screens smaller than 768px
-      sidebarOpen: window.innerWidth >= 768
-    }"
-    x-init="
-      // whenever the window is resized, re‐evaluate
-      window.addEventListener('resize', () => {
-        sidebarOpen = (window.innerWidth >= 768)
-      })
-    "
-    class="flex flex-col flex-1"
-  >
+  <div x-data="mainApp()" x-init="init()" class="flex flex-col flex-1">
     <header class="sticky top-0 z-40 w-full bg-white text-textDark text-shadow-md border-b h-[70px] print:hidden">
   <div class="flex items-center justify-between px-4 py-3 md:px-6 md:py-4">
     <!-- ────── 2.1. Hamburger (mobile) ────── -->
     <button
-      @click="sidebarOpen = true"
+      @click="sidebarOpen = !sidebarOpen; toggleSidebar(sidebarOpen)"
       class="md:hidden p-2 rounded-md hover:bg-white/20 focus:outline-none focus:ring-2 focus:ring-white"
       aria-label="Open sidebar"
     >
@@ -82,12 +70,12 @@
     <div class="flex flex-1 overflow-hidden">
       <!-- Sidebar -->
       <aside
-        class="transition-all duration-300 ease-in-out bg-white border-r border-gray-200"
+        class="right-side transition-all duration-300 ease-in-out bg-white border-r border-gray-200"
       >
         
 
 
-<aside 
+<div 
   x-show="sidebarOpen"
   x-transition:enter="transition ease-out duration-200"
   x-transition:enter-start="opacity-0 transform -translate-x-4"
@@ -169,7 +157,7 @@
 
     </ul>
   </nav>
-</aside>
+</div>
 
 
       </aside>
@@ -205,66 +193,201 @@
   </div>
 
   <div class="employee-tables">
-    <div class="table-container">
-  <table class="table-base">
-    <thead class="table-head">
-      <tr>
-        <!-- Always visible on all breakpoints -->
-        <th class="th-cell">SSN</th>
-        <th class="th-cell">Name</th>
-        <!-- Hide on small screens (below md) -->
-        <th class="th-cell hidden sm:table-cell">Address</th>
-        <th class="th-cell hidden md:table-cell">Birth Date</th>
-        <th class="th-cell hidden lg:table-cell">Employer</th>
-        <th class="th-cell hidden md:table-cell">Term Date</th>
-      </tr>
-    </thead>
-    <tbody class="tbody-base">
-      <template x-for="emp in filteredEmployees" :key="emp.ssn">
-        <tr class="tr-hover">
-          <!-- SSN -->
-          <td class="td-cell">
-            <span x-text="emp.ssn"></span>
-          </td>
+    <div class="cards flex gap-4 flex-wrap lg:hidden space-y-4">
+  
+  
+  <div class="card flex-1">
+    <div class="">
+      <a href="#" @click.prevent="openEmployee([object Object])" class="text-xl text-indigo-600 hover:text-indigo-800">
+        Sample, Sally
+      </a>
+      <div>
+        <div class="font-medium text-gray-400 sr-only">Address</div>
+        <div>1234 Main Street<br>Annapolis, MD</div>
+      </div>
+    </div>
+    <div>
+      <div class="field"><span>SSN: </span>712712712</div>
+      <div class="field"><span>Birth Date: </span>1976-09-24</div>
+      <div class="field"><span>Employer: </span>MNE LLC - #00903</div>
+      <div class="field"><span>Term Date: </span>—</div>
+    </div>
 
-          <!-- Name -->
-          <td class="td-cell">
-            <a href="#" @click.prevent="openEmployee(emp)" class="">
-              <span x-text="emp.lastName + ', ' + emp.firstName"></span>
-            </a>
-          </td>
+  </div>
+  
+  <div class="card flex-1">
+    <div class="">
+      <a href="#" @click.prevent="openEmployee([object Object])" class="text-xl text-indigo-600 hover:text-indigo-800">
+        Johnson, Mark
+      </a>
+      <div>
+        <div class="font-medium text-gray-400 sr-only">Address</div>
+        <div>789 Oak Avenue<br>Baltimore, MD</div>
+      </div>
+    </div>
+    <div>
+      <div class="field"><span>SSN: </span>812345678</div>
+      <div class="field"><span>Birth Date: </span>1982-04-15</div>
+      <div class="field"><span>Employer: </span>MNE LLC - #00903</div>
+      <div class="field"><span>Term Date: </span>—</div>
+    </div>
 
-          <!-- Address -->
-          <td class="td-cell hidden sm:table-cell">
-            <span x-text="emp.city + ', ' + emp.state + '  ' + emp.zipCode"></span>
-          </td>
+  </div>
+  
+  <div class="card flex-1">
+    <div class="">
+      <a href="#" @click.prevent="openEmployee([object Object])" class="text-xl text-indigo-600 hover:text-indigo-800">
+        Garcia, Maria
+      </a>
+      <div>
+        <div class="font-medium text-gray-400 sr-only">Address</div>
+        <div>456 Pine Road<br>Annapolis, MD</div>
+      </div>
+    </div>
+    <div>
+      <div class="field"><span>SSN: </span>923456789</div>
+      <div class="field"><span>Birth Date: </span>1990-12-03</div>
+      <div class="field"><span>Employer: </span>MNE LLC - #00903</div>
+      <div class="field"><span>Term Date: </span>2024-11-30</div>
+    </div>
 
-          <!-- Birth Date -->
-          <td class="td-cell hidden md:table-cell">
-            <span x-text="formatDate(emp.birthDate)"></span>
-          </td>
+  </div>
+  
+  <div class="card flex-1">
+    <div class="">
+      <a href="#" @click.prevent="openEmployee([object Object])" class="text-xl text-indigo-600 hover:text-indigo-800">
+        Lee, David
+      </a>
+      <div>
+        <div class="font-medium text-gray-400 sr-only">Address</div>
+        <div>321 Elm Street<br>Annapolis, MD</div>
+      </div>
+    </div>
+    <div>
+      <div class="field"><span>SSN: </span>634567890</div>
+      <div class="field"><span>Birth Date: </span>1978-07-08</div>
+      <div class="field"><span>Employer: </span>MNE LLC - #00903</div>
+      <div class="field"><span>Term Date: </span>—</div>
+    </div>
 
-          <!-- Employer -->
-          <td class="td-cell hidden lg:table-cell">
-            <span x-text="emp.employer"></span>
-          </td>
+  </div>
+  
+  <div class="card flex-1">
+    <div class="">
+      <a href="#" @click.prevent="openEmployee([object Object])" class="text-xl text-indigo-600 hover:text-indigo-800">
+        Patel, Anika
+      </a>
+      <div>
+        <div class="font-medium text-gray-400 sr-only">Address</div>
+        <div>654 Maple Drive<br>Baltimore, MD</div>
+      </div>
+    </div>
+    <div>
+      <div class="field"><span>SSN: </span>745678901</div>
+      <div class="field"><span>Birth Date: </span>1985-05-21</div>
+      <div class="field"><span>Employer: </span>MNE LLC - #00903</div>
+      <div class="field"><span>Term Date: </span>—</div>
+    </div>
 
-          <!-- Term Date -->
-          <td class="td-cell hidden md:table-cell">
-            <span x-text="emp.terminationDate ? formatDate(emp.terminationDate) : '—'"></span>
-          </td>
-        </tr>
-      </template>
-
-      <tr x-show="filteredEmployees.length === 0" class="tr-empty">
-        <td colspan="6" class="td-empty">No employees to display.</td>
-      </tr>
-    </tbody>
-  </table>
+  </div>
+  
 </div>
 
-    
-    
+
+
+  
+  <div class="hidden lg:block overflow-x-auto bg-white shadow rounded-lg">
+    <table class="min-w-full divide-y divide-gray-200">
+      <thead class="bg-gray-50">
+        <tr class="text-left text-xs font-medium text-gray-500 tracking-wider">
+          <th class="px-6 py-3">SSN</th>
+          <th class="px-6 py-3">Name</th>
+          <th class="px-6 py-3">Address</th>
+          <th class="px-6 py-3">Birth Date</th>
+          <th class="px-6 py-3">Employer</th>
+          <th class="px-6 py-3">Term Date</th>
+        </tr>
+      </thead>
+      <tbody class="bg-white divide-y divide-gray-200">
+        
+        <tr class="hover:bg-gray-50">
+          <td class="px-6 py-4 text-sm text-gray-900 whitespace-nowrap">712712712</td>
+          <td class="px-6 py-4 text-sm text-gray-900 whitespace-nowrap">
+            <a href="#" @click.prevent="openEmployee([object Object])" class="text-indigo-600 hover:text-indigo-800">
+              Sample, Sally
+            </a>
+          </td>
+          <td class="px-6 py-4 text-sm text-gray-900 whitespace-nowrap">
+            1234 Main Street<br />Annapolis, MD
+          </td>
+          <td class="px-6 py-4 text-sm text-gray-900 whitespace-nowrap">1976-09-24</td>
+          <td class="px-6 py-4 text-sm text-gray-900 whitespace-nowrap">MNE LLC - #00903</td>
+          <td class="px-6 py-4 text-sm text-gray-900 whitespace-nowrap">—</td>
+        </tr>
+        
+        <tr class="hover:bg-gray-50">
+          <td class="px-6 py-4 text-sm text-gray-900 whitespace-nowrap">812345678</td>
+          <td class="px-6 py-4 text-sm text-gray-900 whitespace-nowrap">
+            <a href="#" @click.prevent="openEmployee([object Object])" class="text-indigo-600 hover:text-indigo-800">
+              Johnson, Mark
+            </a>
+          </td>
+          <td class="px-6 py-4 text-sm text-gray-900 whitespace-nowrap">
+            789 Oak Avenue<br />Baltimore, MD
+          </td>
+          <td class="px-6 py-4 text-sm text-gray-900 whitespace-nowrap">1982-04-15</td>
+          <td class="px-6 py-4 text-sm text-gray-900 whitespace-nowrap">MNE LLC - #00903</td>
+          <td class="px-6 py-4 text-sm text-gray-900 whitespace-nowrap">—</td>
+        </tr>
+        
+        <tr class="hover:bg-gray-50">
+          <td class="px-6 py-4 text-sm text-gray-900 whitespace-nowrap">923456789</td>
+          <td class="px-6 py-4 text-sm text-gray-900 whitespace-nowrap">
+            <a href="#" @click.prevent="openEmployee([object Object])" class="text-indigo-600 hover:text-indigo-800">
+              Garcia, Maria
+            </a>
+          </td>
+          <td class="px-6 py-4 text-sm text-gray-900 whitespace-nowrap">
+            456 Pine Road<br />Annapolis, MD
+          </td>
+          <td class="px-6 py-4 text-sm text-gray-900 whitespace-nowrap">1990-12-03</td>
+          <td class="px-6 py-4 text-sm text-gray-900 whitespace-nowrap">MNE LLC - #00903</td>
+          <td class="px-6 py-4 text-sm text-gray-900 whitespace-nowrap">2024-11-30</td>
+        </tr>
+        
+        <tr class="hover:bg-gray-50">
+          <td class="px-6 py-4 text-sm text-gray-900 whitespace-nowrap">634567890</td>
+          <td class="px-6 py-4 text-sm text-gray-900 whitespace-nowrap">
+            <a href="#" @click.prevent="openEmployee([object Object])" class="text-indigo-600 hover:text-indigo-800">
+              Lee, David
+            </a>
+          </td>
+          <td class="px-6 py-4 text-sm text-gray-900 whitespace-nowrap">
+            321 Elm Street<br />Annapolis, MD
+          </td>
+          <td class="px-6 py-4 text-sm text-gray-900 whitespace-nowrap">1978-07-08</td>
+          <td class="px-6 py-4 text-sm text-gray-900 whitespace-nowrap">MNE LLC - #00903</td>
+          <td class="px-6 py-4 text-sm text-gray-900 whitespace-nowrap">—</td>
+        </tr>
+        
+        <tr class="hover:bg-gray-50">
+          <td class="px-6 py-4 text-sm text-gray-900 whitespace-nowrap">745678901</td>
+          <td class="px-6 py-4 text-sm text-gray-900 whitespace-nowrap">
+            <a href="#" @click.prevent="openEmployee([object Object])" class="text-indigo-600 hover:text-indigo-800">
+              Patel, Anika
+            </a>
+          </td>
+          <td class="px-6 py-4 text-sm text-gray-900 whitespace-nowrap">
+            654 Maple Drive<br />Baltimore, MD
+          </td>
+          <td class="px-6 py-4 text-sm text-gray-900 whitespace-nowrap">1985-05-21</td>
+          <td class="px-6 py-4 text-sm text-gray-900 whitespace-nowrap">MNE LLC - #00903</td>
+          <td class="px-6 py-4 text-sm text-gray-900 whitespace-nowrap">—</td>
+        </tr>
+        
+      </tbody>
+    </table>
+  </div>
   </div>
 
   
@@ -726,12 +849,28 @@
 </body>
 
 <script>
+function mainApp() {
+  return {
+      sidebarOpen: window.innerWidth >= 768,
+      currentUser: {},
+      loggedIn: true,
+      admin: false,
+
+      init() {
+        // whenever the window is resized, re‐evaluate
+        window.addEventListener('resize', () => {
+          sidebarOpen = (window.innerWidth >= 768)
+        })
+      }
+  }
+}
+
 function toggleSidebar(open) {
   const rightSide = document.querySelector('aside.right-side');
   if (!rightSide) return;
 
   if (open) {
-    rightSide.classList.add('ml-20');
+    rightSide.classList.add('ml-20 top-0');
   } else {
     rightSide.classList.remove('ml-20');
   }
