@@ -1,41 +1,38 @@
 {# src/_includes/components/employee-table-responsive.njk #}
 
 <!-- MOBILE & TABLET view (cards) -->
-<div class="cards flex gap-4 flex-wrap lg:hidden space-y-4">
+<div class="cards">
   <!-- Alpine loop -->
   <template x-for="emp in filteredEmployees" :key="emp.ssn">
-    <div class="card flex-1 p-4 border rounded shadow-sm">
-      <div class="mb-3">
-        <a href="#"
-           @click.prevent="openEmployee(emp)"
-           class="text-xl text-indigo-600 hover:text-indigo-800"
-           x-text="`${emp.lastName}, ${emp.firstName}`">
-        </a>
-        <div class="mt-1">
-          <div class="font-medium text-gray-400 sr-only">Address</div>
-          <div>
-            <span x-text="emp.address1"></span><br>
-            <span x-text="`${emp.city}, ${emp.state}`"></span>
-          </div>
+    <div class="card">
+      <a href="#"
+         @click.prevent="openEmployee(emp)"
+         x-text="`${emp.lastName}, ${emp.firstName}`">
+      </a>
+      <div class="mt-1">
+        <div class="font-medium text-gray-400 sr-only">Address</div>
+        <div>
+          <span x-text="emp.address1"></span><br>
+          <span x-text="`${emp.city}, ${emp.state}`"></span>
         </div>
       </div>
-      <div class="space-y-1 text-sm text-gray-700">
-        <div class="field">
-          <span class="font-semibold">SSN:</span>
-          <span x-text="emp.ssn"></span>
-        </div>
-        <div class="field">
-          <span class="font-semibold">Birth Date:</span>
-          <span x-text="formatDate(emp.birthDate)"></span>
-        </div>
-        <div class="field">
-          <span class="font-semibold">Employer:</span>
-          <span x-text="emp.employer"></span>
-        </div>
-        <div class="field">
-          <span class="font-semibold">Term Date:</span>
-          <span x-text="emp.terminationDate ? formatDate(emp.terminationDate) : '—'"></span>
-        </div>
+      <div class="field">
+        <span class="field-name">SSN:</span>
+        <span x-text="emp.ssn"></span>
+      </div>
+      <div class="field">
+        <span class="field-name">Birth Date:</span>
+        <span x-text="formatDate(emp.birthDate)"></span>
+      </div>
+      <div class="field">
+        <span class="field-name">Employer:</span>
+        <span x-text="emp.employer"></span>
+      </div>
+      <div class="field">
+        <span class="field-name">Term Date:</span>
+        <span x-text="emp.terminationDate ? formatDate(emp.terminationDate) : '—'"></span>
+      </div>
+      <div class="mb-3">
       </div>
     </div>
   </template>
@@ -43,50 +40,48 @@
 
 
   <!-- DESKTOP view (table) -->
-<div class="hidden lg:block overflow-x-auto">
-  <table class="min-w-full divide-y divide-gray-200">
-    <thead class="bg-gray-50">
+<div class="table-deskop hidden lg:block overflow-x-auto">
+  <table>
+    <thead>
       <tr>
-        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+        <th scope="col">
           SSN
         </th>
-        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+        <th scope="col">
           Name
         </th>
-        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+        <th scope="col">
           Address
         </th>
-        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+        <th scope="col">
           Birth Date
         </th>
-        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+        <th scope="col">
           Employer
         </th>
-        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+        <th scope="col">
           Term Date
         </th>
       </tr>
     </thead>
-    <tbody class="bg-white divide-y divide-gray-200">
+    <tbody>
       <!-- Alpine loop -->
       <template x-for="emp in filteredEmployees" :key="emp.ssn">
         <tr>
-          <td x-text="emp.ssn" class="px-6 py-4 whitespace-nowrap text-sm text-gray-900"></td>
-          <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-            <a href="#"
-               @click.prevent="openEmployee(emp)"
-               class="text-indigo-600 hover:text-indigo-800">
+          <td x-text="emp.ssn"></td>
+          <td>
+            <a href="#" @click.prevent="openEmployee(emp)">
               <span x-text="`${emp.lastName}, ${emp.firstName}`"></span>
             </a>
           </td>
           <td x-text="`${emp.address1} ${emp.city}, ${emp.state}`"
-              class="px-6 py-4 whitespace-nowrap text-sm text-gray-900"></td>
+             ></td>
           <td x-text="formatDate(emp.birthDate)"
-              class="px-6 py-4 whitespace-nowrap text-sm text-gray-900"></td>
+             ></td>
           <td x-text="emp.employer"
-              class="px-6 py-4 whitespace-nowrap text-sm text-gray-900"></td>
+             ></td>
           <td x-text="emp.terminationDate ? formatDate(emp.terminationDate) : '—'"
-              class="px-6 py-4 whitespace-nowrap text-sm text-gray-900"></td>
+             ></td>
         </tr>
       </template>
 

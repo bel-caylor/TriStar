@@ -1,19 +1,25 @@
-/* ---------------------------------------------- */
-/* table.css                                    */
-/* ---------------------------------------------- */
+/* table.css*/
 
 @layer components {
-  /* 1. Base table components                          */
-  .table-container {
-    @apply overflow-x-auto bg-white shadow rounded-lg;
-  }
-
-  .table-base {
-    @apply min-w-full divide-y divide-gray-200;
-  }
-
-  .th-cell {
-    @apply px-6 py-3 text-left text-xs font-medium text-gray-500 tracking-wider;
+  .table-deskop {
+    table {
+      @apply min-w-full divide-y divide-gray-200;
+    }
+    thead {
+      @apply bg-gray-50 rounded-lg;
+    }
+    th {
+      @apply px-6 py-3 text-left text-xs font-medium text-gray-500 tracking-wider;
+    }
+    tbody {
+      @apply bg-white divide-y divide-gray-200;
+    }
+    td {
+      @apply px-6 py-4 whitespace-nowrap text-sm text-gray-900;
+    }
+    a {
+      @apply text-indigo-600 hover:text-indigo-800;
+    }
   }
 
   .tbody-base {
@@ -26,11 +32,9 @@
 
   .td-cell {
     @apply px-6 py-4 text-sm text-gray-900 whitespace-nowrap;
+
     a {
       @apply text-indigo-600 hover:text-indigo-800;
     }
   }
-
-  /* 2. Card‐style (mobile/tablet) grids are defined inline via Tailwind classes,
-         so you can remove the old .responsive-table block entirely. */
 }

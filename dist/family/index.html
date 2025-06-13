@@ -16,7 +16,7 @@
   <div class="flex items-center justify-between px-4 py-3 md:px-6 md:py-4">
     <!-- ────── 2.1. Hamburger (mobile) ────── -->
     <button
-      @click="sidebarOpen = !sidebarOpen; toggleSidebar(sidebarOpen)"
+      @click="sidebarOpen = !sidebarOpen"
       class="md:hidden p-2 rounded-md hover:bg-white/20 focus:outline-none focus:ring-2 focus:ring-white"
       aria-label="Open sidebar"
     >
@@ -178,8 +178,8 @@
   </header>
 
   <div class="family-section">
-    
-<section class="">
+    <section>
+  <!-- Add button -->
   <div class="flex items-center justify-end mb-4">
     <button
       type="button"
@@ -191,23 +191,18 @@
     </button>
   </div>
 
-  
-  
-  
-  
+  <!-- MOBILE & TABLET (cards) -->
   <div class="lg:hidden space-y-4">
-    <!-- Alpine loop: one “card” per family member -->
+    <!-- loop through familyMembers -->
     <template x-for="member in familyMembers" :key="member.id">
       <div class="grid grid-cols-2 gap-x-4 gap-y-1 p-4 bg-white shadow rounded-lg">
         <!-- Name -->
         <div class="font-medium text-gray-400">Name</div>
         <div>
-          <a
-            href="#"
-            @click.prevent="openEdit(member.id)"
-            class="text-indigo-600 hover:text-indigo-800"
-          >
-            <span x-text="`${member.lastName}, ${member.firstName}`"></span>
+          <a href="#"
+             @click.prevent="openEdit(member)"
+             class="text-indigo-600 hover:text-indigo-800"
+             x-text="`${member.lastName}, ${member.firstName}`">
           </a>
         </div>
 
@@ -245,17 +240,16 @@
       </div>
     </template>
 
-    <!-- Alpine empty‐state: show when no familyMembers -->
-    <template x-if="!familyMembers || familyMembers.length === 0">
-      <div class="p-4 bg-white shadow rounded-lg text-center text-gray-500">
-        No family members found.
-      </div>
-    </template>
+    <!-- empty state -->
+    <div
+      x-show="familyMembers.length === 0"
+      class="p-4 bg-white shadow rounded-lg text-center text-gray-500"
+    >
+      No family members found.
+    </div>
   </div>
 
-  
-  
-  
+  <!-- DESKTOP (table) -->
   <div class="hidden lg:block overflow-x-auto bg-gray-100 rounded-lg shadow">
     <table class="min-w-full divide-y divide-gray-200">
       <thead class="bg-gray-50">
@@ -272,63 +266,36 @@
         </tr>
       </thead>
       <tbody class="bg-white divide-y divide-gray-200">
-        <!-- Alpine loop for table rows -->
+        <!-- loop through familyMembers -->
         <template x-for="member in familyMembers" :key="member.id">
           <tr class="hover:bg-gray-50">
-            <!-- Name -->
             <td class="px-6 py-4 text-sm text-gray-900 whitespace-nowrap">
-              <a
-                href="#"
-                @click.prevent="openEdit(member.id)"
-                class="text-indigo-600 hover:text-indigo-800"
-              >
-                <span x-text="`${member.lastName}, ${member.firstName}`"></span>
+              <a href="#"
+                 @click.prevent="openEdit(member)"
+                 class="text-indigo-600 hover:text-indigo-800"
+                 x-text="`${member.lastName}, ${member.firstName}`">
               </a>
             </td>
-
-            <!-- SSN -->
             <td class="px-6 py-4 text-sm text-gray-900 whitespace-nowrap" x-text="member.ssn"></td>
-
-            <!-- Relation -->
             <td class="px-6 py-4 text-sm text-gray-900 whitespace-nowrap" x-text="member.relation"></td>
-
-            <!-- Birth Date -->
             <td class="px-6 py-4 text-sm text-gray-900 whitespace-nowrap" x-text="member.birthDate"></td>
-
-            <!-- Age -->
             <td class="px-6 py-4 text-sm text-gray-900 whitespace-nowrap" x-text="member.age"></td>
-
-            <!-- Gender -->
             <td class="px-6 py-4 text-sm text-gray-900 whitespace-nowrap" x-text="member.gender"></td>
-
-            <!-- Disabled -->
-            <td
-              class="px-6 py-4 text-sm text-gray-900 whitespace-nowrap"
-              x-text="member.disabled ? 'Yes' : 'No'"
-            ></td>
-
-            <!-- Verified -->
-            <td
-              class="px-6 py-4 text-sm text-gray-900 whitespace-nowrap"
-              x-text="member.verified ? 'Yes' : 'No'"
-            ></td>
-
-            <!-- Term Date -->
-            <td
-              class="px-6 py-4 text-sm text-gray-900 whitespace-nowrap"
-              x-text="member.termDate || '-'"
-            ></td>
+            <td class="px-6 py-4 text-sm text-gray-900 whitespace-nowrap" 
+                x-text="member.disabled ? 'Yes' : 'No'"></td>
+            <td class="px-6 py-4 text-sm text-gray-900 whitespace-nowrap" 
+                x-text="member.verified ? 'Yes' : 'No'"></td>
+            <td class="px-6 py-4 text-sm text-gray-900 whitespace-nowrap" 
+                x-text="member.termDate || '-'"></td>
           </tr>
         </template>
 
-        <!-- Alpine empty‐state inside table -->
-        <template x-if="!familyMembers || familyMembers.length === 0">
-          <tr>
-            <td colspan="9" class="px-6 py-4 text-sm text-gray-500 text-center">
-              No family members found.
-            </td>
-          </tr>
-        </template>
+        <!-- empty state inside table -->
+        <tr x-if="familyMembers.length === 0">
+          <td colspan="9" class="px-6 py-4 text-sm text-gray-500 text-center">
+            No family members found.
+          </td>
+        </tr>
       </tbody>
     </table>
   </div>
