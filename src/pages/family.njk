@@ -4,16 +4,20 @@ layout: layouts/base.njk
 permalink: "family/"
 ---
 
-<div 
-  x-data="familyTableComponent()" 
-  x-init="loadData()" 
-  class="page-container mx-auto px-4"
->
+<div x-data="familyTableComponent()" x-init="loadData()" class="page-container mx-auto px-4">
   <header class="page-header">
-    <h1 class="page-title">{{ title }}</h1>
-    <p class="page-desc">
-      Edit as needed, or leave it alone if all looks in order.
-    </p>
+    <div class="block lg:flex items-center">
+      <h1>{{title}}</h1>
+      <p class="page-desc lg:pl-8">
+        Edit as needed, or leave it alone if all looks in order.
+      </p>
+    </div>
+    <!-- Add button -->
+    <div class="flex items-center justify-end mb-4">
+      <button type="button" class="btn btn-submit" @click="openAdd()">
+        Add a New Family Member
+      </button>
+    </div>
   </header>
 
   <div class="family-section">

@@ -1,122 +1,107 @@
 <section>
-  <!-- Add button -->
-  <div class="flex items-center justify-end mb-4">
-    <button
-      type="button"
-      class="inline-flex items-center px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-md
-             hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
-      @click="openAdd()"
-    >
-      Add a New Family Member
-    </button>
-  </div>
-
   <!-- MOBILE & TABLET (cards) -->
-  <div class="lg:hidden space-y-4">
+  <div class="cards">
     <!-- loop through familyMembers -->
     <template x-for="member in familyMembers" :key="member.id">
-      <div class="grid grid-cols-2 gap-x-4 gap-y-1 p-4 bg-white shadow rounded-lg">
+      <div class="card">
         <!-- Name -->
-        <div class="font-medium text-gray-400">Name</div>
         <div>
-          <a href="#"
-             @click.prevent="openEdit(member)"
-             class="text-indigo-600 hover:text-indigo-800"
-             x-text="`${member.lastName}, ${member.firstName}`">
-          </a>
+          <span class="sr-only">Name</span>
+          <a href="#" @click.prevent="openEdit(member)" x-text="`${member.lastName}, ${member.firstName}`"></a>
         </div>
 
-        <!-- SSN -->
-        <div class="font-medium text-gray-400">SSN</div>
-        <div x-text="member.ssn"></div>
+        <div class="field">
+          <span class="field-name">SSN</span>
+          <span x-text="member.ssn"></span>
+        </div>
+        
+        <div class="field">
+          <span class="field-name">Relation</span>
+          <span x-text="member.relation"></span>
+        </div>
 
-        <!-- Relation -->
-        <div class="font-medium text-gray-400">Relation</div>
-        <div x-text="member.relation"></div>
+        <div class="field">
+          <span class="field-name">Birth Date</span>
+          <span x-text="member.birthDate"></span>
+        </div>
 
-        <!-- Birth Date -->
-        <div class="font-medium text-gray-400">Birth Date</div>
-        <div x-text="member.birthDate"></div>
+        <div class="field">
+          <span class="field-name">Age</span>
+          <span x-text="member.age"></span>
+        </div>
 
-        <!-- Age -->
-        <div class="font-medium text-gray-400">Age</div>
-        <div x-text="member.age"></div>
+        <div class="field">
+          <span class="field-name">Gender</span>
+          <span x-text="member.gender"></span>
+        </div>
 
-        <!-- Gender -->
-        <div class="font-medium text-gray-400">Gender</div>
-        <div x-text="member.gender"></div>
+        <div class="field">
+          <span class="field-name">Disabled</span>
+          <span x-text="member.disabled ? 'Yes' : 'No'"></span>
+        </div>
 
-        <!-- Disabled -->
-        <div class="font-medium text-gray-400">Disabled</div>
-        <div x-text="member.disabled ? 'Yes' : 'No'"></div>
+        <div class="field">
+          <span class="field-name">Verified</span>
+          <span x-text="member.verified ? 'Yes' : 'No'"></span>
+        </div>
 
-        <!-- Verified -->
-        <div class="font-medium text-gray-400">Verified</div>
-        <div x-text="member.verified ? 'Yes' : 'No'"></div>
-
-        <!-- Term Date -->
-        <div class="font-medium text-gray-400">Term Date</div>
-        <div x-text="member.termDate || '-'"></div>
+        <div class="field">
+          <span class="field-name">Term Date</span>
+          <span x-text="member.termDate || '-'"></span>
+        </div>
       </div>
     </template>
 
     <!-- empty state -->
-    <div
-      x-show="familyMembers.length === 0"
-      class="p-4 bg-white shadow rounded-lg text-center text-gray-500"
-    >
+    <div x-show="familyMembers.length === 0" class="cards-empty">
       No family members found.
     </div>
   </div>
 
-  <!-- DESKTOP (table) -->
-  <div class="hidden lg:block overflow-x-auto bg-gray-100 rounded-lg shadow">
-    <table class="min-w-full divide-y divide-gray-200">
-      <thead class="bg-gray-50">
-        <tr class="text-left text-xs font-medium text-gray-500 tracking-wider">
-          <th class="px-6 py-3">Name</th>
-          <th class="px-6 py-3">SSN</th>
-          <th class="px-6 py-3">Relation</th>
-          <th class="px-6 py-3">Birth Date</th>
-          <th class="px-6 py-3">Age</th>
-          <th class="px-6 py-3">Gender</th>
-          <th class="px-6 py-3">Disabled</th>
-          <th class="px-6 py-3">Verified</th>
-          <th class="px-6 py-3">Term Date</th>
-        </tr>
-      </thead>
-      <tbody class="bg-white divide-y divide-gray-200">
-        <!-- loop through familyMembers -->
-        <template x-for="member in familyMembers" :key="member.id">
-          <tr class="hover:bg-gray-50">
-            <td class="px-6 py-4 text-sm text-gray-900 whitespace-nowrap">
-              <a href="#"
-                 @click.prevent="openEdit(member)"
-                 class="text-indigo-600 hover:text-indigo-800"
-                 x-text="`${member.lastName}, ${member.firstName}`">
-              </a>
-            </td>
-            <td class="px-6 py-4 text-sm text-gray-900 whitespace-nowrap" x-text="member.ssn"></td>
-            <td class="px-6 py-4 text-sm text-gray-900 whitespace-nowrap" x-text="member.relation"></td>
-            <td class="px-6 py-4 text-sm text-gray-900 whitespace-nowrap" x-text="member.birthDate"></td>
-            <td class="px-6 py-4 text-sm text-gray-900 whitespace-nowrap" x-text="member.age"></td>
-            <td class="px-6 py-4 text-sm text-gray-900 whitespace-nowrap" x-text="member.gender"></td>
-            <td class="px-6 py-4 text-sm text-gray-900 whitespace-nowrap" 
-                x-text="member.disabled ? 'Yes' : 'No'"></td>
-            <td class="px-6 py-4 text-sm text-gray-900 whitespace-nowrap" 
-                x-text="member.verified ? 'Yes' : 'No'"></td>
-            <td class="px-6 py-4 text-sm text-gray-900 whitespace-nowrap" 
-                x-text="member.termDate || '-'"></td>
-          </tr>
-        </template>
-
-        <!-- empty state inside table -->
-        <tr x-if="familyMembers.length === 0">
-          <td colspan="9" class="px-6 py-4 text-sm text-gray-500 text-center">
-            No family members found.
+<!-- DESKTOP (table) -->
+<div class="table-deskop hidden lg:block overflow-x-auto">
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>SSN</th>
+        <th>Relation</th>
+        <th>Birth Date</th>
+        <th>Age</th>
+        <th>Gender</th>
+        <th>Disabled</th>
+        <th>Verified</th>
+        <th>Term Date</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- loop through familyMembers -->
+      <template x-for="member in familyMembers" :key="member.id">
+        <tr>
+          <td>
+            <a href="#" @click.prevent="openEdit(member)" 
+              x-text="`${member.lastName}, ${member.firstName}`">
+            </a>
           </td>
+          <td x-text="member.ssn"></td>
+          <td x-text="member.relation"></td>
+          <td x-text="member.birthDate"></td>
+          <td x-text="member.age"></td>
+          <td x-text="member.gender"></td>
+          <td x-text="member.disabled ? 'Yes' : 'No'"></td>
+          <td x-text="member.verified ? 'Yes' : 'No'"></td>
+          <td x-text="member.termDate || '-'"></td>
         </tr>
-      </tbody>
-    </table>
-  </div>
+      </template>
+
+      <!-- empty-state -->
+      <tr x-show="familyMembers.length === 0" ">
+        <td colspan="9" class="text-center text-textGray">
+          No family members found.
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
 </section>

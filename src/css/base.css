@@ -1,4 +1,7 @@
+/* base.css*/
+
 @layer base {
+
   /* Body defaults */
   body {
     @apply bg-bgLight text-textDark font-sans leading-relaxed;
@@ -6,20 +9,25 @@
 
   /* Headings */
   h1 {
-    @apply text-4xl font-bold tracking-tight mb-4;
+    @apply !text-primary text-4xl font-bold tracking-tight mb-4;
   }
+
   h2 {
     @apply text-3xl font-semibold tracking-tight mb-3;
   }
+
   h3 {
     @apply text-2xl font-semibold tracking-normal mb-2.5;
   }
+
   h4 {
     @apply text-xl font-medium tracking-normal mb-2;
   }
+
   h5 {
     @apply text-lg font-medium tracking-normal mb-1.5;
   }
+
   h6 {
     @apply text-base font-medium tracking-normal mb-1;
   }
@@ -30,15 +38,18 @@
   }
 
   /* Unordered list */
-    nav ul {
+  nav ul {
     @apply list-none pl-0 mb-0;
   }
+
   nav ul li {
     @apply my-4;
   }
+
   ul {
     @apply list-disc pl-6 mb-4;
   }
+
   ul li {
     @apply mb-2 text-base;
   }
@@ -47,16 +58,19 @@
   ol {
     @apply list-decimal pl-6 mb-4;
   }
+
   ol li {
     @apply mb-2 text-base;
   }
 
   /* Links */
-  nav a {
-    @apply no-underline
-  }
+  
   a {
-    @apply text-primary-500 hover:text-primary-700 underline;
+    @apply text-accent hover:text-accent-dark;
+  }
+  nav a {
+    @apply no-underline;
+    @apply text-primary-500 hover:text-primary-700;
   }
 
   /* Blockquotes */
@@ -68,6 +82,7 @@
   pre {
     @apply bg-gray-100 p-4 rounded-md overflow-auto mb-4 font-mono text-sm;
   }
+
   code {
     @apply bg-gray-200 px-1 rounded text-sm font-mono;
   }
@@ -87,6 +102,7 @@
     @apply transition-all duration-300 ease-in-out;
     @apply bg-white print:hidden;
   }
+
   main {
     @apply w-full px-3 pt-3 md:ml-20;
     @apply overflow-auto print:mt-0 print:ml-0;

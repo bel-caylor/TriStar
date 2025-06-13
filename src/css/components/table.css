@@ -2,39 +2,24 @@
 
 @layer components {
   .table-deskop {
+    @apply  rounded-lg shadow-md;
     table {
       @apply min-w-full divide-y divide-gray-200;
     }
     thead {
-      @apply bg-gray-50 rounded-lg;
+      @apply bg-primary-50;
     }
     th {
-      @apply px-6 py-3 text-left text-xs font-medium text-gray-500 tracking-wider;
+      @apply px-6 py-3 text-left text-xs font-medium bg-cardYellow-100 text-textMedium tracking-wider;
     }
     tbody {
       @apply bg-white divide-y divide-gray-200;
     }
     td {
-      @apply px-6 py-4 whitespace-nowrap text-sm text-gray-900;
+      @apply px-6 py-4 whitespace-nowrap text-sm text-textDark;
     }
     a {
-      @apply text-indigo-600 hover:text-indigo-800;
-    }
-  }
-
-  .tbody-base {
-    @apply bg-white divide-y divide-gray-200;
-  }
-
-  .tr-hover {
-    @apply hover:bg-gray-50;
-  }
-
-  .td-cell {
-    @apply px-6 py-4 text-sm text-gray-900 whitespace-nowrap;
-
-    a {
-      @apply text-indigo-600 hover:text-indigo-800;
+      @apply text-lg font-bold
     }
   }
 }

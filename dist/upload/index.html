@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Home</title>
+  <title>Upload</title>
   <link href="/style.css" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
     crossorigin="anonymous" />
@@ -163,18 +163,66 @@
       <main :class="{ 'ml-20': sidebarOpen }"
         class="transition-all duration-300 ease-in-out">
         
-<section class="section-hero pr-18">
-  <div class="container mx-auto px-4">
-    <p class="text-lg text-zinc-600 dark:text-zinc-300 text-center">
-      Welcome to my TriStar!
-    </p>
-  </div>
-</section>
+<section class="page-container mx-auto px-4 upload-page max-w-3xl">
+  <!-- Header -->
+  <header class="upload-header">
+    <i class="fas fa-upload text-xl pr-4"></i>
+    <h1 class="upload-title mb-0">File Upload</h1>
+  </header>
 
-<section class="section-bg">
-  <div class="container mx-auto px-4">
-    <!-- 🚧 Your next content goes here -->
+  
+  
+
+  
+  
+
+
+  <!-- Instructions -->
+  <ol class="instructions">
+    <li>
+      <span class="font-medium">All pages to one file on your computer</span><br />
+      <div class="pl-4">Save all supporting documentation to one file, if possible.</div>
+    </li>
+    <li>
+      <span class="font-medium">Optional Comments</span><br />
+      <div class="pl-4">If you wish to add an optional comment, <strong>please upload only 1 file</strong>,
+      the file associated with the comment. Otherwise, the comment will be associated
+      with the first file received. You’ll be able to upload more documents thereafter.</div>
+    </li>
+    <li>
+      <span class="font-medium">Select the file to upload to Tri-Star</span><br />
+      <div class="pl-4">Click the <strong>Choose File</strong> or <strong>Browse</strong> button below and select
+      the file you saved.</div>
+    </li>
+    <li>
+      <span class="font-medium">Upload the file to Tri-Star</span><br />
+      <div class="pl-4">Click the <strong>Upload</strong> button below to securely transfer your file to us.</div>
+    </li>
+  </ol>
+
+  <!-- Comments -->
+  <div class="form-group">
+    <label for="comments" class="form-label">Comments (Optional)</label>
+    <textarea id="comments" name="comments" rows="4" class="form-textarea" placeholder="Optional comments"></textarea>
   </div>
+
+  <!-- File upload form -->
+  <form action="/upload" method="POST" enctype="multipart/form-data">
+    <div class="form-group">
+      <label for="file-upload" class="form-label">Select file to upload:</label>
+      <input id="file-upload" name="file" type="file" accept=".jpg,.tif,.gif,.pdf,.doc,.docx,.xls,.xlsx,.csv"
+        class="file-input" required />
+    </div>
+
+    <div class="form-actions">
+      <button type="button" onclick="window.history.back()" class="btn btn-cancel">
+        Cancel
+      </button>
+      <button type="submit" class="btn btn-submit">
+        Upload
+      </button>
+    </div>
+  </form>
 </section>
         <footer class="p-4 text-center text-sm text-zinc-500 dark:text-zinc-400">
   

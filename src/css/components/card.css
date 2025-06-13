@@ -1,17 +1,18 @@
-/* ---------------------------------------------- */
-/* card.css                                    */
-/* ---------------------------------------------- */
+/* cards.css*/
 
 @layer components {
     .cards {
-        @apply flex gap-4 flex-wrap lg:hidden space-y-4;
+        .cards-empty {
+            @apply p-4 bg-white shadow rounded-lg text-gray-500;
+        }
+        @apply flex gap-4 flex-wrap lg:hidden space-y-4 justify-center;
     }
     .card {
         @apply flex-1 p-4 border rounded shadow-lg;
         @apply px-6 py-4 bg-white shadow rounded-lg;
         @apply sm:w-2/5 min-w-64 [@media(min-width:600px)]:max-w-[48%] !mt-0;
         a {
-            @apply text-xl text-indigo-600 hover:text-indigo-800;
+            @apply text-xl font-bold;
         }
         .field-name {
             @apply font-medium text-gray-400 pr-2;

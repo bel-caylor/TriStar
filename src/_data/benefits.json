@@ -1,0 +1,82 @@
+[
+    {
+        "change": "Medical",
+        "benefit": "Freedom BlueChoice Adv MV1",
+        "option": "Employee Only",
+        "coverage": "Employee Only",
+        "effectiveDate": "2025-01-01",
+        "costPerPayPeriod": 0.00
+    },
+    {
+        "change": "Dental",
+        "benefit": "Blue Dental Plus",
+        "option": "Employee Only",
+        "coverage": "Employee Only",
+        "effectiveDate": "2025-01-01",
+        "costPerPayPeriod": 0.00
+    },
+    {
+        "change": "Vision",
+        "benefit": "Waive Coverage",
+        "option": "N/A",
+        "coverage": "N/A",
+        "effectiveDate": "2025-01-01",
+        "costPerPayPeriod": 0.00
+    },
+    {
+        "change": "Short Term Disability",
+        "benefit": "Waive Coverage",
+        "option": "N/A",
+        "coverage": "N/A",
+        "effectiveDate": "2025-01-01",
+        "costPerPayPeriod": 0.00
+    },
+    {
+        "change": "Critical Illness Employee",
+        "benefit": "Waive Coverage",
+        "option": "N/A",
+        "coverage": "N/A",
+        "effectiveDate": "2025-01-01",
+        "costPerPayPeriod": 0.00
+    },
+    {
+        "change": "Accident Insurance",
+        "benefit": "Accident Insurance - Low",
+        "option": "Employee Only",
+        "coverage": "Employee Only",
+        "effectiveDate": "2025-01-01",
+        "costPerPayPeriod": 2.54
+    },
+    {
+        "change": "Hospital Indemnity Insurance",
+        "benefit": "Waive Coverage",
+        "option": "N/A",
+        "coverage": "N/A",
+        "effectiveDate": "2025-01-01",
+        "costPerPayPeriod": 0.00
+    },
+    {
+        "change": "Supplemental Group Term Life",
+        "benefit": "Waive Coverage",
+        "option": "N/A",
+        "coverage": "N/A",
+        "effectiveDate": "2025-01-01",
+        "costPerPayPeriod": 0.00
+    },
+    {
+        "change": "Spouse Term Life",
+        "benefit": "Waive Coverage",
+        "option": "N/A",
+        "coverage": "N/A",
+        "effectiveDate": "2025-01-01",
+        "costPerPayPeriod": 0.00
+    },
+    {
+        "change": "Dependent Child Term Life",
+        "benefit": "Waive Coverage",
+        "option": "N/A",
+        "coverage": "N/A",
+        "effectiveDate": "2025-01-01",
+        "costPerPayPeriod": 0.00
+    }
+]
