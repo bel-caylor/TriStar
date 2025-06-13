@@ -1,0 +1,72 @@
+[
+  {
+    "benefit": "Medical",
+    "option": "Freedom BlueChoice Adv MV1",
+    "coverage": "Employee Only",
+    "effectiveDate": "2025-01-01",
+    "costPerPayPeriod": 0.00
+  },
+  {
+    "benefit": "Dental",
+    "option": "Blue Dental Plus",
+    "coverage": "Employee Only",
+    "effectiveDate": "2025-01-01",
+    "costPerPayPeriod": 0.00
+  },
+  {
+    "benefit": "Vision",
+    "option": "Waive Coverage",
+    "coverage": "N/A",
+    "effectiveDate": "2025-01-01",
+    "costPerPayPeriod": 0.00
+  },
+  {
+    "benefit": "Short Term Disability",
+    "option": "Waive Coverage",
+    "coverage": "N/A",
+    "effectiveDate": "2025-01-01",
+    "costPerPayPeriod": 0.00
+  },
+  {
+    "benefit": "Critical Illness Employee",
+    "option": "Waive Coverage",
+    "coverage": "N/A",
+    "effectiveDate": "2025-01-01",
+    "costPerPayPeriod": 0.00
+  },
+  {
+    "benefit": "Accident Insurance",
+    "option": "Accident Insurance - Low",
+    "coverage": "Employee Only",
+    "effectiveDate": "2025-01-01",
+    "costPerPayPeriod": 2.54
+  },
+  {
+    "benefit": "Hospital Indemnity Insurance",
+    "option": "Waive Coverage",
+    "coverage": "N/A",
+    "effectiveDate": "2025-01-01",
+    "costPerPayPeriod": 0.00
+  },
+  {
+    "benefit": "Supplemental Group Term Life",
+    "option": "Waive Coverage",
+    "coverage": "N/A",
+    "effectiveDate": "2025-01-01",
+    "costPerPayPeriod": 0.00
+  },
+  {
+    "benefit": "Spouse Term Life",
+    "option": "Waive Coverage",
+    "coverage": "N/A",
+    "effectiveDate": "2025-01-01",
+    "costPerPayPeriod": 0.00
+  },
+  {
+    "benefit": "Dependent Child Term Life",
+    "option": "Waive Coverage",
+    "coverage": "N/A",
+    "effectiveDate": "2025-01-01",
+    "costPerPayPeriod": 0.00
+  }
+]

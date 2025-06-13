@@ -162,10 +162,291 @@
       <!-- Main Content -->
       <main :class="{ 'ml-20': sidebarOpen }"
         class="transition-all duration-300 ease-in-out">
-        <section class="text-center py-20">
-  <h1 class="text-4xl font-bold mb-4">Benefits</h1>
-</section>
+        <div x-data="benefitsTableComponent()" x-init="init(); loadData()" class="page-container mx-auto px-4">
+  <header class="page-header gap-4">
+    <div class="block lg:flex items-center">
+      <h1>Benefits</h1>
+      <p class="page-desc lg:pl-8">
+        Edit as needed, or leave it alone if all looks in order.
+      </p>
+    </div>
+    <div class="mb-3 text-center card max-w-12">
+      <div class="font-medium text-gray-900 mb-1">Total Deductions</div>
+      <div class="text-xl font-semibold" x-text="benefits.reduce((sum, b) => sum + b.costPerPayPeriod, 0).toFixed(2)">
+      </div>
+    </div>
+  </header>
 
+  <div class="benefits-section">
+    
+
+<!-- MOBILE & TABLET view (cards) -->
+<div x-show="!isDesktop" class="cards">
+    <!-- Alpine loop -->
+    <template x-for="(benefit, idx) in benefits" :key="idx">
+        <div class="card">
+
+            <!-- Benefit field -->
+            <div class="field">
+                <span class="field-name sr-only">Benefit:</span>
+                <a href="#" @click.prevent="openModal(benefit)">
+                    <span x-text="benefit.benefit"></span>
+                </a>
+            </div>
+
+            <!-- Option field -->
+            <div class="field">
+                <span class="field-name">Option:</span>
+                <span x-text="benefit.option"></span>
+            </div>
+
+            <!-- Coverage field -->
+            <div class="field">
+                <span class="field-name">Coverage:</span>
+                <span x-text="benefit.coverage"></span>
+            </div>
+
+            <!-- Effective Date field -->
+            <div class="field">
+                <span class="field-name">Effective Date:</span>
+                <span x-text="formatDate(benefit.effectiveDate)"></span>
+            </div>
+
+            <!-- Cost field -->
+            <div class="field">
+                <span class="field-name">Cost Per Pay Period:</span>
+                <span x-text="benefit.costPerPayPeriod.toFixed(2)"></span>
+            </div>
+
+            <div class="mb-3"></div>
+        </div>
+    </template>
+</div>
+
+<!-- DESKTOP view (table) -->
+<div x-show="isDesktop" class="table-deskop hidden lg:block overflow-x-auto">
+    <table>
+        <thead>
+            <tr>
+                <th scope="col">Benefit</th>
+                <th scope="col">Option</th>
+                <th scope="col">Coverage</th>
+                <th scope="col">Effective Date</th>
+                <th scope="col">Cost Per Pay Period</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Alpine loop -->
+            <template x-for="(benefit, idx) in benefits" :key="idx">
+                <tr>
+                    <td>
+                        <a href="#" @click.prevent="openModal(benefit)">
+                            <span x-text="benefit.benefit"></span>
+                        </a>
+                    </td>
+                    <td x-text="benefit.option"></td>
+                    <td x-text="benefit.coverage"></td>
+                    <td x-text="formatDate(benefit.effectiveDate)"></td>
+                    <td x-text="benefit.costPerPayPeriod.toFixed(2)"></td>
+                </tr>
+            </template>
+        </tbody>
+    </table>
+</div>
+    
+
+
+<div
+  x-show="showModal"
+  x-cloak
+  x-transition.opacity
+  class="modal-backdrop"
+  role="dialog"
+  aria-modal="true"
+  @keydown.escape.window="closeModal()"
+  @click.away="closeModal()"
+>
+  <div class="modal-card" @click.stop>
+    <!-- Header -->
+    <header class="modal-header">
+      <h2
+        class="modal-title"
+        x-text="isEdit ? 'Edit Benefit' : 'Add Benefit'"
+      ></h2>
+      <button
+        type="button"
+        class="modal-close"
+        aria-label="Close"
+        @click="closeModal()"
+      >
+        <span aria-hidden="true">×</span>
+      </button>
+    </header>
+
+    <!-- Body -->
+    <div class="modal-body">
+      <form @submit.prevent="saveBenefit()" class="space-y-6">
+        <!-- Row 1: Benefit & Option -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          
+  <div>
+    <label for="benefitName" class="form-label">
+      Benefit <span class="field-required">*</span>
+    </label>
+    <input
+      type="text"
+      id="benefitName"
+      x-model="editingBenefit.benefitName"
+      class="form-input"
+      placeholder="e.g. BlueChoice Advantage"
+      required
+    />
+  </div>
+
+          
+  <div>
+    <label for="option" class="form-label">
+      Option <span class="field-required">*</span>
+    </label>
+    <input
+      type="text"
+      id="option"
+      x-model="editingBenefit.option"
+      class="form-input"
+      placeholder="e.g. Employee Only"
+      required
+    />
+  </div>
+
+        </div>
+
+        <!-- Row 2: Coverage & Effective Date -->
+        <div>
+          
+  <div>
+    <label for="coverage" class="form-label">
+      Coverage <span class="field-required">*</span>
+    </label>
+    <input
+      type="text"
+      id="coverage"
+      x-model="editingBenefit.coverage"
+      class="form-input"
+      placeholder="e.g. Employee Only"
+      required
+    />
+  </div>
+
+        </div>
+        
+        <!-- Row 3: Cost -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            
+  <div>
+    <label for="effectiveDate" class="form-label">
+      Effective Date <span class="field-required">*</span>
+    </label>
+    <div class="form-date-wrapper">
+      <input
+        type="date"
+        id="effectiveDate"
+        x-model="editingBenefit.effectiveDate"
+        class="form-input"
+        required
+      />
+      <div class="form-date-icon">
+        <i class="fas fa-calendar-alt"></i>
+      </div>
+    </div>
+  </div>
+
+          
+  <div>
+    <label for="costPerPayPeriod" class="form-label">
+      Cost Per Pay Period <span class="field-required">*</span>
+    </label>
+    <input
+      type="number"
+      id="costPerPayPeriod"
+      x-model="editingBenefit.costPerPayPeriod"
+      class="form-input"
+      placeholder="0.00"
+      required
+    />
+  </div>
+
+        </div>
+      </form>
+    </div>
+
+    <!-- Footer -->
+    <footer class="modal-footer">
+      <button
+        type="button"
+        class="btn btn-cancel"
+        @click="closeModal()"
+      >
+        Cancel
+      </button>
+      <button
+        type="button"
+        class="btn btn-submit"
+        @click="saveBenefit()"
+      >
+        Save
+      </button>
+    </footer>
+  </div>
+</div>
+
+  </div>
+</div>
+
+
+<script>
+  function benefitsTableComponent() {
+    return {
+      // ─── State ────────────────────────────────────────────────
+      employee: {},
+      benefits: [],
+      editingBenefit: {},
+      showModal: false,
+      isEdit: false,
+      isDesktop: window.innerWidth >= 1024,
+
+      // ─── Initialization ────────────────────────────────────────
+      init() {
+        window.addEventListener('resize', () => {
+          this.isDesktop = window.innerWidth >= 1024;
+        });
+      },
+      async loadData() {
+        try {
+          const res = await fetch("/TriStar/benefits.json");
+          if (!res.ok) throw new Error("Could not load employee.json");
+
+          const data = await res.json();
+          this.benefits = Array.isArray(data) ? data : [];
+        } catch (err) {
+          console.error("Error loading data:", err);
+        }
+      },
+
+      // ─── Modal controls ─────────────────────────────────────────
+      openModal(benefit) {
+        this.isEdit = true;
+        // Deep‐clone to avoid mutating the live array until Save
+        Benefit = JSON.parse(JSON.stringify(benefit));
+        this.showModal = true;
+      },
+
+      closeModal() {
+        this.showModal = false;
+      },
+
+    };
+  }
+</script>
         <footer class="p-4 text-center text-sm text-zinc-500 dark:text-zinc-400">
   
 </footer>
