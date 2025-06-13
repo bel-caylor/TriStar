@@ -12,7 +12,7 @@
 
         <div class="field">
           <span class="field-name">SSN</span>
-          <span x-text="member.ssn"></span>
+          <span x-text="formatSSN(member.ssn)"></span>
         </div>
         
         <div class="field">
@@ -22,7 +22,7 @@
 
         <div class="field">
           <span class="field-name">Birth Date</span>
-          <span x-text="member.birthDate"></span>
+          <span x-text="formatDate(member.birthDate)"></span>
         </div>
 
         <div class="field">
@@ -47,7 +47,7 @@
 
         <div class="field">
           <span class="field-name">Term Date</span>
-          <span x-text="member.termDate || '-'"></span>
+          <span x-text="formatDate(member.termDate) || '-'"></span>
         </div>
       </div>
     </template>
@@ -83,14 +83,14 @@
               x-text="`${member.lastName}, ${member.firstName}`">
             </a>
           </td>
-          <td x-text="member.ssn"></td>
+          <td x-text="formatSSN(member.ssn)"></td>
           <td x-text="member.relation"></td>
-          <td x-text="member.birthDate"></td>
+          <td x-text="formatDate(member.birthDate)"></td>
           <td x-text="member.age"></td>
           <td x-text="member.gender"></td>
           <td x-text="member.disabled ? 'Yes' : 'No'"></td>
           <td x-text="member.verified ? 'Yes' : 'No'"></td>
-          <td x-text="member.termDate || '-'"></td>
+          <td x-text="formatDate(member.termDate) || '-'"></td>
         </tr>
       </template>
 

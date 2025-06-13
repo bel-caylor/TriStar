@@ -1,0 +1,75 @@
+{# src/_includes/components/table-benefits.njk #}
+
+<!-- MOBILE & TABLET view (cards) -->
+<div x-show="!isDesktop" class="cards">
+    <!-- Alpine loop -->
+    <template x-for="(benefit, idx) in benefits" :key="idx">
+        <div class="card">
+
+            <!-- Benefit field -->
+            <div class="field">
+                <span class="field-name sr-only">Benefit:</span>
+                <a href="#" @click.prevent="openModal(benefit)">
+                    <span x-text="benefit.benefit"></span>
+                </a>
+            </div>
+
+            <!-- Option field -->
+            <div class="field">
+                <span class="field-name">Option:</span>
+                <span x-text="benefit.option"></span>
+            </div>
+
+            <!-- Coverage field -->
+            <div class="field">
+                <span class="field-name">Coverage:</span>
+                <span x-text="benefit.coverage"></span>
+            </div>
+
+            <!-- Effective Date field -->
+            <div class="field">
+                <span class="field-name">Effective Date:</span>
+                <span x-text="formatDate(benefit.effectiveDate)"></span>
+            </div>
+
+            <!-- Cost field -->
+            <div class="field">
+                <span class="field-name">Cost Per Pay Period:</span>
+                <span x-text="benefit.costPerPayPeriod.toFixed(2)"></span>
+            </div>
+
+            <div class="mb-3"></div>
+        </div>
+    </template>
+</div>
+
+<!-- DESKTOP view (table) -->
+<div x-show="isDesktop" class="table-deskop hidden lg:block overflow-x-auto">
+    <table>
+        <thead>
+            <tr>
+                <th scope="col">Benefit</th>
+                <th scope="col">Option</th>
+                <th scope="col">Coverage</th>
+                <th scope="col">Effective Date</th>
+                <th scope="col">Cost Per Pay Period</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Alpine loop -->
+            <template x-for="(benefit, idx) in benefits" :key="idx">
+                <tr>
+                    <td>
+                        <a href="#" @click.prevent="openModal(benefit)">
+                            <span x-text="benefit.benefit"></span>
+                        </a>
+                    </td>
+                    <td x-text="benefit.option"></td>
+                    <td x-text="benefit.coverage"></td>
+                    <td x-text="formatDate(benefit.effectiveDate)"></td>
+                    <td x-text="benefit.costPerPayPeriod.toFixed(2)"></td>
+                </tr>
+            </template>
+        </tbody>
+    </table>
+</div>

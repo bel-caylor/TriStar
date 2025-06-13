@@ -208,7 +208,7 @@
       </div>
       <div class="field">
         <span class="field-name">SSN:</span>
-        <span x-text="emp.ssn"></span>
+        <span x-text="formatSSN(emp.ssn)"></span>
       </div>
       <div class="field">
         <span class="field-name">Birth Date:</span>
@@ -258,7 +258,7 @@
       <!-- Alpine loop -->
       <template x-for="emp in filteredEmployees" :key="emp.ssn">
         <tr>
-          <td x-text="emp.ssn"></td>
+          <td x-text="formatSSN(emp.ssn)"></td>
           <td>
             <a href="#" @click.prevent="openEmployee(emp)">
               <span x-text="`${emp.lastName}, ${emp.firstName}`"></span>
@@ -292,66 +292,52 @@
 
 
 
-<div x-show="showModal" x-cloak
-  class="fixed inset-0 z-50 flex items-start justify-center pt-10 bg-black bg-opacity-50 overflow-y-auto"
-  @keydown.escape.window="closeModal()" @click.away="closeModal()">
-  <!-- Modal Card -->
-  <div class="bg-white rounded-lg shadow-lg w-full max-w-2xl mx-4" @click.stop>
+<div
+  x-show="showModal"
+  x-cloak
+  class="modal-backdrop"
+  @keydown.escape.window="closeModal()"
+  @click.away="closeModal()"
+>
+  <div class="modal-card" @click.stop>
     <!-- Header -->
-    <div class="flex justify-between items-center px-6 py-4 border-b border-gray-200">
+    <header class="modal-header">
       <div class="flex items-center">
         <i class="fas fa-user text-2xl text-gray-700 mr-3"></i>
-        <h2 class="text-xl font-semibold text-gray-800 mb-0">Edit Personal Information</h2>
+        <h2 class="modal-title">Edit Personal Information</h2>
       </div>
-      
-<div class="flex items-center justify-end py-3">
-    <button
-    @click="showModal = false"
-    class="p-1 rounded-md hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-500"
-    aria-label="Close sidebar"
-    >
-    <!-- “X” Icon -->
-    <svg
-        xmlns="http://www.w3.org/2000/svg"
-        class="h-6 w-6 text-gray-800 dark:text-gray-200"
-        fill="none"
-        viewBox="0 0 24 24"
-        stroke="currentColor"
-    >
-        <path
-        stroke-linecap="round"
-        stroke-linejoin="round"
-        stroke-width="2"
-        d="M6 18L18 6M6 6l12 12"
-        />
-    </svg>
-    </button>
-</div>
-    </div>
+      <button
+        type="button"
+        class="modal-close"
+        @click="closeModal()"
+        aria-label="Close"
+      >
+        <span aria-hidden="true">×</span>
+      </button>
+    </header>
 
     <!-- Body / Form -->
-    <div class="px-6 py-6 space-y-6">
+    <div class="modal-body">
       
   <div class="bg-
-      &lt;p class=&quot;text-yellow-700 text-sm&quot;&gt;
-        You know the drill, &lt;span class=&quot;text-red-500&quot;&gt;*&lt;/span&gt; means Required.
-      &lt;/p&gt;
-      &lt;p class=&quot;mt-1 text-yellow-800 text-sm&quot;&gt;
-        Please review the information below. Please ask your HR to make any
-        changes in the Chick-fil-A Payroll System.
-      &lt;/p&gt;
+        &lt;p class=&quot;text-yellow-700 text-sm&quot;&gt;
+          You know the drill, &lt;span class=&quot;text-red-500&quot;&gt;*&lt;/span&gt; means Required.
+        &lt;/p&gt;
+        &lt;p class=&quot;mt-1 text-yellow-800 text-sm&quot;&gt;
+          Please review the information below. Please ask your HR to make any
+          changes in the Chick-fil-A Payroll System.
+        &lt;/p&gt;
       -50 border-l-4 border-
-      &lt;p class=&quot;text-yellow-700 text-sm&quot;&gt;
-        You know the drill, &lt;span class=&quot;text-red-500&quot;&gt;*&lt;/span&gt; means Required.
-      &lt;/p&gt;
-      &lt;p class=&quot;mt-1 text-yellow-800 text-sm&quot;&gt;
-        Please review the information below. Please ask your HR to make any
-        changes in the Chick-fil-A Payroll System.
-      &lt;/p&gt;
+        &lt;p class=&quot;text-yellow-700 text-sm&quot;&gt;
+          You know the drill, &lt;span class=&quot;text-red-500&quot;&gt;*&lt;/span&gt; means Required.
+        &lt;/p&gt;
+        &lt;p class=&quot;mt-1 text-yellow-800 text-sm&quot;&gt;
+          Please review the information below. Please ask your HR to make any
+          changes in the Chick-fil-A Payroll System.
+        &lt;/p&gt;
       -400 p-4 mb-6">
     
   </div>
-
 
 
       <form @submit.prevent="updateEmployee()" class="space-y-6">
@@ -537,8 +523,6 @@
     />
   </div>
 
-
-          
           
   <div>
     <label for="state" class="form-label">
@@ -561,7 +545,6 @@
       
     </select>
   </div>
-
 
           
   <div>
@@ -654,15 +637,26 @@
         </div>
 
         
-        <div class="pt-4 flex justify-end space-x-3">
-          <button type="button" @click="closeModal()" class="btn btn-cancel">Cancel</button>
-          <button type="submit" class="btn btn-submit">Update</button>
-        </div>
+        <footer class="modal-footer">
+          <button
+            type="button"
+            @click="closeModal()"
+            class="btn btn-cancel"
+          >
+            Cancel
+          </button>
+          <button
+            type="submit"
+            class="btn btn-submit"
+          >
+            Update
+          </button>
+        </footer>
       </form>
-
     </div>
   </div>
 </div>
+
   
 </div>
 
@@ -694,13 +688,6 @@
         return this.employees.filter(emp =>
           emp.name.toLowerCase().includes(q)
         );
-      },
-
-      // Convert YYYY-MM-DD → MM/DD/YYYY
-      formatDate(iso) {
-        if (!iso) return "";
-        let [y, m, d] = iso.split("-");
-        return `${m}/${d}/${y}`;
       },
 
       // Called when user clicks a Name link

@@ -1,0 +1,107 @@
+{# src/_includes/components/modal-benefit.njk #}
+{% from "components/input-field.njk" import
+  textInputField,
+  dateInputField
+%}
+
+<div
+  x-show="showModal"
+  x-cloak
+  x-transition.opacity
+  class="modal-backdrop"
+  role="dialog"
+  aria-modal="true"
+  @keydown.escape.window="closeModal()"
+  @click.away="closeModal()"
+>
+  <div class="modal-card" @click.stop>
+    <!-- Header -->
+    <header class="modal-header">
+      <h2
+        class="modal-title"
+        x-text="isEdit ? 'Edit Benefit' : 'Add Benefit'"
+      ></h2>
+      <button
+        type="button"
+        class="modal-close"
+        aria-label="Close"
+        @click="closeModal()"
+      >
+        <span aria-hidden="true">×</span>
+      </button>
+    </header>
+
+    <!-- Body -->
+    <div class="modal-body">
+      <form @submit.prevent="saveBenefit()" class="space-y-6">
+        <!-- Row 1: Benefit & Option -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          {{ textInputField(
+              "Benefit",
+              "benefitName",
+              "editingBenefit.benefitName",
+              "e.g. BlueChoice Advantage",
+              "text",
+              true
+            ) }}
+          {{ textInputField(
+              "Option",
+              "option",
+              "editingBenefit.option",
+              "e.g. Employee Only",
+              "text",
+              true
+            ) }}
+        </div>
+
+        <!-- Row 2: Coverage & Effective Date -->
+        <div>
+          {{ textInputField(
+              "Coverage",
+              "coverage",
+              "editingBenefit.coverage",
+              "e.g. Employee Only",
+              "text",
+              true
+            ) }}
+        </div>
+        
+        <!-- Row 3: Cost -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {{ dateInputField(
+                "Effective Date",
+                "effectiveDate",
+                "editingBenefit.effectiveDate",
+                true
+              ) }}
+          {{ textInputField(
+              "Cost Per Pay Period",
+              "costPerPayPeriod",
+              "editingBenefit.costPerPayPeriod",
+              "0.00",
+              "number",
+              true
+            ) }}
+        </div>
+      </form>
+    </div>
+
+    <!-- Footer -->
+    <footer class="modal-footer">
+      <button
+        type="button"
+        class="btn btn-cancel"
+        @click="closeModal()"
+      >
+        Cancel
+      </button>
+      <button
+        type="button"
+        class="btn btn-submit"
+        @click="saveBenefit()"
+      >
+        Save
+      </button>
+    </footer>
+  </div>
+</div>

@@ -18,7 +18,7 @@
       </div>
       <div class="field">
         <span class="field-name">SSN:</span>
-        <span x-text="emp.ssn"></span>
+        <span x-text="formatSSN(emp.ssn)"></span>
       </div>
       <div class="field">
         <span class="field-name">Birth Date:</span>
@@ -68,7 +68,7 @@
       <!-- Alpine loop -->
       <template x-for="emp in filteredEmployees" :key="emp.ssn">
         <tr>
-          <td x-text="emp.ssn"></td>
+          <td x-text="formatSSN(emp.ssn)"></td>
           <td>
             <a href="#" @click.prevent="openEmployee(emp)">
               <span x-text="`${emp.lastName}, ${emp.firstName}`"></span>

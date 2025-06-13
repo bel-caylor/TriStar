@@ -26,3 +26,17 @@ document.addEventListener("alpine:init", () => {
     }
   }));
 });
+
+// Convert YYYY-MM-DD → MM/DD/YYYY
+function formatDate(iso) {
+  if (!iso) return "";
+  let [y, m, d] = iso.split("-");
+  return `${m}/${d}/${y}`;
+}
+
+function formatSSN(ssn) {
+  if (!ssn) return "";
+  let digits = ssn.toString().replace(/\D/g, "");
+  if (digits.length !== 9) return ssn;
+  return `${digits.slice(0,3)}-${digits.slice(3,5)}-${digits.slice(5)}`;
+}

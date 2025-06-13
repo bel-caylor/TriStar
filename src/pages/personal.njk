@@ -17,10 +17,10 @@ permalink: "personal/"
   </div>
 
   <div class="employee-tables">
-    {% include "components/employees-table-responsive.njk" %}
+    {% include "components/table-employees.njk" %}
   </div>
 
-  {% include "components/employee-edit-modal.njk" %}
+  {% include "components/modal-employee.njk" %}
   
 </div>
 
@@ -52,13 +52,6 @@ permalink: "personal/"
         return this.employees.filter(emp =>
           emp.name.toLowerCase().includes(q)
         );
-      },
-
-      // Convert YYYY-MM-DD → MM/DD/YYYY
-      formatDate(iso) {
-        if (!iso) return "";
-        let [y, m, d] = iso.split("-");
-        return `${m}/${d}/${y}`;
       },
 
       // Called when user clicks a Name link

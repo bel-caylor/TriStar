@@ -3,6 +3,69 @@ layout: layouts/base.njk
 title: Benefits
 permalink: "benefits/"
 ---
-<section class="text-center py-20">
-  <h1 class="text-4xl font-bold mb-4">Benefits</h1>
-</section>
+<div x-data="benefitsTableComponent()" x-init="init(); loadData()" class="page-container mx-auto px-4">
+  <header class="page-header gap-4">
+    <div class="block lg:flex items-center">
+      <h1>{{title}}</h1>
+      <p class="page-desc lg:pl-8">
+        Edit as needed, or leave it alone if all looks in order.
+      </p>
+    </div>
+    <div class="mb-3 text-center card max-w-12">
+      <div class="font-medium text-gray-900 mb-1">Total Deductions</div>
+      <div class="text-xl font-semibold" x-text="benefits.reduce((sum, b) => sum + b.costPerPayPeriod, 0).toFixed(2)">
+      </div>
+    </div>
+  </header>
+
+  <div class="benefits-section">
+    {% include "components/table-benefits.njk" %}
+    {% include "components/modal-benefit.njk" %}
+  </div>
+</div>
+
+
+<script>
+  function benefitsTableComponent() {
+    return {
+      // ─── State ────────────────────────────────────────────────
+      employee: {},
+      benefits: [],
+      editingBenefit: {},
+      showModal: false,
+      isEdit: false,
+      isDesktop: window.innerWidth >= 1024,
+
+      // ─── Initialization ────────────────────────────────────────
+      init() {
+        window.addEventListener('resize', () => {
+          this.isDesktop = window.innerWidth >= 1024;
+        });
+      },
+      async loadData() {
+        try {
+          const res = await fetch("/benefits.json");
+          if (!res.ok) throw new Error("Could not load employee.json");
+
+          const data = await res.json();
+          this.benefits = Array.isArray(data) ? data : [];
+        } catch (err) {
+          console.error("Error loading data:", err);
+        }
+      },
+
+      // ─── Modal controls ─────────────────────────────────────────
+      openModal(benefit) {
+        this.isEdit = true;
+        // Deep‐clone to avoid mutating the live array until Save
+        Benefit = JSON.parse(JSON.stringify(benefit));
+        this.showModal = true;
+      },
+
+      closeModal() {
+        this.showModal = false;
+      },
+
+    };
+  }
+</script>

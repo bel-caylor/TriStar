@@ -1,0 +1,85 @@
+{# src/_includes/components/modal-family.njk #}
+{% from "components/input-field.njk" import
+   textInputField,
+   dateInputField,
+   selectField,
+   radioGroup
+%}
+
+<div
+  x-show="showModal"
+  x-cloak
+  x-transition.opacity
+  class="modal-backdrop"
+  aria-labelledby="familyEditModalLabel"
+  role="dialog"
+  aria-modal="true"
+  @keydown.escape.window="closeModal()"
+  @click.away="closeModal()"
+>
+  <div class="modal-card" @click.stop>
+    <!-- Header -->
+    <header class="modal-header justify-between">
+      <h2
+        id="familyEditModalLabel"
+        class="modal-title"
+        x-text="isEdit ? 'Edit Family Member' : 'Add Family Member'"
+      ></h2>
+      <button
+        type="button"
+        class="modal-close"
+        @click="closeModal()"
+        aria-label="Close"
+      >
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </header>
+
+    <!-- Body / Form -->
+    <div class="modal-body">
+      <form @submit.prevent="saveMember()" class="space-y-6">
+        <!-- Row 1: Name -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+          {{ textInputField("First Name", "firstName", "editingMember.firstName", "", "text", true) }}
+          {{ textInputField("Last Name",  "lastName",  "editingMember.lastName",  "", "text", true) }}
+          {{ textInputField("Suffix",     "suffix",    "editingMember.suffix",     "", "text", false) }}
+        </div>
+
+        <!-- Row 2: Relation & Dates -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+          {{ selectField("Relation",   "relation", "editingMember.relation", ["Child","Spouse","Other"], true) }}
+          {{ dateInputField("Birth Date","birthDate","editingMember.birthDate", true) }}
+          {{ dateInputField("Term Date","termDate","editingMember.termDate",   false) }}
+        </div>
+
+        <!-- Row 3: SSN, Gender, Disabled -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+          {{ textInputField("SSN",      "ssn",       "editingMember.ssn",      "", "text", false) }}
+          {{ radioGroup("Gender",      "gender",    "editingMember.gender",   ["Male","Female","Unknown"]) }}
+        </div>
+        
+        <div>
+          {{ radioGroup("Disabled",    "isDisabled","editingMember.isDisabled", ["Yes","No"]) }}
+        </div>
+      </form>
+    </div>
+
+    <!-- Footer -->
+    <footer class="modal-footer">
+      <button
+        type="button"
+        @click="closeModal()"
+        class="btn btn-cancel"
+      >
+        Cancel
+      </button>
+      <button
+        type="button"
+        @click="saveMember()"
+        class="btn btn-submit"
+      >
+        Save
+      </button>
+    </footer>
+  </div>
+</div>

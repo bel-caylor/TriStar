@@ -21,8 +21,8 @@ permalink: "family/"
   </header>
 
   <div class="family-section">
-    {% include "components/family-table-responsive.njk" %}
-    {% include "components/family-edit-modal.njk" %}
+    {% include "components/table-family.njk" %}
+    {% include "components/modal-family.njk" %}
   </div>
 </div>
 
@@ -31,23 +31,21 @@ permalink: "family/"
   function familyTableComponent() {
     return {
       // ─── State ────────────────────────────────────────────────
-      employee: {},           // the full employee object (including familyMembers)
-      familyMembers: [],      // alias for employee.familyMembers
-      editingMember: {},      // the member we’re currently editing
-      showModal: false,       // controls modal visibility
-      isEdit: false,          // “Add” vs “Edit” mode
+      employee: {},
+      familyMembers: [],
+      editingMember: {},
+      showModal: false,
+      isEdit: false,
 
       // ─── Initialization ────────────────────────────────────────
       async loadData() {
         try {
-          // Fetch the full employee‐level JSON (which contains a nested familyMembers array)
-          const res = await fetch("/employee.json");
+          const res = await fetch("/familyMembers.json");
           if (!res.ok) throw new Error("Could not load employee.json");
 
           const data = await res.json();
-          this.employee = data;
-          // Copy out just the nested array, so templates can still use `familyMembers`
-          this.familyMembers = Array.isArray(data.familyMembers) ? data.familyMembers : [];
+          this.familyMembers = Array.isArray(data) ? data : [];
+
         } catch (err) {
           console.error("Error loading data:", err);
         }

@@ -1,38 +1,47 @@
+{# src/_includes/components/modal-employee.njk #}
 {% from "components/banner-notice.njk" import bannerNotice %}
 {% from "components/input-field.njk" import
-textInputField,
-dateInputField,
-selectField,
-radioGroup
+  textInputField,
+  dateInputField,
+  selectField,
+  radioGroup
 %}
 
-
-<div x-show="showModal" x-cloak
-  class="fixed inset-0 z-50 flex items-start justify-center pt-10 bg-black bg-opacity-50 overflow-y-auto"
-  @keydown.escape.window="closeModal()" @click.away="closeModal()">
-  <!-- Modal Card -->
-  <div class="bg-white rounded-lg shadow-lg w-full max-w-2xl mx-4" @click.stop>
+<div
+  x-show="showModal"
+  x-cloak
+  class="modal-backdrop"
+  @keydown.escape.window="closeModal()"
+  @click.away="closeModal()"
+>
+  <div class="modal-card" @click.stop>
     <!-- Header -->
-    <div class="flex justify-between items-center px-6 py-4 border-b border-gray-200">
+    <header class="modal-header">
       <div class="flex items-center">
         <i class="fas fa-user text-2xl text-gray-700 mr-3"></i>
-        <h2 class="text-xl font-semibold text-gray-800 mb-0">Edit Personal Information</h2>
+        <h2 class="modal-title">Edit Personal Information</h2>
       </div>
-      {% include "components/button-close.njk" %}
-    </div>
+      <button
+        type="button"
+        class="modal-close"
+        @click="closeModal()"
+        aria-label="Close"
+      >
+        <span aria-hidden="true">×</span>
+      </button>
+    </header>
 
     <!-- Body / Form -->
-    <div class="px-6 py-6 space-y-6">
+    <div class="modal-body">
       {{ bannerNotice('
-      <p class="text-yellow-700 text-sm">
-        You know the drill, <span class="text-red-500">*</span> means Required.
-      </p>
-      <p class="mt-1 text-yellow-800 text-sm">
-        Please review the information below. Please ask your HR to make any
-        changes in the Chick-fil-A Payroll System.
-      </p>
+        <p class="text-yellow-700 text-sm">
+          You know the drill, <span class="text-red-500">*</span> means Required.
+        </p>
+        <p class="mt-1 text-yellow-800 text-sm">
+          Please review the information below. Please ask your HR to make any
+          changes in the Chick-fil-A Payroll System.
+        </p>
       ') }}
-
 
       <form @submit.prevent="updateEmployee()" class="space-y-6">
         {# ────── Row 1: First Name, MI, Last Name, Suffix ────── #}
@@ -48,9 +57,7 @@ radioGroup
           {{ dateInputField("Birth Date", "birthDate", "selectedEmployee.birthDate", true) }}
 
           <div class="md:col-span-2">
-            {{ radioGroup("Gender", "gender", "selectedEmployee.gender",
-            [ "Male", "Female", "Unknown" ]
-            )}}
+            {{ radioGroup("Gender", "gender", "selectedEmployee.gender", ["Male", "Female", "Unknown"]) }}
           </div>
         </div>
 
@@ -63,10 +70,7 @@ radioGroup
         {# ────── Row 4: City, State, Zip Code ────── #}
         <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
           {{ textInputField("City", "city", "selectedEmployee.city", "", "text", true) }}
-
-          {# Use selectField for state dropdown #}
-          {{ selectField("State", "state", "selectedEmployee.state", states, true ) }}
-
+          {{ selectField("State", "state", "selectedEmployee.state", states, true) }}
           {{ textInputField("Zip Code", "zip", "selectedEmployee.zipCode", "", "text", true) }}
         </div>
 
@@ -77,7 +81,7 @@ radioGroup
             <div class="mt-1 flex space-x-2">
               {{ textInputField("", "phoneArea", "selectedEmployee.phoneArea", "area", "text", false) }}
               {{ textInputField("", "phoneLocal", "selectedEmployee.phoneLocal", "local", "text", false) }}
-              {{ textInputField("", "phoneNumber","selectedEmployee.phoneNumber","number","text", false) }}
+              {{ textInputField("", "phoneNumber", "selectedEmployee.phoneNumber", "number", "text", false) }}
             </div>
           </div>
         </div>
@@ -85,22 +89,32 @@ radioGroup
         {# ────── Row 6: Email ────── #}
         <div class="grid grid-cols-1 gap-4">
           {{ textInputField(
-          "Email (<span class=\"text-gray-500\">not required</span>), but it would really help us",
-          "email",
-          "selectedEmployee.email",
-          "",
-          "email",
-          false
-          ) }}
+             "Email (<span class=\"text-gray-500\">not required</span>), but it would really help us",
+             "email",
+             "selectedEmployee.email",
+             "",
+             "email",
+             false
+           ) }}
         </div>
 
-        {# ────── Buttons ────── #}
-        <div class="pt-4 flex justify-end space-x-3">
-          <button type="button" @click="closeModal()" class="btn btn-cancel">Cancel</button>
-          <button type="submit" class="btn btn-submit">Update</button>
-        </div>
+        {# ────── Footer Buttons ────── #}
+        <footer class="modal-footer">
+          <button
+            type="button"
+            @click="closeModal()"
+            class="btn btn-cancel"
+          >
+            Cancel
+          </button>
+          <button
+            type="submit"
+            class="btn btn-submit"
+          >
+            Update
+          </button>
+        </footer>
       </form>
-
     </div>
   </div>
 </div>
