@@ -16,7 +16,7 @@
   <div class="flex items-center justify-between px-4 py-3 md:px-6 md:py-4">
     <!-- ────── 2.1. Hamburger (mobile) ────── -->
     <button
-      @click="sidebarOpen = !sidebarOpen; toggleSidebar(sidebarOpen)"
+      @click="sidebarOpen = !sidebarOpen"
       class="md:hidden p-2 rounded-md hover:bg-white/20 focus:outline-none focus:ring-2 focus:ring-white"
       aria-label="Open sidebar"
     >
@@ -42,9 +42,7 @@
     </div>
 
     <!-- ────── 2.3. Page Title (always visible) ────── -->
-    <div class="flex-1 text-center md:text-left">
-      <span class="text-lg font-semibold">Benefit Enrollment Summary</span>
-    </div>
+    
 
     <!-- ────── 2.4. Avatar or Other Controls (always visible) ────── -->
     <div class="flex items-center space-x-4">
@@ -168,7 +166,7 @@
 <div 
   x-data="summaryComponent()" 
   x-init="loadData()" 
-  class="page-container mx-auto px-4 summary-page"
+  class="page-container mx-auto px-4 max-w-[1024px] summary-page"
 >
   <!-- Page Header -->
   <header class="page-header">
@@ -391,7 +389,7 @@
 </script>
 
         <footer class="p-4 text-center text-sm text-zinc-500 dark:text-zinc-400">
-  &copy; 2025 MyProfile. All rights reserved.
+  
 </footer>
 
       </main>

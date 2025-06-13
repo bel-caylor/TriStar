@@ -16,7 +16,7 @@
   <div class="flex items-center justify-between px-4 py-3 md:px-6 md:py-4">
     <!-- ────── 2.1. Hamburger (mobile) ────── -->
     <button
-      @click="sidebarOpen = !sidebarOpen; toggleSidebar(sidebarOpen)"
+      @click="sidebarOpen = !sidebarOpen"
       class="md:hidden p-2 rounded-md hover:bg-white/20 focus:outline-none focus:ring-2 focus:ring-white"
       aria-label="Open sidebar"
     >
@@ -42,9 +42,7 @@
     </div>
 
     <!-- ────── 2.3. Page Title (always visible) ────── -->
-    <div class="flex-1 text-center md:text-left">
-      <span class="text-lg font-semibold">Family</span>
-    </div>
+    
 
     <!-- ────── 2.4. Avatar or Other Controls (always visible) ────── -->
     <div class="flex items-center space-x-4">
@@ -165,174 +163,133 @@
       <main :class="{ 'ml-20': sidebarOpen }"
         class="transition-all duration-300 ease-in-out">
         
-<div 
-  x-data="familyTableComponent()" 
-  x-init="loadData()" 
-  class="page-container mx-auto px-4"
->
+<div x-data="familyTableComponent()" x-init="loadData()" class="page-container mx-auto px-4">
   <header class="page-header">
-    <h1 class="page-title">Family</h1>
-    <p class="page-desc">
-      Edit as needed, or leave it alone if all looks in order.
-    </p>
+    <div class="block lg:flex items-center">
+      <h1>Family</h1>
+      <p class="page-desc lg:pl-8">
+        Edit as needed, or leave it alone if all looks in order.
+      </p>
+    </div>
+    <!-- Add button -->
+    <div class="flex items-center justify-end mb-4">
+      <button type="button" class="btn btn-submit" @click="openAdd()">
+        Add a New Family Member
+      </button>
+    </div>
   </header>
 
   <div class="family-section">
-    <section class="">
-  <div class="flex items-center justify-end mb-4">
-    <button
-      type="button"
-      class="inline-flex items-center px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-md
-             hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
-      @click="openAdd()"
-    >
-      Add a New Family Member
-    </button>
-  </div>
-
-  
-  
-  
-  <div class="lg:hidden space-y-4">
-    <!-- Alpine loop: one “card” per family member -->
+    <section>
+  <!-- MOBILE & TABLET (cards) -->
+  <div class="cards">
+    <!-- loop through familyMembers -->
     <template x-for="member in familyMembers" :key="member.id">
-      <div class="grid grid-cols-2 gap-x-4 gap-y-1 p-4 bg-white shadow rounded-lg">
+      <div class="card">
         <!-- Name -->
-        <div class="font-medium text-gray-400">Name</div>
         <div>
-          <a
-            href="#"
-            @click.prevent="openEdit(member.id)"
-            class="text-indigo-600 hover:text-indigo-800"
-          >
-            <span x-text="`${member.lastName}, ${member.firstName}`"></span>
-          </a>
+          <span class="sr-only">Name</span>
+          <a href="#" @click.prevent="openEdit(member)" x-text="`${member.lastName}, ${member.firstName}`"></a>
         </div>
 
-        <!-- SSN -->
-        <div class="font-medium text-gray-400">SSN</div>
-        <div x-text="member.ssn"></div>
+        <div class="field">
+          <span class="field-name">SSN</span>
+          <span x-text="member.ssn"></span>
+        </div>
+        
+        <div class="field">
+          <span class="field-name">Relation</span>
+          <span x-text="member.relation"></span>
+        </div>
 
-        <!-- Relation -->
-        <div class="font-medium text-gray-400">Relation</div>
-        <div x-text="member.relation"></div>
+        <div class="field">
+          <span class="field-name">Birth Date</span>
+          <span x-text="member.birthDate"></span>
+        </div>
 
-        <!-- Birth Date -->
-        <div class="font-medium text-gray-400">Birth Date</div>
-        <div x-text="member.birthDate"></div>
+        <div class="field">
+          <span class="field-name">Age</span>
+          <span x-text="member.age"></span>
+        </div>
 
-        <!-- Age -->
-        <div class="font-medium text-gray-400">Age</div>
-        <div x-text="member.age"></div>
+        <div class="field">
+          <span class="field-name">Gender</span>
+          <span x-text="member.gender"></span>
+        </div>
 
-        <!-- Gender -->
-        <div class="font-medium text-gray-400">Gender</div>
-        <div x-text="member.gender"></div>
+        <div class="field">
+          <span class="field-name">Disabled</span>
+          <span x-text="member.disabled ? 'Yes' : 'No'"></span>
+        </div>
 
-        <!-- Disabled -->
-        <div class="font-medium text-gray-400">Disabled</div>
-        <div x-text="member.disabled ? 'Yes' : 'No'"></div>
+        <div class="field">
+          <span class="field-name">Verified</span>
+          <span x-text="member.verified ? 'Yes' : 'No'"></span>
+        </div>
 
-        <!-- Verified -->
-        <div class="font-medium text-gray-400">Verified</div>
-        <div x-text="member.verified ? 'Yes' : 'No'"></div>
-
-        <!-- Term Date -->
-        <div class="font-medium text-gray-400">Term Date</div>
-        <div x-text="member.termDate || '-'"></div>
+        <div class="field">
+          <span class="field-name">Term Date</span>
+          <span x-text="member.termDate || '-'"></span>
+        </div>
       </div>
     </template>
 
-    <!-- Alpine empty‐state: show when no familyMembers -->
-    <template x-if="!familyMembers || familyMembers.length === 0">
-      <div class="p-4 bg-white shadow rounded-lg text-center text-gray-500">
-        No family members found.
-      </div>
-    </template>
+    <!-- empty state -->
+    <div x-show="familyMembers.length === 0" class="cards-empty">
+      No family members found.
+    </div>
   </div>
 
-  
-  
-  
-  <div class="hidden lg:block overflow-x-auto bg-gray-100 rounded-lg shadow">
-    <table class="min-w-full divide-y divide-gray-200">
-      <thead class="bg-gray-50">
-        <tr class="text-left text-xs font-medium text-gray-500 tracking-wider">
-          <th class="px-6 py-3">Name</th>
-          <th class="px-6 py-3">SSN</th>
-          <th class="px-6 py-3">Relation</th>
-          <th class="px-6 py-3">Birth Date</th>
-          <th class="px-6 py-3">Age</th>
-          <th class="px-6 py-3">Gender</th>
-          <th class="px-6 py-3">Disabled</th>
-          <th class="px-6 py-3">Verified</th>
-          <th class="px-6 py-3">Term Date</th>
+<!-- DESKTOP (table) -->
+<div class="table-deskop hidden lg:block overflow-x-auto">
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>SSN</th>
+        <th>Relation</th>
+        <th>Birth Date</th>
+        <th>Age</th>
+        <th>Gender</th>
+        <th>Disabled</th>
+        <th>Verified</th>
+        <th>Term Date</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- loop through familyMembers -->
+      <template x-for="member in familyMembers" :key="member.id">
+        <tr>
+          <td>
+            <a href="#" @click.prevent="openEdit(member)" 
+              x-text="`${member.lastName}, ${member.firstName}`">
+            </a>
+          </td>
+          <td x-text="member.ssn"></td>
+          <td x-text="member.relation"></td>
+          <td x-text="member.birthDate"></td>
+          <td x-text="member.age"></td>
+          <td x-text="member.gender"></td>
+          <td x-text="member.disabled ? 'Yes' : 'No'"></td>
+          <td x-text="member.verified ? 'Yes' : 'No'"></td>
+          <td x-text="member.termDate || '-'"></td>
         </tr>
-      </thead>
-      <tbody class="bg-white divide-y divide-gray-200">
-        <!-- Alpine loop for table rows -->
-        <template x-for="member in familyMembers" :key="member.id">
-          <tr class="hover:bg-gray-50">
-            <!-- Name -->
-            <td class="px-6 py-4 text-sm text-gray-900 whitespace-nowrap">
-              <a
-                href="#"
-                @click.prevent="openEdit(member.id)"
-                class="text-indigo-600 hover:text-indigo-800"
-              >
-                <span x-text="`${member.lastName}, ${member.firstName}`"></span>
-              </a>
-            </td>
+      </template>
 
-            <!-- SSN -->
-            <td class="px-6 py-4 text-sm text-gray-900 whitespace-nowrap" x-text="member.ssn"></td>
+      <!-- empty-state -->
+      <tr x-show="familyMembers.length === 0" ">
+        <td colspan="9" class="text-center text-textGray">
+          No family members found.
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
 
-            <!-- Relation -->
-            <td class="px-6 py-4 text-sm text-gray-900 whitespace-nowrap" x-text="member.relation"></td>
-
-            <!-- Birth Date -->
-            <td class="px-6 py-4 text-sm text-gray-900 whitespace-nowrap" x-text="member.birthDate"></td>
-
-            <!-- Age -->
-            <td class="px-6 py-4 text-sm text-gray-900 whitespace-nowrap" x-text="member.age"></td>
-
-            <!-- Gender -->
-            <td class="px-6 py-4 text-sm text-gray-900 whitespace-nowrap" x-text="member.gender"></td>
-
-            <!-- Disabled -->
-            <td
-              class="px-6 py-4 text-sm text-gray-900 whitespace-nowrap"
-              x-text="member.disabled ? 'Yes' : 'No'"
-            ></td>
-
-            <!-- Verified -->
-            <td
-              class="px-6 py-4 text-sm text-gray-900 whitespace-nowrap"
-              x-text="member.verified ? 'Yes' : 'No'"
-            ></td>
-
-            <!-- Term Date -->
-            <td
-              class="px-6 py-4 text-sm text-gray-900 whitespace-nowrap"
-              x-text="member.termDate || '-'"
-            ></td>
-          </tr>
-        </template>
-
-        <!-- Alpine empty‐state inside table -->
-        <template x-if="!familyMembers || familyMembers.length === 0">
-          <tr>
-            <td colspan="9" class="px-6 py-4 text-sm text-gray-500 text-center">
-              No family members found.
-            </td>
-          </tr>
-        </template>
-      </tbody>
-    </table>
-  </div>
 </section>
 
     
+
 
 <div 
   
@@ -678,9 +635,8 @@
     };
   }
 </script>
-
         <footer class="p-4 text-center text-sm text-zinc-500 dark:text-zinc-400">
-  &copy; 2025 MyProfile. All rights reserved.
+  
 </footer>
 
       </main>
